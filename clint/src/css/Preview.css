@@ -1,0 +1,59 @@
+.pdfpreview{
+    position: relative;
+    height: 29vh;
+    width: 16vw;
+    margin-top: 8vh;
+  }
+  .icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    height: 90px;
+    width: 90px;
+    position: absolute;
+    top: -45px;
+    left: calc(50% - 45px);
+    z-index: 1;
+    margin: auto;
+    border-radius: 35px;
+  }
+  .preview{
+    background-color: #002945;
+    width: 100%;
+    height: 80%;
+    position: absolute;
+    bottom: 0;
+    border-radius: 35px;
+    position: relative;
+  }
+  .example{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    filter: blur(3px);
+    opacity: 0.3;
+  }
+  .overlay{
+    backdrop-filter: blur(60px);
+    background-color: rgba(0, 0, 0, 0.405);
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    height: calc(100% - 40px);
+    border-radius: 15px;
+  }
+  .text-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white; /* Set text color */
+    font-size: 24px; /* Set font size */
+    text-align: center; /* Set text alignment */
+}

@@ -1,0 +1,99 @@
+* {
+  margin: 0;
+  padding: 0;
+  z-index: 100;
+  position: relative;
+}
+.main_nav {
+  background-color: #00111C;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4rem;
+  transition: height 0.3s ease;
+}
+.contente {
+    height: 3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0.5rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+.ul_links {
+  color: antiquewhite;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  gap: 1rem;
+  cursor: pointer;
+}
+.ul_links li {
+  margin-right: 20px;
+  color: white;
+  cursor: pointer;
+}
+
+.main_logo {
+  position: relative;
+  color: white;
+  width: 20rem;
+  height: 100%;
+  padding: 0;
+}
+.main_logo img {
+  height: 120%;
+  object-fit: cover;
+  object-position: center center;
+  margin-top: -0.5rem;
+}
+.main_logo span {
+  font-weight: 600;
+  position: relative;
+  bottom: 0.6rem;
+}
+.sidecontent{
+    position: absolute;
+    left: 15rem;
+}
+.line {
+  position: relative;
+  border-bottom: 4px solid white;
+  margin-top: 5px;
+  width: 100%;
+  transition: top 0.3s ease;
+}
+.subjects{
+  color: white;
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+  left: 1.5rem;
+  display: none;
+}
+.footer{
+  background-color: black;
+}
+main{
+  left:0;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  height: calc(100vh - 4.5rem);
+  top: 4.5rem;
+}
+.column{
+  float: left;
+  width: 33%;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  height: 9rem;
+}
+.anhors{
+  margin-top: 10px;
+}

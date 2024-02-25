@@ -1,0 +1,106 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#arrow {
+    border-right:2px solid black;
+    border-bottom:2px solid black;
+    width:10px;
+    height:10px;
+    transform: rotate(-45deg);
+    margin-top:40px;
+}
+
+.lefttext > h1{
+  font-size: 400 !important;
+  color: white !important;
+}
+.lefttext > img{
+  filter: invert();
+}
+
+.rightnav{
+  display: inline-block;
+    height: 100%;
+    width: 20%;
+    position: fixed;
+    right: 0;
+    border-top-left-radius: 142px;
+    background-color: #00111C;
+    color: rgb(255, 255, 255) !important;
+    backdrop-filter: blur(10px);
+    padding-top: 50px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #E1BB80 #00111C;
+    scrollbar-arrow-color: #00111C;
+    overflow-x: hidden;
+    border: white 0.15rem solid;
+    box-sizing: border-box;
+  }
+
+  .selectedLi{
+    display: block; /* Ensures the li takes the full width */
+    background-color: #E1BB80;
+    color: #00111C;
+    background-size: 100%;
+    padding-right: 50px; /* Adjust padding as needed */
+    border-radius: calc(50% - height);
+    width: calc(100% - 50px) !important;
+    border-radius: 10px;
+    transition: background-color 0.5s;
+  }
+
+  .lefttext{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 95%;
+    margin: auto;
+  }
+
+  
+  .subtopics{
+    margin-top: 20px;
+    width: calc(100%-40px);
+    margin-left: 40px;
+    margin-right: 10px;
+    margin-bottom: 90px;
+
+  }
+  .rightul{
+    width: 100%;
+    list-style: none;
+    
+  }
+  .rightli{
+    cursor: pointer;
+    height: max-content;
+    margin-bottom: 20px;
+    position: relative;
+	  display: flex;
+    flex-direction: row;
+    padding-left: 10px;
+    width: calc(100% - 50px);
+  }
+  .rightli:before{
+    content: '';
+    position: absolute;
+    border-right:2px solid rgb(255, 255, 255);
+    border-bottom:2px solid rgb(255, 246, 246);
+    width:10px;
+    height:10px;
+    top: calc(50%);
+    left: -20px;
+    transform: translateY(-50%) rotate(-45deg);
+    
+ }
+ .selectedLi::before{
+    border-right:2px solid #E1BB80;
+    border-bottom:2px solid #E1BB80;
+ }
+ h3{
+    width: 100%;
+ }

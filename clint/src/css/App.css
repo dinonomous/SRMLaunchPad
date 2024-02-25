@@ -1,0 +1,131 @@
+/* Apply the styles to the entire body or a specific container */
+a {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit color from parent */
+  cursor: pointer; /* Change cursor to pointer */
+}
+* {
+  /* Set the scrollbar width to a thin value */
+  scrollbar-width: thin;
+  scrollbar-color: #333 #f0f0f0; /* Dark color for thumb, light color for track */
+}
+li
+:root {
+  --custom-width: calc(100vw - (8vw + 130px) - 280px); /* Set your custom width here */
+  }
+
+/* Webkit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 8px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #333; /* Color of the thumb */
+  border-radius: 4px; /* Rounded corners for the thumb */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f0f0f0; /* Color of the track */
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.container{
+  background-color: #00111C;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+}
+.backbround{
+  background-color: #00406C;
+  display: inline-block;
+  position: fixed;
+  top: 40%;
+  width: 61vw;
+  height: 100vh;
+  border-top-right-radius: 135px;
+  z-index: 0;
+}
+
+.mainapp{
+  display: inline-block;
+  width: calc(80% - 100px);
+  z-index: 10;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-right: calc(20% + 50px) !important;
+  margin-left: 50px;
+  color: white !important;
+  position: relative;
+  top:1rem;
+}
+.previewcontainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  justify-content:space-around;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.text > h2{
+  margin: 0 !important ;
+  color: white;
+  margin-bottom: 1rem !important;
+  margin-left: 1rem !important;
+}
+
+.book img{
+  list-style-type: none;
+  width: 76px;
+  height: 65px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.home{
+  height: 90px;
+  width: 90px;
+  background-color: #00111C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 25px;
+  margin-bottom: 30px;
+}
+.home img{
+  -webkit-filter: invert(100%);
+  filter: invert(100%);
+}
+.pdf{
+  width: var(--custom-width);
+  height: calc(var(--custom-width) * 1.4142);
+  margin: 0;
+  padding: 0;
+  margin-top: 30px;
+  margin: auto;
+  background-color: rgba(0, 41, 69, 0.8);
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.291), rgba(0, 41, 69, 0.5)) ;
+  backdrop-filter: blur(3px);
+  box-shadow:inset 0px 1px 3px rgba(253, 252, 252, 0.655), 0px 1px 1px rgba(0, 41, 69, 0.1);
+  margin-top: 13vh;
+  border-radius: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pdfiframe{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  height: calc(100% - 40px);
+  width: calc(100% - 40px);
+  border-radius: 15px;
+}
