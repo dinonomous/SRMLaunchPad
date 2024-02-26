@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../css/nav.css";
 import logo from "../assets/image-removebg-preview(1).png";
+import { Link } from "react-router-dom";
 
 function Format({ children }) {
   const mainRef = useRef(null);
@@ -66,29 +67,31 @@ function Format({ children }) {
           </div>
           <div className="links">
             <ul className="ul_links">
-              <li>Home</li>
-              <li className="subject_li" onMouseEnter={handleMouseEnter}>
-                Subjects
-              </li>
+              <li><Link to="/">Home</Link></li>
+              <li className="subject_li" onMouseEnter={handleMouseEnter}><Link to="#">Subjects</Link></li>
               {/* Add dropdown functionality here */}
-              <li>Quiz</li>
-              <li>Chat</li>
-              <li>Contact</li>
+              <li><Link to="#">Quiz</Link></li>
+              <li><Link to="#">Chat</Link></li>
+              <li><Link to="#">Contact</Link></li>
             </ul>
           </div>
         </div>
+        
         <div className="subjects row" ref={bellowRef}>
           <div className="column" ref={ulRef}>
             {Subjects.map(function (item, i) {
               return (
                 <div key={i} className="anhors">
-                  <a
-                    href={()=>{"/" + item + "/Unit 1" ; setcurrentLink("/" + item + "/Unit 1")}}
-                    onMouseEnter={()=>{handleClick(item);
-                        setparameter(item);}}
+                  <Link
+                    to={"/" + item + "/Unit 1"}
+                    onMouseEnter={() => {
+                      handleClick(item);
+                      setparameter(item);
+                    }}
+                    onClick={() => setcurrentLink("/" + item + "/Unit 1")}
                   >
                     {item}
-                  </a>
+                  </Link>
                 </div>
               );
             })}
@@ -97,10 +100,11 @@ function Format({ children }) {
             {CollectionData.map(function(CollectionData, index){
               return (
                 <div key={index} className="anhors">
-                  <a href={currentLink && currentLink.includes(parameter) ? `/${CollectionData}` : `/${parameter}/${CollectionData}`}>                    
-                  
+                  <Link
+                    to={currentLink && currentLink.includes(parameter) ? `/${CollectionData}` : `/${parameter}/${CollectionData}`}
+                  >
                     {CollectionData}
-                  </a>
+                  </Link>
                 </div>
               );
             })}
