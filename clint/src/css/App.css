@@ -116,22 +116,17 @@ h3{
   -webkit-filter: invert(100%);
   filter: invert(100%);
 }
-.pdf{
-  width: var(--custom-width);
-  height: calc(var(--custom-width) * 1.4142);
-  margin: 0;
-  padding: 0;
-  margin-top: 30px;
+.pdf {
+  height: 90vh;
   margin: auto;
   background-color: rgba(0, 41, 69, 0.8);
-  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.291), rgba(0, 41, 69, 0.5)) ;
   backdrop-filter: blur(3px);
-  box-shadow:inset 0px 1px 3px rgba(253, 252, 252, 0.655), 0px 1px 1px rgba(0, 41, 69, 0.1);
-  margin-top: 13vh;
+  box-shadow: inset 0px 1px 3px rgba(253, 252, 252, 0.655), 0px 1px 1px rgba(0, 41, 69, 0.1);
   border-radius: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 .pdfiframe{
   position: absolute;
