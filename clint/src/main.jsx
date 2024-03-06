@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './pages/App.jsx';
 import Landing from './pages/Landing.jsx';
+import NotesWindow from './pages/NotesWindow.jsx';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/:subject/:unit",
     element: <App />,
+  },
+  {
+    path: "/Notes",
+    element: <NotesWindow />,
   },
 ]);
 

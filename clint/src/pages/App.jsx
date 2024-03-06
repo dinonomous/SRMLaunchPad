@@ -20,6 +20,7 @@ function App(props) {
   const [Heading, setHeading] = useState("");
   const [selectedTopicIndex, setSelectedTopicIndex] = useState(0); // State to track the currently selected topic index
   const { subject, unit } = useParams(); // Using useParams to extract dynamic parameters from the URL
+  const [Notebool,SetNotebool] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:5000/${subject}/${unit}`) // Using dynamic parameters for subject and unit
@@ -38,10 +39,13 @@ function App(props) {
     setSelectedTopicIndex(index); // Update the selected topic index when a topic is clicked
   };
 
+  console.log("Notebool value:", Notebool);
+
   return (
     <>
-      <Format>
-        <div className="container">
+      <Format Notebool={Notebool} toggleNotebool={() => SetNotebool(!Notebool)}>
+        <div className={`container ${Notebool ? 'half' : ''}`}>
+        <div className={`container ${Notebool ? 'halfside' : ''}`}>
           <div className="backbround"></div>
           <main className="mainapp">
             <div className="text">
@@ -56,6 +60,8 @@ function App(props) {
             <Pdf PDF={PDF} />
           </main>
           <Rightpannel topics={topicsArray} onTopicClick={handleTopicClick} fill={selectedTopicIndex} />
+        </div>
+        {Notebool && <div><iframe src="/Notes" frameborder="0" className="halfside right_note"></iframe></div>}
         </div>
       </Format>
     </>

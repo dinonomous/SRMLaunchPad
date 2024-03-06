@@ -136,3 +136,149 @@ h3{
   width: calc(100% - 40px);
   border-radius: 15px;
 }
+.wrapper{
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.main_note{
+  background-color: rgb(46, 46, 46);
+  height: 100vh;
+}
+.navme{
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.628);
+  height: 8%;
+}
+/* Adjusted CSS */
+
+.container-fullwidth {
+  position: relative; /* Ensure positioning context for absolutely positioned elements */
+}
+
+.search-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 999; /* Ensure it's above other content */
+  width: 100%; /* Adjust width as needed */
+  padding: 10px;
+  border-radius: 5px;
+  backdrop-filter: blur(10px)
+}
+
+.main_note {
+}
+
+.add {
+  display: flex;
+  align-items: center;
+  background-color: #007bff00; /* Primary button color */
+  color: #fff; /* White text color */
+  border: none;
+  cursor: pointer;
+  z-index: 999; /* Ensure it's above other content */
+}
+
+.add > img{
+  height: 2rem;
+}
+
+.add:hover {
+  background-color: #0056b3; /* Darker shade of primary color on hover */
+}
+
+.wrapper-container {
+  height: 100%;
+  z-index: 0;
+}
+
+.wrapper {
+  padding: 20px; /* Add some padding around notes container */
+  height: 100% !important;
+}
+
+.note-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent dark overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* Ensure it's above other content */
+}
+
+.note-overlay-content {
+  background-color: #343a40; /* Dark background color for note overlay content */
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.note-overlay-content textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 10px;
+  margin-bottom: 10px;
+  resize: none; /* Prevent textarea from being resized */
+}
+
+.note-overlay-content button {
+  background-color: #007bff; /* Primary button color */
+  color: #fff; /* White text color */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.note-overlay-content button:hover {
+  background-color: #0056b3; /* Darker shade of primary color on hover */
+}
+
+.displayflex{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: max-content;
+  width: 100%;
+  position: fixed;
+  top: 0;
+}
+.form-control{
+  width: auto;
+}
+
+.halfside{
+  width: 50vw !important;
+  margin: auto;
+  position: fixed;
+  top: 4.5rem;
+  left: 0;
+  overflow-y: scroll;
+  scrollbar-width: none;
+}
+.halfside > .mainapp {
+  height: fit-content;
+  margin: 0px;
+  width: 100%;
+  margin-right: 0px !important;
+  margin-bottom: 4.5rem;
+}
+
+.halfside ~ video {
+  margin: auto !important;
+}
+.right_note{
+  height: calc(100vh);
+  position: fixed;
+  left: 50vw;
+  scrollbar-width: none;
+  width: 50vw;
+}
+.half{
+  display: flex;
+  flex-direction: row;
+}
