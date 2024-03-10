@@ -1,3 +1,16 @@
+@media screen and (max-width: 1200px) {
+  .rightnav{
+    width: 20rem !important;
+  }
+  .mainapp{
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+  }
+  .normal{
+    width: calc(100% - 2rem);
+  }
+}
+
 *{
     margin: 0;
     padding: 0;
@@ -38,6 +51,8 @@
     overflow-x: hidden;
     border: white 0.15rem solid;
     box-sizing: border-box;
+    transition: right 0.3s ease;
+    margin-right: 0vw;
   }
 
   .selectedLi{

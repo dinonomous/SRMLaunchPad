@@ -116,3 +116,19 @@ a:hover:after {
   width: 100%; 
   left: 0; 
 }
+.sidepanelbutton{
+  width: 48px;
+  height: 48px;
+  filter: invert(1);
+ }
+ .text{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+ }
+ .text img{
+  filter: invert(1);
+  height: 2rem;
+ }

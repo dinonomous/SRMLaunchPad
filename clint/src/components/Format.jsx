@@ -3,6 +3,9 @@ import "../css/nav.css";
 import logo from "../assets/image-removebg-preview(1).png";
 import { Link } from "react-router-dom";
 
+
+// Now you can use Rightpannel component and margin state variable and sideBarPlacement function here
+
 function Format({ children, Notebool, toggleNotebool }) {
   const mainRef = useRef(null);
   const bellowRef = useRef(null);

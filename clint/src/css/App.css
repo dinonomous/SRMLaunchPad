@@ -67,15 +67,15 @@ h3{
 
 .mainapp{
   display: inline-block;
-  width: calc(80% - 100px);
+  width: 100%;
   z-index: 10;
   flex-direction: column;
   box-sizing: border-box;
-  margin-right: calc(20% + 50px) !important;
   margin-left: 50px;
   color: white !important;
   position: relative;
   top:1rem;
+  
 }
 .previewcontainer{
   display: flex;
@@ -127,6 +127,7 @@ h3{
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
+  margin-top: 2rem;
 }
 .pdfiframe{
   position: absolute;
@@ -251,21 +252,21 @@ h3{
   width: auto;
 }
 
-.halfside{
-  width: 50vw !important;
+.halfside {
   margin: auto;
-  position: fixed;
-  top: 4.5rem;
   left: 0;
   overflow-y: scroll;
   scrollbar-width: none;
+  padding-right: calc(38vw - 100px);
 }
-.halfside > .mainapp {
+.halfside >.normal > .mainapp {
   height: fit-content;
   margin: 0px;
   width: 100%;
   margin-right: 0px !important;
   margin-bottom: 4.5rem;
+  margin-left: 1rem !important;
+  margin-right: 1rem !important;
 }
 
 .halfside ~ video {
@@ -281,4 +282,13 @@ h3{
 .half{
   display: flex;
   flex-direction: row;
+}
+.darkbackground{
+  filter: blur(5px); /* Add blur effect */
+  background-color: rgba(0, 0, 0, 0.5); /* Add dark background color */
+  transition: filter 0.3s ease, background-color 0.3s ease; /* Add transition effect */
+  width: calc(100% - 50px);
+}
+.normal{
+  width: calc(80% - 100px);
 }
