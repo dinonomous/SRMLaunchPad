@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
-mongoose.connect('mongodb+srv://SRMlaunchPad:9704991147@srmlaunchpad.x99gtqi.mongodb.net/SRMLaunchpad2');
+mongoose.connect('mongodb://localhost:27017/SRMLaunchpad2');
 
 const unitSchema = new mongoose.Schema({
   title: String,

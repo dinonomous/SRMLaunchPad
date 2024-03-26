@@ -4,7 +4,7 @@ const router = express.Router();
 const Unit = require('../models/units');
 
 // Connect to MongoDB
-mongoose.connect('mongodb+srv://SRMlaunchPad:9704991147@srmlaunchpad.x99gtqi.mongodb.net/SRMLaunchpad2')
+mongoose.connect('mongodb://localhost:27017/SRMLaunchpad2')
   .then(() => console.log('Connected to MongoDB'))
   .catch(error => console.error('Error connecting to MongoDB:', error));
 

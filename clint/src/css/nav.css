@@ -40,6 +40,32 @@
   cursor: pointer;
 }
 
+@media (max-width:450px)  {
+  .main_logo span {
+    display: none;
+  }
+  .main_logo {
+    width: 10rem !important;
+    height: 80% !important;
+  }
+  .text{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px !important; 
+   }
+   .ul_links {
+    list-style: none;
+    gap: 0rem;
+    cursor: pointer;
+  }
+  .ul_links li {
+    margin-right: 10px;
+    color: white;
+    cursor: pointer;
+  }
+}
+
 .main_logo {
   position: relative;
   color: white;

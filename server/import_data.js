@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient;
 const fs = require('fs');
 
-const url = "mongodb+srv://SRMlaunchPad:9704991147@srmlaunchpad.x99gtqi.mongodb.net/?retryWrites=true&w=majority";
+const url = "mongodb://localhost:27017";
 const dbName = 'SRMLaunchpad2';
 const collectionName = 'EEEdata';
 

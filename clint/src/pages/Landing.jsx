@@ -8,8 +8,10 @@ function Landing() {
         <Format >
             <div className="app">
                 <div className="left">
-                    <h1>Hitting a snag?</h1>
-                    <h2> Let's brainstorm solutions together!</h2>
+                    <div className="textcontainerlanding">
+                        <h1>Hitting a snag?</h1>
+                        <h2> Let's brainstorm solutions together!</h2>
+                    </div>
                 </div>
             
             <div className="right">
