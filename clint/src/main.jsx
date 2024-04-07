@@ -3,11 +3,12 @@ import ReactDOM from 'react-dom/client';
 import App from './pages/App.jsx';
 import Landing from './pages/Landing.jsx';
 import NotesWindow from './pages/NotesWindow.jsx';
+import Quiz from './pages/Quiz.jsx'
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import './css/index.css';
+import './css/App.css';
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
     path: "/Notes",
     element: <NotesWindow />,
   },
+  {
+    path: "/quizapi/:collection/:title",
+    element: <Quiz />,
+  }
 ]);
 
 // Define a placeholder component for dynamic rendering of App

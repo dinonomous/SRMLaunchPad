@@ -1,11 +1,5 @@
-* {
-  margin: 0;
-  padding: 0;
-  z-index: 100;
-  position: relative;
-}
 .main_nav {
-  background-color: #00111C;
+  background-color: #D9FFF5;
   position: fixed;
   top: 0;
   left: 0;
@@ -18,14 +12,14 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
   margin: 0.5rem;
   margin-left: 1rem;
   margin-right: 1rem;
 }
 .ul_links {
   letter-spacing: 1px !important;
-  color: antiquewhite;
+  color: #1D1E18;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -36,18 +30,11 @@
 }
 .ul_links li {
   margin-right: 20px;
-  color: white;
+  color: #1D1E18;
   cursor: pointer;
 }
 
-@media (max-width:450px)  {
-  .main_logo span {
-    display: none;
-  }
-  .main_logo {
-    width: 10rem !important;
-    height: 80% !important;
-  }
+@media (max-width:790px)  {
   .text{
     display: flex;
     flex-direction: row;
@@ -61,47 +48,20 @@
   }
   .ul_links li {
     margin-right: 10px;
-    color: white;
+    color: #1D1E18;
     cursor: pointer;
   }
-}
-
-.main_logo {
-  position: relative;
-  color: white;
-  width: 20rem;
-  height: 100%;
-  padding: 0;
-}
-.main_logo img {
-  height: 120%;
-  object-fit: cover;
-  object-position: center center;
-  margin-top: -0.5rem;
-}
-.main_logo span {
-  font-weight: 600;
-  position: relative;
-  bottom: 0.6rem;
 }
 .sidecontent{
     position: absolute;
     left: 15rem;
 }
-.line {
-  position: relative;
-  border-bottom: 4px solid white;
-  margin-top: 5px;
-  width: 100%;
-  transition: top 0.3s ease;
-}
 .subjects{
-  color: white;
+  color: #1D1E18;
   position: absolute;
   width: 100%;
   z-index: 100;
   left: 1.5rem;
-  display: none;
 }
 .footer{
   background-color: black;
@@ -112,18 +72,36 @@ main{
   margin: 0;
   padding: 0;
   height: calc(100vh - 4.5rem);
-  top: 4.5rem;
+  position: relative;
+  top: 4rem;
 }
 .column{
+  padding: 1rem;
   margin-right: 2rem;
   float: left;
   width: fit-content;
   overflow-y: scroll;
   scrollbar-width: none;
-  height: 9rem;
+  height: 15rem;
+  background-color: rgba(0, 41, 69, 0.8);
+  box-shadow: 0 0 5px 0px black;
+  border-radius: 10px;
+  width: 20rem;
+  margin-left: -100%;
+  transition: margin-left 1s;
+}
+.hidden {
+  margin-left: -100% !important;
+  pointer-events: none !important; /* Disables touch interactions */
+  transition: margin-left 0.2s ease-in-out !important;
+}
+.visible {
+  margin-left: 0%;
+  pointer-events: auto; /* Enables touch interactions */
+  transition: margin-left 0.2s ease-in-out;
 }
 .anhors{
-  margin-top: 10px;
+  margin-bottom: 12px;
   letter-spacing: 1px !important;
 }
 a:after {    
@@ -140,7 +118,7 @@ a:after {
 }
 a:hover:after { 
   width: 100%; 
-  left: 0; 
+  left: 0;
 }
 .sidepanelbutton{
   width: 48px;
@@ -158,3 +136,11 @@ a:hover:after {
   filter: invert(1);
   height: 2rem;
  }
+ .blurred {
+  filter: blur(5px) !important;
+  transition: filter 0.3s ease-in-out; /* Adjust transition duration and easing as desired */
+}
+.main_body{
+  
+  transition: filter 0.3s ease-in-out;
+}

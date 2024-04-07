@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import "../css/Preview.css"
 import book from '../assets/icons8-spiral-bound-booklet-64.png'
 import image from '../assets/Screenshot 2024-02-08 104758.png'
 

@@ -1,13 +1,43 @@
-/* Apply the styles to the entire body or a specific container */
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap');
+
+@-moz-keyframes my-animation {
+  from { -moz-transform: translateX(100%); }
+  to { -moz-transform: translateX(-100%); }
+}
+
+/* for Chrome */
+@-webkit-keyframes my-animation {
+  from { -webkit-transform: translateX(100%); }
+  to { -webkit-transform: translateX(-100%); }
+}
+
+@keyframes my-animation {
+  from {
+    -moz-transform: translateX(70%);
+    -webkit-transform: translateX(70%);
+    transform: translateX(70%);
+  }
+  to {
+    -moz-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+  }
+}
+
+
 a {
-  text-decoration: none; /* Remove underline */
-  color: inherit; /* Inherit color from parent */
-  cursor: pointer; /* Change cursor to pointer */
+  text-decoration: none;
+  color: #1D1E18; 
+  cursor: pointer;
 }
 * {
-  /* Set the scrollbar width to a thin value */
+  margin: 0;
+  padding: 0;
+  z-index: 100;
+  position: relative;
   scrollbar-width: thin;
-  scrollbar-color: #333 #f0f0f0; /* Dark color for thumb, light color for track */
+  scrollbar-color: #333 #f0f0f0;
+  font-family: "Barlow", sans-serif !important;
 }
 li
 :root {
@@ -27,12 +57,6 @@ li
 ::-webkit-scrollbar-track {
   background-color: #f0f0f0; /* Color of the track */
 }
-
-*{
-  margin: 0;
-  padding: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif !important;
-}
 h1{
   letter-spacing: -1px;
 
@@ -46,7 +70,7 @@ h3{
   line-height: 1.3rem;
 }
 .container{
-  background-color: #00111C;
+  background-color: #D9FFF5;
   height: 100%;
   width: 100%;
   position: relative;
@@ -64,7 +88,6 @@ h3{
   border-top-right-radius: 135px;
   z-index: 0;
 }
-
 .mainapp{
   display: inline-block;
   width: 100%;
@@ -72,7 +95,7 @@ h3{
   flex-direction: column;
   box-sizing: border-box;
   margin-left: 50px;
-  color: white !important;
+  color:#1D1E18 !important;
   position: relative;
   top:1rem;
   
@@ -88,7 +111,7 @@ h3{
 }
 .text > h2{
   margin: 0 !important ;
-  color: white;
+  color: #1D1E18;
   margin-bottom: 1rem !important;
   margin-left: 1rem !important;
 }
@@ -105,7 +128,7 @@ h3{
 .home{
   height: 90px;
   width: 90px;
-  background-color: #00111C;
+  background-color: #D9FFF5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,7 +166,7 @@ h3{
   margin-top: 1rem;
 }
 .main_note{
-  background-color: rgb(46, 46, 46);
+  background-color: #D9FFF5;
   height: 100vh;
 }
 .navme{
@@ -175,7 +198,7 @@ h3{
   display: flex;
   align-items: center;
   background-color: #007bff00; /* Primary button color */
-  color: #fff; /* White text color */
+  color: #1D1E18; /* White text color */
   border: none;
   cursor: pointer;
   z-index: 999; /* Ensure it's above other content */
@@ -291,4 +314,289 @@ h3{
 }
 .normal{
   width: calc(80% - 100px);
+}
+@media (max-width:790px)  {
+  .textcontainerlanding h1{
+    font-size: 10.0rem !important;
+    line-height: 2.8rem;
+  }
+  .cardh1{
+    font-size: 1rem !important;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  .cardtext > p{
+    font-size: 0.5rem !important;
+  }
+  .left{
+    height: 40.5% !important;
+    width: 100% !important;
+    border-bottom-right-radius: 100px !important;
+  }
+  .right{
+    width: 100% !important;
+    border-top-left-radius: 100px !important;
+    top: 40% !important;
+    height: 60% !important;
+  }
+  .card{
+    opacity: 0;
+    border-style: solid;
+    border-color: #0C120C;
+    border-width: 3px;
+    width: 80% !important;
+    padding: 10px;
+  }
+  .pic{
+    width: 100%;
+  }
+}
+
+@media (orientation: landscape) {
+    .right{
+      height: 70%;
+      width: 45%;
+      position: absolute;
+      top: 0;
+      right: 0;
+      background-color: #7B0828;
+      border-bottom-left-radius: 142px;
+    }
+    .card{
+      opacity: 0;
+      border-style: solid;
+      border-color: #0C120C;
+      border-width: 3px;
+      background-color: white;
+      width: 25rem;
+      height: 10rem;
+      position: absolute;
+      bottom: 30%;
+      right: 40%;
+      z-index: 1;
+      border-radius: 40px;
+      font-weight: 400;
+      display: flex;
+      flex-direction: row;
+      box-sizing: border-box;
+      padding: 10px;
+    }
+    .pic{
+      height: 100%;
+      width: 40%;
+      object-fit: contain;
+      padding-right: 0.6rem;
+    }
+    .cardtext{
+      display: flex;
+      padding-left: 0.6rem;
+      flex-direction: column;
+      justify-content: center;
+      align-items: start;
+      width: 60%;
+      box-sizing: border-box;
+    }
+}
+
+@media (orientation: portrait) {
+
+  .left{
+    background-color: #E1BB80;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 47.5%;
+    top: 0;
+    border-bottom-right-radius: 142px;
+    width: 95%;
+  }
+  .right{
+    height: 47.5%;
+    background-color: #D9FFF5;
+    width: 95%;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    border-top-left-radius: 142px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3%;
+  }
+  .card{
+    opacity: 0;
+    background-color: white;
+    width: 50%;
+    height: 80%;
+    position: absolute;
+    z-index: 1;
+    border-radius: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    box-sizing: border-box;
+    padding: 10px;
+  }
+  .cardtext{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+  }
+  .cardh1{
+    font-size: 2.7rem !important;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  .cardtext > p{
+    font-size: 2rem !important;
+    font-weight: 300;
+    text-align: center;
+  }
+}
+
+.app{
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  height: 100%;
+  width: 100%;
+  background-color: #D9FFF5;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0 auto;
+  height: 100%;
+  width: 100%;
+  background-color: #D9FFF5;
+}
+
+h2 {
+  font-size: 1.5rem;
+  color: #1D1E18;
+  margin-top: 2rem;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+.textcontainerlanding{
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  word-wrap: normal;
+  overflow: hidden;
+  color: #1D1E18;
+}
+.textcontainerlanding h1{
+  color: #1D1E18;
+  font-size: 10.0rem;
+  line-height: 10rem;
+  font-weight: 100;
+  letter-spacing: -0.7rem;
+  word-spacing: 1rem;
+
+}
+.textcontainerlanding h2{
+  font-weight: 500;
+  font-size: 3rem;
+  line-height: 5rem;
+  color: #1D1E18;
+  word-spacing: 1px;
+}
+.cardh1{
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+.cardtext > p{
+  font-size: 1.4rem;
+  font-weight: 300;
+}
+.pdfpreview{
+  position: relative;
+  height: 29vh;
+  width: 16vw;
+  margin-top: 8vh;
+}
+.icon{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #D9FFF5;
+  height: 90px;
+  width: 90px;
+  position: absolute;
+  top: -45px;
+  left: calc(50% - 45px);
+  z-index: 100000000000;
+  margin: auto;
+  border-radius: 35px;
+}
+.preview{
+  background-color: #002945;
+  width: 100%;
+  height: 80%;
+  position: absolute;
+  bottom: 0;
+  border-radius: 35px;
+  position: relative;
+}
+.example{
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  filter: blur(3px);
+  opacity: 0.3;
+}
+.overlay{
+  backdrop-filter: blur(60px);
+  background-color: rgba(0, 0, 0, 0.405);
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  height: calc(100% - 40px);
+  border-radius: 15px;
+}
+.text-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Set text color */
+  font-size: 24px; /* Set font size */
+  text-align: center; /* Set text alignment */
+}
+.video{
+  height: 53vh;
+  border-radius: 35px;
+  background-color: #00416c96;
+  backdrop-filter: blur(10px);
+  position: relative;
+}
+.video iframe{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: calc(100% - 40px);
+  height: calc(100% - 40px);
+  border-radius: 15px;
 }
