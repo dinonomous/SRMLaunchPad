@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../css/nav.css";
-import logo from "../assets/image-removebg-preview(1).png";
 import { Link } from "react-router-dom";
 
 function Format({ children, Notebool, toggleNotebool }) {

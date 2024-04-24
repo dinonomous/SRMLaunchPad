@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Preview from "../components/Preview";
 import "../css/App.css";
 import Rightpannel from "../components/Rightpannel";
 import Video from "../components/Video";
