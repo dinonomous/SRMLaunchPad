@@ -93,7 +93,6 @@ function Quiz(props) {
   return (
     <>
     <Format>
-      <div className="quiz_background">
         <div className="quiz_top">
           <>
             <span>
@@ -139,7 +138,6 @@ function Quiz(props) {
           {pillText && <p>{pillText}    </p>}
           {correctAnswers}
         </div>
-      </div>
       </Format>
     </>
   );

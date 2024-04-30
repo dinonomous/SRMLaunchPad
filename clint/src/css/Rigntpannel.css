@@ -40,13 +40,13 @@
     position: fixed;
     right: 0;
     border-top-left-radius: 142px;
-    background-color: #00111C;
+    background-color: #0C1713;
     color: rgb(255, 255, 255) !important;
     backdrop-filter: blur(10px);
     padding-top: 50px;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: #E1BB80 #00111C;
+    scrollbar-color: #FE9000 #00111C;
     scrollbar-arrow-color: #00111C;
     overflow-x: hidden;
     border: white 0.15rem solid;
@@ -57,7 +57,7 @@
 
   .selectedLi{
     display: block; /* Ensures the li takes the full width */
-    background-color: #E1BB80;
+    background-color: #FE9000;
     color: #00111C;
     background-size: 100%;
     padding-right: 50px; /* Adjust padding as needed */
@@ -113,8 +113,8 @@
     
  }
  .selectedLi::before{
-    border-right:2px solid #E1BB80;
-    border-bottom:2px solid #E1BB80;
+    border-right:2px solid #FE9000;
+    border-bottom:2px solid #FE9000;
  }
  h3{
     width: 100%;

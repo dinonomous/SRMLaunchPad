@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,500&display=swap');
-
 .quiz_background{
     margin: 0;
     padding: 0;
-    font-family: "Barlow", sans-serif !important;
+    font-family: "Lato", sans-serif !important;
     position: relative;
     height: 100%;
 }
@@ -33,7 +31,6 @@ body{
     justify-content: space-evenly;
     align-items: center;
     justify-content: center;
-    position: absolute;
     top: 1rem;
     box-sizing: border-box;
     width: 100%;
@@ -77,19 +74,20 @@ body{
   
 .quiz_content{
     position: relative;
-    margin-top: 6rem;
+    margin-top: 2rem;
     box-shadow: 0  0 1rem 5px rgba(147, 147, 147, 0.458);
     background-color:#F7F7FF;
     border-radius: 2rem;
     padding: 1rem;
     box-sizing: border-box;
-    position: absolute;
-    top: 0rem;
-    bottom: 1rem;
-    left: 1rem;
-    right: 1rem;
+    width: calc(100% - 2rem);
     display: flex;
     padding: 0;
+    height: calc(76vh);
+    margin-left: auto;
+    margin-right: auto;
+    
+    
 }
 .quiz_question_left{
     
@@ -146,6 +144,7 @@ body{
     justify-content: center;
     color: #F7F7FF;
     font-size: 1.4rem;
+    padding: 1rem;
 }
 .quiz_options:hover{
     background-color: #E3B505;

@@ -1,5 +1,9 @@
+.looka-1j8o68f{
+  height: 3rem;
+  width: 100%;
+}
 .main_nav {
-  background-color: #D9FFF5;
+  background-color: #0c1713b7;
   position: fixed;
   top: 0;
   left: 0;
@@ -12,14 +16,14 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: end;
+  justify-content: space-between;
   margin: 0.5rem;
   margin-left: 1rem;
   margin-right: 1rem;
 }
 .ul_links {
   letter-spacing: 1px !important;
-  color: #1D1E18;
+  color: #F8F4E3;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -27,10 +31,11 @@
   list-style: none;
   gap: 1rem;
   cursor: pointer;
+  font-size: 1.15rem;
 }
 .ul_links li {
   margin-right: 20px;
-  color: #1D1E18;
+  color: #F8F4E3;
   cursor: pointer;
 }
 
@@ -48,7 +53,7 @@
   }
   .ul_links li {
     margin-right: 10px;
-    color: #1D1E18;
+    color: #F8F4E3;
     cursor: pointer;
   }
 }
@@ -56,13 +61,21 @@
     position: absolute;
     left: 15rem;
 }
-.subjects{
-  color: #1D1E18;
+.subjects {
+  box-sizing: border-box;
+  padding-left: 10rem;
+  padding-right: 10rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Divides into three equal columns */
+  align-items: center;
+  justify-content: center;
+  color: #F8F4E3;
   position: absolute;
   width: 100%;
   z-index: 100;
   left: 1.5rem;
 }
+
 .footer{
   background-color: black;
 }
@@ -71,24 +84,19 @@ main{
   z-index: 0;
   margin: 0;
   padding: 0;
-  height: calc(100vh - 4.5rem);
   position: relative;
   top: 4rem;
 }
 .column{
   padding: 1rem;
-  margin-right: 2rem;
-  float: left;
   width: fit-content;
   overflow-y: scroll;
   scrollbar-width: none;
   height: 15rem;
-  background-color: rgba(0, 41, 69, 0.8);
-  box-shadow: 0 0 5px 0px black;
-  border-radius: 10px;
-  width: 20rem;
-  margin-left: -100%;
-  transition: margin-left 1s;
+  min-width: calc((100vw - 30rem)/3);
+  overflow-x: hidden;
+  font-size: 1.2rem;
+  border-right: 2px solid #0C1713;
 }
 .hidden {
   margin-left: -100% !important;
@@ -112,7 +120,7 @@ a:after {
   height: 2px;
   left: 50%;
   position: absolute;
-  background: #fff;
+  background: #FE9000;
   transition: width 0.3s ease 0s, left 0.3s ease 0s;
   width: 0;
 }

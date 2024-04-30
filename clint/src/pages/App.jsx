@@ -71,7 +71,6 @@ function App(props) {
                   : "normal"
               }
             >
-              <div className="backbround"></div>
               <main
                 className="mainapp"
                 style={{
@@ -81,8 +80,8 @@ function App(props) {
                   flexDirection: "column",
                   boxSizing: "border-box",
                   marginRight:
-                    RightToglle === "100%" ? "50px" : "calc(20% + 50px)",
-                  marginLeft: "50px",
+                    RightToglle === "100%" ? "50px" : "calc(20% + 2rem)",
+                  marginLeft: "2rem",
                   color: "white",
                   position: "relative",
                   top: "1rem",
