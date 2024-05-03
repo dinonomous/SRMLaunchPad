@@ -122,7 +122,8 @@ function Quiz(props) {
         </div>
         {currentQuestion && (
           <>
-            <div className="quiz_content">
+            <div className="quiz_content ">
+              <div className="loder skelition">
               <Question
                 currentQuestionIndex={currentQuestionIndex}
                 currentQuestion={currentQuestion}
@@ -130,7 +131,9 @@ function Quiz(props) {
                 hasAnswered={userAnswered[currentQuestionIndex]} // Pass answered state
                 showfloat={showfloat}
                 explanation={explanation}
+                
               />
+              </div>
             </div>
           </>
         )}

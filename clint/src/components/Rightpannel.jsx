@@ -21,7 +21,7 @@ export default function Rightpannel(props) {
             <div className='subtopics'>
                 <ul className='rightul'>
                     {topics.map((topic, index) => (
-                        <li className={`rightli ${fill === index ? "selectedLi" : ""}`} key={index} onClick={() => {handleClick(index);sideBarPlacement()}}>
+                        <li className={`rightli ${fill === index ? "selectedLi" : "" }`} key={index} onClick={() => {handleClick(index);sideBarPlacement()}}>
                             <div dangerouslySetInnerHTML={{ __html: topic }}></div>
                         </li>
                     ))}

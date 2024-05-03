@@ -22,12 +22,15 @@ function Format({ children, Notebool, toggleNotebool }) {
     fetchData();
   };
 
+  useEffect(()=>{setCollectionData([])},[Subjects])
+
   const handleMouseOut = (e) => {
     if (!mainRef.current.contains(e.relatedTarget)) {
       mainRef.current.style.height = "4rem";
       ulRef.current.style.marginLeft = "-500%";
       childRef.current.classList.remove("blurred");
       setIsVisible(false);
+      setCollectionData([]);
     }
   };
   const handleMouseEnterQuiz = (e) => {
@@ -77,6 +80,24 @@ function Format({ children, Notebool, toggleNotebool }) {
         console.error("There was a problem with the fetch operation:", error);
       });
   };
+  const handleClickQuiz = (parameter) => {
+    console.log("Clicked with parameter:", parameter);
+    fetch(`http://localhost:5000/api/quizapi/Quizz/${parameter}`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Data fetched:", data);
+        setCollectionData(data.titles); // Set collection data
+      })
+      .catch((error) => {
+        console.error("There was a problem with the fetch operation:", error);
+      });
+  };
+
   return (
     <>
       <nav className="main_nav" ref={mainRef} onMouseOut={handleMouseOut}>
@@ -139,7 +160,7 @@ function Format({ children, Notebool, toggleNotebool }) {
           <div className="column" ref={ulRef}>
             {Subjects.map(function (item, i) {
               return (
-                <div key={i} className="anhors">
+                <div key={i} className="anhors skelition-text">
                   <Link
                     to={
                       item.trim().toLowerCase().startsWith("quiz")
@@ -147,7 +168,7 @@ function Format({ children, Notebool, toggleNotebool }) {
                         : `/${item}/Unit 1`
                     }
                     onMouseEnter={() => {
-                      handleClick(item);
+                      {item.trim().toLowerCase().startsWith("quiz") ? handleClickQuiz(item) : handleClick(item);}
                       setparameter(item);
                     }}
                     onClick={() =>
@@ -162,11 +183,11 @@ function Format({ children, Notebool, toggleNotebool }) {
               );
             })}
           </div>
-          {CollectionData.length > 0 && (
-            <div className="column" ref={ulRef} style={{ marginLeft: 0 }}>
+          {CollectionData.length >= 0 && (
+            <div className="column" ref={ulRef}>
               {CollectionData.map(function (CollectionData, index) {
                 return (
-                  <div key={index} className="anhors">
+                  <div key={index} className="anhors skelition-text">
                     <Link
                       to={
                         CollectionData.trim().toLowerCase().startsWith("quiz")

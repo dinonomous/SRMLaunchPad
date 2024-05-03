@@ -1,31 +1,22 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
-const Unit = require("../models/units");
-const Quiz = require("../models/models");
+const unitSchema = require("../models/units");
+const quizSchema = require("../models/models");
 
 // Connect to MongoDB
 
-mongoose.connect(`mongodb://localhost:27017/SRMLaunchpad2`)
-.then(()=>{console.log(`Connected to MongoDB`)})
-.catch(error => console.error('Error connecting to MongoDB:', error));
-    
+const Subject=mongoose.createConnection(`mongodb://localhost:27017/SRMLaunchpad2`, { autoCreate: false })
 
-
+const QuizDB = mongoose.createConnection(`mongodb://localhost:27017/Quizz`, { autoCreate: false }) // forcing mongoose not to create collections on its own
 
 router.get("/getcollectionnames", async function (req, res) {
   try {
-    const db = mongoose.connection.db;
-
-    // List collections in the database
-    const collections = await db.listCollections().toArray();
+    const collections = await Subject.db.listCollections().toArray();
 
     // Extract collection names
     const collectionNames = collections
       .map(collection => collection.name)
-      .filter(name => !name.startsWith("Quiz"));
-
-    // Send the collection names as the response
     res.send(collectionNames);
   } catch (error) {
     console.error("Error getting collection names:", error);
@@ -33,15 +24,47 @@ router.get("/getcollectionnames", async function (req, res) {
   }
 });
 
+router.get("/:collection", async function (req, res) {
+  try {
+    const collectionName = req.params.collection;
+    const Unitc = Subject.model(collectionName, unitSchema, collectionName); // model maping to sccess specific collections and quarry on that
+    const Quizc = QuizDB.model(collectionName, quizSchema, collectionName); // model maping to sccess specific collections and quarry on that
+
+    const documents = await Unitc.find({ title: { $exists: true } });
+
+    // Extract titles from documents
+    const titles = documents.map((doc) => doc.title);
+
+    // Send the titles as the response
+    res.json({ titles: titles });
+  } catch (error) {
+    console.error("Error getting collection titles:", error);
+    res.status(500).json({ error: "Failed to retrieve collection titles" });
+  }
+});
+
+router.get("/api/quizapi/Quizz/:collection", async function (req, res) {
+  try {
+    const collectionName = req.params.collection;
+    const QuizModel = QuizDB.model(collectionName, quizSchema, collectionName);
+    const documents = await QuizModel.find({ title: { $exists: true } });
+    // Extract titles from documents
+    const titles = documents.map((doc) => doc.title);
+
+    // Send the titles as the response
+    res.json({ titles: titles });
+  } catch (error) {
+    console.error("Error getting documents:", error);
+    res.status(500).json({ error: "Failed to retrieve documents", errorMessage: error.message });
+  }
+});
+
 router.get("/:collection/:unit", async function (req, res) {
   try {
     const collectionName = req.params.collection;
     const unitTitleToFind = req.params.unit;
-
-    // Dynamically select the model based on the collection name
-    const UnitModel = mongoose.model("Unit", Unit.schema, collectionName); // Using Unit.schema
-
-    const foundUnit = await UnitModel.findOne({ title: unitTitleToFind });
+    const Unitc = Subject.model(collectionName, unitSchema, collectionName);
+    const foundUnit = await Unitc.findOne({ title: unitTitleToFind });
 
     if (!foundUnit) {
       res.status(404).send("Unit not found");
@@ -63,21 +86,16 @@ router.get("/:collection/:unit", async function (req, res) {
   }
 });
 
-router.get("/:collection", async function (req, res) {
+router.get("/api/quizapi/getcollectionnames", async function (req, res) {
   try {
-    const collectionName = req.params.collection;
-    const UnitModel = mongoose.model("Unit", Unit.schema, collectionName); // Assuming each collection corresponds to a Mongoose model with the same name
 
-    const documents = await UnitModel.find({ title: { $exists: true } });
-
-    // Extract titles from documents
-    const titles = documents.map((doc) => doc.title);
-
-    // Send the titles as the response
-    res.json({ titles: titles });
+    const collections = await QuizDB.db.listCollections().toArray();
+    const collectionNames = collections
+      .map(collection => collection.name)
+    res.send(collectionNames);
   } catch (error) {
-    console.error("Error getting collection titles:", error);
-    res.status(500).json({ error: "Failed to retrieve collection titles" });
+    console.error("Error getting collection names:", error);
+    res.status(500).json({ error: "Failed to retrieve collection names" });
   }
 });
 
@@ -85,8 +103,9 @@ router.get("/quizapi/:collection/:title", async function (req, res) {
   try {
     const subject = req.params.collection;
     const titleToFind = req.params.title;
-    const quizModel = mongoose.model("Quiz", Quiz.schema, subject);
-    const foundQuiz = await quizModel.findOne({ title: titleToFind });
+
+    const Quizc = QuizDB.model(subject, quizSchema, subject);
+    const foundQuiz = await Quizc.findOne({ title: titleToFind });
 
 
     if (!foundQuiz) {
@@ -101,20 +120,5 @@ router.get("/quizapi/:collection/:title", async function (req, res) {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
-
-router.get("/api/quizapi/getcollectionnames", async function (req, res) {
-  try {
-    const db = mongoose.connection.db;
-    const collections = await db.listCollections().toArray();
-    const collectionNames = collections
-      .map(collection => collection.name)
-      .filter(name => name.startsWith("Quiz"));
-    res.send(collectionNames);
-  } catch (error) {
-    console.error("Error getting collection names:", error);
-    res.status(500).json({ error: "Failed to retrieve collection names" });
-  }
-});
-
 
 module.exports = router;

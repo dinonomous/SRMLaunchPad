@@ -161,7 +161,7 @@ body{
     background-color:#6D213C;
     bottom: 3rem;
     left: 3rem;
-    z-index: 1;
+    z-index: 500;
     box-shadow: 0 , 0, 0,10px black;
     display: flex;
     align-items: center;
@@ -196,4 +196,11 @@ margin-right: 1rem;
     justify-content: center;
     backdrop-filter: blur(10px);
     margin-top: 2rem;
+}
+.loder{
+    position: relative;
+    border-radius: 2rem;
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
 }

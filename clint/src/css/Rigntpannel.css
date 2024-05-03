@@ -57,11 +57,14 @@
 
   .selectedLi{
     display: block; /* Ensures the li takes the full width */
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
     background-color: #FE9000;
     color: #00111C;
     background-size: 100%;
     padding-right: 50px; /* Adjust padding as needed */
-    border-radius: calc(50% - height);
+    border-radius: 10px;
     width: calc(100% - 50px) !important;
     border-radius: 10px;
     transition: background-color 0.5s;
