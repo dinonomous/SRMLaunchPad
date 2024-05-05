@@ -57,6 +57,11 @@ function App(props) {
     }
   }, [Notebool, breakpoint]);
 
+  const nextclick = ()=>{
+    {selectedTopicIndex < topicsArray.length-1 && setSelectedTopicIndex(prevIndex => prevIndex + 1);}
+    
+  }
+
   console.log("Notebool value:", Notebool);
 
   return (
@@ -89,14 +94,14 @@ function App(props) {
               >
                 <div className="text">
                   <h2>{Heading}</h2>
-                  {breakpoint === true || Notebool === true ? <span> <img src={layers} alt="" onClick={() => sideBarPlacement()} /></span>: null }
                 </div>
                 <Video
                   url={
-                    topicsArray.length > 0
-                      ? extractDataURL(topicsArray[selectedTopicIndex])
-                      : ""
+                    topicsArray.length > 0 ? extractDataURL(topicsArray[selectedTopicIndex]) : ""
                   }
+                  next = {topicsArray[selectedTopicIndex +1 ]}
+                  next_click = {nextclick}
+                  next_bool = {selectedTopicIndex !== topicsArray.length-1}
                 />
                 <Pdf PDF={PDF} />
               </main>
@@ -120,6 +125,7 @@ function App(props) {
             </div>
           )}
         </div>
+        {breakpoint === true || Notebool === true ? <span className="sidemenue_button"> <img src={layers} alt="" onClick={() => sideBarPlacement()} /></span>: null }
       </Format>
     </>
   );

@@ -130,6 +130,7 @@ main{
   margin-bottom: 12px;
   letter-spacing: 1px !important;
   animation: navlinkenter 0.2s;
+  height: fit-content;
 }
 a:after {    
   background: none repeat scroll 0 0 transparent;

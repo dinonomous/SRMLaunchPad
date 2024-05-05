@@ -146,7 +146,7 @@ function Format({ children, Notebool, toggleNotebool }) {
                   Notes
                 </Link>
               </li>
-              <button className="login_button_mini">
+              <button className="login_button_mini button">
                 Login
               </button>
             </ul>

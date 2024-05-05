@@ -13,7 +13,7 @@ function Landing() {
             <div className="textcontainerlanding">
               <h1>Hitting a Snag?</h1>
               <h2> Let's brainstorm solutions together!</h2>
-              <button className="login_button">
+              <button className="login_button button">
                 Login
               </button>
             </div>
