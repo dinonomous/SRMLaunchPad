@@ -29,7 +29,7 @@ function App(props) {
   const breakpoint = useMediaQuery({ query: "(max-width: 1200px)" });
 
   useEffect(() => {
-    fetch(`http://localhost:5000/${subject}/${unit}`) // Using dynamic parameters for subject and unit
+    fetch(`http://10.3.21.237:5000/${subject}/${unit}`) // Using dynamic parameters for subject and unit
       .then((response) => response.json())
       .then((data) => {
         const { PDF, Heading, topicsHTML } = data;

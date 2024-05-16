@@ -6,9 +6,9 @@ const quizSchema = require("../models/models");
 
 // Connect to MongoDB
 
-const Subject=mongoose.createConnection(`mongodb+srv://SRMlaunchPad:9704991147@srmlaunchpad.x99gtqi.mongodb.net/SRMLaunchpad2`, { autoCreate: false })
+const Subject=mongoose.createConnection(`mongodb://localhost:27017/SRMLaunchpad2`, { autoCreate: false })
 
-const QuizDB = mongoose.createConnection(`mongodb+srv://SRMlaunchPad:9704991147@srmlaunchpad.x99gtqi.mongodb.net/Quizz`, { autoCreate: false }) // forcing mongoose not to create collections on its own
+const QuizDB = mongoose.createConnection(`mongodb://localhost:27017/Quizz`, { autoCreate: false }) // forcing mongoose not to create collections on its own
 
 router.get("/getcollectionnames", async function (req, res) {
   try {

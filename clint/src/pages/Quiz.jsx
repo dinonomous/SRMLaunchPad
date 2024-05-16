@@ -28,8 +28,24 @@ function Quiz(props) {
     return array;
   };
 
+  const resetState = () => {
+    setUnitTitle("");
+    setQuestions([]);
+    setCurrentQuestionIndex(0);
+    setCorrectAnswers(0);
+    setUserAnswered([]);
+    setPillStyle({ width: "4rem" });
+    setPillText("");
+    setExplanation("");
+    setCurrentQuestion(null);
+    setShowfloat(false);
+  };
+
+
   useEffect(() => {
-    fetch(`http://localhost:5000/quizapi/${collection}/${title}`)
+    resetState();
+    
+    fetch(`http://10.3.21.237:5000/quizapi/${collection}/${title}`)
       .then((response) => response.json())
       .then((data) => {
         const { unitTitle, questions } = data;

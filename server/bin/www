@@ -8,15 +8,12 @@ var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
 
-
-
-
 /**
- * Get port from environment and store in Express.
+ * Set port and IP address.
  */
 
-var port = normalizePort(process.env.PORT || '5000');
-app.set('port', port);
+var port = 5000; // Set your desired port here
+var ip = '10.3.21.237'; // Set your desired IP address here
 
 /**
  * Create HTTP server.
@@ -25,32 +22,12 @@ app.set('port', port);
 var server = http.createServer(app);
 
 /**
- * Listen on provided port, on all network interfaces.
+ * Listen on provided port and IP address.
  */
 
-server.listen(port);
+server.listen(port, ip);
 server.on('error', onError);
 server.on('listening', onListening);
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
 
 /**
  * Event listener for HTTP server "error" event.
