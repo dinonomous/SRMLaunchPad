@@ -25,6 +25,7 @@ function App(props) {
   const { subject, unit } = useParams(); // Using useParams to extract dynamic parameters from the URL
   const [Notebool, SetNotebool] = useState(false);
   const [RightToglle, setRightToglle] = useState("0%");
+  const [reader,setreader] = useState(false)
 
   const breakpoint = useMediaQuery({ query: "(max-width: 1200px)" });
 
@@ -59,7 +60,10 @@ function App(props) {
 
   const nextclick = ()=>{
     {selectedTopicIndex < topicsArray.length-1 && setSelectedTopicIndex(prevIndex => prevIndex + 1);}
-    
+  }
+
+  const readermode = () =>{
+    setreader(!reader)
   }
 
   console.log("Notebool value:", Notebool);
@@ -67,7 +71,23 @@ function App(props) {
   return (
     <>
       <Format Notebool={Notebool} toggleNotebool={() => SetNotebool(!Notebool)}>
-        <div className={`container ${Notebool ? "half" : ""}`}>
+        {reader ? 
+          (<>
+            <Pdf PDF={PDF} onClick={readermode} reader={reader}/>
+            <Video
+                  url={
+                    topicsArray.length > 0 ? extractDataURL(topicsArray[selectedTopicIndex]) : ""
+                  }
+                  next = {topicsArray[selectedTopicIndex +1 ]}
+                  next_click = {nextclick}
+                  next_bool = {selectedTopicIndex !== topicsArray.length-1}
+                  reader = {reader}
+                />
+          </>) 
+
+        : 
+        
+        (<div className={`container ${Notebool ? "half" : ""}`}>
           <div className={`container ${Notebool ? "halfside" : ""}`}>
             <span
               className={
@@ -103,7 +123,7 @@ function App(props) {
                   next_click = {nextclick}
                   next_bool = {selectedTopicIndex !== topicsArray.length-1}
                 />
-                <Pdf PDF={PDF} />
+                <Pdf PDF={PDF} onClick={readermode}/>
               </main>
             </span>
             <Rightpannel
@@ -124,7 +144,8 @@ function App(props) {
               ></iframe>
             </div>
           )}
-        </div>
+        </div>)}
+        
         {breakpoint === true || Notebool === true ? <span className="sidemenue_button"> <img src={layers} alt="" onClick={() => sideBarPlacement()} /></span>: null }
       </Format>
     </>
