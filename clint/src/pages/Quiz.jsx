@@ -45,7 +45,7 @@ function Quiz(props) {
   useEffect(() => {
     resetState();
     
-    fetch(`http://10.3.21.237:5000/quizapi/${collection}/${title}`)
+    fetch(`http://192.168.0.135:5000/quizapi/${collection}/${title}`)
       .then((response) => response.json())
       .then((data) => {
         const { unitTitle, questions } = data;

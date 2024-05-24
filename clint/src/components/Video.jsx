@@ -38,14 +38,14 @@ export default function Video(props) {
             className="video_small skelition" 
             onMouseEnter={handleMouseEnter} 
             onMouseLeave={handleMouseLeave} 
-            onClick={handlePlayPause}
+            
           >
             {showControls && (
               <div className="Video_overlay">
                 <div className="Video_small_hover_controles">
                   <img src={left} alt="" />
                 </div>
-                <button className="videoControls" onClick={(e) => { e.stopPropagation(); handlePlayPause(); }}>
+                <button className="videoControls" onClick={handlePlayPause}>
                   Play/Pause
                 </button>
                 <div className="Video_small_hover_controles" onClick={props.next_click}>
