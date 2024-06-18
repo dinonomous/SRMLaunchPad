@@ -1,4 +1,4 @@
-.looka-1j8o68f{
+/* .looka-1j8o68f{
   height: 3rem;
   width: 100%;
 }
@@ -67,7 +67,7 @@
   padding-left: 10rem;
   padding-right: 10rem;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Divides into three equal columns */
+  grid-template-columns: repeat(3, 1fr);
   align-items: center;
   justify-content: center;
   color: #F8F4E3;
@@ -120,11 +120,11 @@ main{
 }
 .hidden {
   margin-top: -100% !important;
-  pointer-events: none !important; /* Disables touch interactions */
+  pointer-events: none !important; 
 }
 .visible {
   margin-top: 0%;
-  pointer-events: auto; /* Enables touch interactions */
+  pointer-events: auto; 
 }
 .anhors{
   margin-bottom: 12px;
@@ -166,9 +166,67 @@ a:hover:after {
  }
  .blurred {
   filter: blur(5px) !important;
-  transition: filter 0.3s ease-in-out; /* Adjust transition duration and easing as desired */
+  transition: filter 0.3s ease-in-out; 
 }
 .main_body{
   
   transition: filter 0.3s ease-in-out;
+} */
+
+
+*{
+  box-sizing: border-box;
+}
+.navigation_menue{
+  width: 30%;
+  height: 100vh;
+  color: antiquewhite;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 101;
+}
+.upper_nav_body, .bellow_nav_body{
+  height: 50%;
+  width: 100%;
+  background-color: aquamarine;
+  border: 1px solid black;
+  padding: 1rem;
+}
+.bellow_nav_body{
+  height: 50%;
+  width: 100%;
+  background-color: aquamarine;
+  border: 1px solid black;
+}
+.logo{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  height: 10%;
+  width: 100%;
+  background-color: aqua;
+}
+.nav_options , .nav_sub_options{
+  display: block;
+  height: 90%;
+  width: 100%;
+  background-color: aqua;
+  border: 1px solid black;
+  color: black;
+  position: relative;
+}
+.imglogo{
+  color: rgb(213, 125, 125);
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+}
+
+
+/* changable bellow nav with position absoliute */
+
+.nav_suboptions_li{
+  position: absolute;
 }

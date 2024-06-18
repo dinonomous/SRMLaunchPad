@@ -70,7 +70,7 @@ function App(props) {
 
   return (
     <>
-      <Format Notebool={Notebool} toggleNotebool={() => SetNotebool(!Notebool)}>
+      <Format Notebool={Notebool} toggleNotebool={() => SetNotebool(!Notebool)} breakpoint={breakpoint}>
         {reader ? 
           (<>
             <Pdf PDF={PDF} onClick={readermode} reader={reader}/>
