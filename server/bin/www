@@ -25,7 +25,10 @@ var server = http.createServer(app);
  * Listen on provided port and IP address.
  */
 
-server.listen(port, ip);
+server.listen(port, ip, () => {
+  console.log(`Server running at http://${ip}:${port}/`);
+  debug(`Server running at http://${ip}:${port}/`);
+});
 server.on('error', onError);
 server.on('listening', onListening);
 

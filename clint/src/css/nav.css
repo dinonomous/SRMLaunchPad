@@ -1,190 +1,19 @@
-/* .looka-1j8o68f{
-  height: 3rem;
-  width: 100%;
+:root{
+  --navTotalWidth: 30%;
+  --navTotalHeight: 100vh;
+  --navZindex: 101;
 }
-.main_nav {
-  background-color: #0c1713b7;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 4rem;
-  transition: height 0.3s ease;
-}
-.contente {
-    height: 3rem;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  margin: 0.5rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
-}
-.ul_links {
-  letter-spacing: 1px !important;
-  color: #F8F4E3;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  list-style: none;
-  gap: 1rem;
-  cursor: pointer;
-  font-size: 1.15rem;
-}
-.ul_links li {
-  margin-right: 20px;
-  color: #F8F4E3;
-  cursor: pointer;
-  
-}
-
-@media (max-width:790px)  {
-  .text{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 5px !important; 
-   }
-   .ul_links {
-    list-style: none;
-    gap: 0rem;
-    cursor: pointer;
-  }
-  .ul_links li {
-    margin-right: 10px;
-    color: #F8F4E3;
-    cursor: pointer;
-  }
-}
-.sidecontent{
-    position: absolute;
-    left: 15rem;
-}
-.subjects {
-  box-sizing: border-box;
-  padding-left: 10rem;
-  padding-right: 10rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  align-items: center;
-  justify-content: center;
-  color: #F8F4E3;
-  position: absolute;
-  width: 100%;
-  z-index: 100;
-  left: 1.5rem;
-}
-
-.footer{
-  background-color: black;
-}
-main{
-  left:0;
-  z-index: 0;
-  margin: 0;
-  padding: 0;
-  position: relative;
-  top: 4rem;
-}
-
-.column{
-  padding: 1rem;
-  width: fit-content;
-  overflow-y: scroll;
-  scrollbar-width: none;
-  height: 15rem;
-  min-width: calc((100vw - 30rem)/3);
-  overflow-x: hidden;
-  font-size: 1.2rem;
-  position: relative;
-}
-@keyframes navlinkenter {
-  0%{
-    margin-left: -100%;
-  }
-  100%{
-    margin-left: 0%;
-  }
-}
-
-.row > .column::before{
-  content: "";
-  background-color: #499076;
-  height: 100%;
-  width: 0.2em;
-  position: absolute;
-  top: 0;
-  right: 0;
-}
-.hidden {
-  margin-top: -100% !important;
-  pointer-events: none !important; 
-}
-.visible {
-  margin-top: 0%;
-  pointer-events: auto; 
-}
-.anhors{
-  margin-bottom: 12px;
-  letter-spacing: 1px !important;
-  animation: navlinkenter 0.2s;
-  height: fit-content;
-}
-a:after {    
-  background: none repeat scroll 0 0 transparent;
-  bottom: -0.2rem;
-  content: "";
-  display: block;
-  height: 2px;
-  left: 50%;
-  position: absolute;
-  background: #FE9000;
-  transition: width 0.3s ease 0s, left 0.3s ease 0s;
-  width: 0;
-}
-a:hover:after { 
-  width: 100%; 
-  left: 0;
-}
-.sidepanelbutton{
-  width: 48px;
-  height: 48px;
-  filter: invert(1);
- }
- .text{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
- }
- .text img{
-  filter: invert(1);
-  height: 2rem;
- }
- .blurred {
-  filter: blur(5px) !important;
-  transition: filter 0.3s ease-in-out; 
-}
-.main_body{
-  
-  transition: filter 0.3s ease-in-out;
-} */
-
-
 *{
   box-sizing: border-box;
 }
 .navigation_menue{
-  width: 30%;
-  height: 100vh;
+  width: var(--navTotalWidth);
+  height: var(--navTotalHeight);
   color: antiquewhite;
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 101;
+  z-index: var(--navZindex);
 }
 .upper_nav_body, .bellow_nav_body{
   height: 50%;
@@ -216,6 +45,7 @@ a:hover:after {
   border: 1px solid black;
   color: black;
   position: relative;
+  overflow: hidden;
 }
 .imglogo{
   color: rgb(213, 125, 125);
@@ -224,9 +54,28 @@ a:hover:after {
   border: 1px solid black;
 }
 
+.nav_sub_options{
+  height: 100%;
+}
+
 
 /* changable bellow nav with position absoliute */
 
 .nav_suboptions_li{
+  width: 100%;
+  background-color: cadetblue;
+  overflow-y: scroll;
+  display: block;
+  height: 100%;
+}
+.nav_suboptions_li li{
+  padding: 1rem;
+}
+
+#suboptionSubjects{
   position: absolute;
+  width: 100%;
+  top: 0;
+  background-color: cadetblue;
+  pointer-events: none;
 }
