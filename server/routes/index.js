@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const unitSchema = require("../models/units");
 const quizSchema = require("../models/models");
+const { getCollectionNames, getCollectionNamesQuiz } = require('../controllers/getCollection')
 
 // Connect to MongoDB
 
@@ -10,19 +11,7 @@ const Subject=mongoose.createConnection(`mongodb+srv://SRMlaunchPad:9704991147@s
 
 const QuizDB = mongoose.createConnection(`mongodb+srv://SRMlaunchPad:9704991147@srmlaunchpad.x99gtqi.mongodb.net/Quizz`, { autoCreate: false }) // forcing mongoose not to create collections on its own
 
-router.get("/getcollectionnames", async function (req, res) {
-  try {
-    const collections = await Subject.db.listCollections().toArray();
-
-    // Extract collection names
-    const collectionNames = collections
-      .map(collection => collection.name)
-    res.send(collectionNames);
-  } catch (error) {
-    console.error("Error getting collection names:", error);
-    res.status(500).json({ error: "Failed to retrieve collection names", errorMessage: error.message });
-  }
-});
+router.get("/getcollectionnames", getCollectionNames );
 
 router.get("/:collection", async function (req, res) {
   try {
@@ -86,18 +75,7 @@ router.get("/:collection/:unit", async function (req, res) {
   }
 });
 
-router.get("/api/quizapi/getcollectionnames", async function (req, res) {
-  try {
-
-    const collections = await QuizDB.db.listCollections().toArray();
-    const collectionNames = collections
-      .map(collection => collection.name)
-    res.send(collectionNames);
-  } catch (error) {
-    console.error("Error getting collection names:", error);
-    res.status(500).json({ error: "Failed to retrieve collection names" });
-  }
-});
+router.get("/api/quizapi/getcollectionnames", getCollectionNamesQuiz);
 
 router.get("/quizapi/:collection/:title", async function (req, res) {
   try {

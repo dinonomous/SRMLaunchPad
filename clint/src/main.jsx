@@ -4,6 +4,7 @@ import App from './pages/App.jsx';
 import Landing from './pages/Landing.jsx';
 import NotesWindow from './pages/NotesWindow.jsx';
 import Quiz from './pages/Quiz.jsx'
+import Admin from './pages/Admin.jsx';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
   {
     path: "/quizapi/:collection/:title",
     element: <Quiz />,
+  },
+  {
+    path: "/admin",
+    element: <Admin />,
   }
 ]);
 
