@@ -1,4 +1,5 @@
 const unitSchema = require("../../models/units");
+const quizSchema = require("../../models/models");
 const { Subject, QuizDB } = require('../../config/db');
 
 const postCollectionTitles = async (req, res) => {
@@ -19,7 +20,23 @@ const postCollectionTitles = async (req, res) => {
     }
   };
 
+const postQuizCollectionTitles = async (req,res) => {
+    try {
+        const collectionName = req.params.collection;
+        const body = req.body;
+        const Quizc = QuizDB.model(collectionName, quizSchema, collectionName);
+
+        const createdQuiz = await Quizc.create(body);
+        const documents = await Quizc.find({ title: { $exists: true } });
+    
+        res.json({ created: createdQuiz, allDocuments: documents });
+    } catch (error) {
+        
+    }
+}
+
 
 module.exports={
-    postCollectionTitles
+    postCollectionTitles,
+    postQuizCollectionTitles
 }
