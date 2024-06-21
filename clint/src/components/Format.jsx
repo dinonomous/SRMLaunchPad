@@ -50,7 +50,7 @@ function Format({ children, Notebool, toggleNotebool, breakpoint }) {
     }
   }, [CollectionData, CollectionDataQuiz]);
   function fetchData() {
-    fetch("http://192.168.122.213:5000/getcollectionnames")
+    fetch("http://192.168.30.213:5000/getcollectionnames")
       .then((response) => response.json())
       .then((data) => {
         const { collectionNames } = data;
@@ -61,7 +61,7 @@ function Format({ children, Notebool, toggleNotebool, breakpoint }) {
   }
 
   function fetchDataQuiz() {
-    fetch("http://192.168.122.213:5000/api/quizapi/getcollectionnames")
+    fetch("http://192.168.30.213:5000/api/quizapi/getcollectionnames")
       .then((response) => response.json())
       .then((data) => {
         const { collectionNames } = data;
@@ -94,7 +94,7 @@ function Format({ children, Notebool, toggleNotebool, breakpoint }) {
 
   const handleClick = (parameter) => {
     console.log("Clicked with parameter:", parameter);
-    fetch(`http://192.168.122.213:5000/${parameter}`)
+    fetch(`http://192.168.30.213:5000/${parameter}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -112,7 +112,7 @@ function Format({ children, Notebool, toggleNotebool, breakpoint }) {
   };
   const handleClickQuiz = (parameter) => {
     console.log("Clicked with parameter:", parameter);
-    fetch(`http://192.168.122.213:5000/api/quizapi/Quizz/${parameter}`)
+    fetch(`http://192.168.30.213:5000/api/quizapi/Quizz/${parameter}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
