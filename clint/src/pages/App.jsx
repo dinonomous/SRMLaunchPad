@@ -28,19 +28,32 @@ function App(props) {
   const [reader,setreader] = useState(false)
 
   const breakpoint = useMediaQuery({ query: "(max-width: 1200px)" });
+  const currentIp = '192.168.43.213';
+
+  const encodedSubject = encodeURIComponent(subject);
+  const encodedUnitId = encodeURIComponent(`${unit}`);
+  const apiUrl = `http://${currentIp}:5000/${encodedSubject}/${encodedUnitId}`;
 
   useEffect(() => {
-    fetch(`http://192.168.122.213:5000/${subject}/${unit}`) // Using dynamic parameters for subject and unit
-      .then((response) => response.json())
-      .then((data) => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
         const { PDF, Heading, topicsHTML } = data;
         console.log("Data received from backend:", data);
         setTopicsArray(topicsHTML);
         setHeading(Heading);
         setPDF(PDF);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [subject, unit]); // Update useEffect dependency to fetch data when subject or unit changes
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchData();
+  }, [apiUrl]);
 
   const handleTopicClick = (index) => {
     setSelectedTopicIndex(index); // Update the selected topic index when a topic is clicked

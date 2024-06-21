@@ -4,22 +4,21 @@ const { getCollectionNames, getCollectionNamesQuiz } = require('../controllers/g
 const { getCollectionTitles, getQuizCollectionTitles } = require('../controllers/getCollectionTitles')
 const { postCollectionTitles, postQuizCollectionTitles } = require('../controllers/admin/postCollection')
 const { getUnitDetails, getQuizDetails } = require('../controllers/getInfo')
-const { Subject, QuizDB } = require('../config/db');
 
 router.get("/getcollectionnames", getCollectionNames );
 
+router.get("/api/quizapi/getcollectionnames", getCollectionNamesQuiz);
+
 router.get("/:collection", getCollectionTitles);
+
+router.get("/api/quizapi/Quizz/:collection", getQuizCollectionTitles);
 
 router.post("/api/admin/subject/:collection", postCollectionTitles);
 
 router.post("/api/admin/Quiz/:collection", postQuizCollectionTitles);
 
-router.get("/api/quizapi/Quizz/:collection", getQuizCollectionTitles);
+router.get("/:collection/:id", getUnitDetails);
 
-router.get("/:collection/:unit", getUnitDetails);
-
-router.get("/api/quizapi/getcollectionnames", getCollectionNamesQuiz);
-
-router.get("/quizapi/:collection/:title", getQuizDetails);
+router.get("/quizapi/:collection/:id", getQuizDetails);
 
 module.exports = router;

@@ -10,7 +10,7 @@ const getCollectionTitles = async (req, res) => {
       const documents = await Unitc.find({ title: { $exists: true } });
   
       // Extract titles from documents
-      const titles = documents.map((doc) => doc.title);
+      const titles = documents.map((doc) => ({ title: doc.title, id: doc._id }));
   
       // Send the titles as the response
       res.json({ titles: titles });
@@ -27,7 +27,7 @@ const getCollectionTitles = async (req, res) => {
       const documents = await QuizModel.find({ title: { $exists: true } });
   
       // Extract titles from documents
-      const titles = documents.map((doc) => doc.title);
+      const titles = documents.map((doc) => ({ title: doc.title, id: doc._id }));
   
       // Send the titles as the response
       res.json({ titles: titles });

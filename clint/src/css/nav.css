@@ -96,7 +96,6 @@
   position: absolute;
   width: 100%;
   top: 0;
-  pointer-events: none;
   margin-left: 100%;
   background-color: var(--primary-color-lighter-10);
 }
@@ -115,7 +114,7 @@ li{
 li img{
   height: 2rem;
 }
-.burgur{
+.burgur , .burgur2{
   height: 3rem;
   width: 3rem;
   display: flex;
@@ -124,6 +123,12 @@ li img{
   background-color: var(--primary-color);
   border-radius: 50%;
 }
-.burgur img{
+.burgur2{
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 101;
+}
+.burgur img, .burgur2 img{
   height: 2rem;
 }

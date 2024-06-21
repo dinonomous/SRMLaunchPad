@@ -5,9 +5,9 @@ const { Subject, QuizDB } = require('../config/db');
 const getUnitDetails = async (req, res) => {
     try {
       const collectionName = req.params.collection;
-      const unitTitleToFind = req.params.unit;
+      const unitTitleToFind = req.params.id;
       const Unitc = Subject.model(collectionName, unitSchema, collectionName);
-      const foundUnit = await Unitc.findOne({ title: unitTitleToFind });
+      const foundUnit = await Unitc.findById(`${unitTitleToFind}`)
   
       if (!foundUnit) {
         res.status(404).send("Unit not found");
@@ -32,10 +32,10 @@ const getUnitDetails = async (req, res) => {
   const getQuizDetails = async (req, res) => {
     try {
       const subject = req.params.collection;
-      const titleToFind = req.params.title;
+      const titleToFind = req.params.id;
   
       const Quizc = QuizDB.model(subject, quizSchema, subject);
-      const foundQuiz = await Quizc.findOne({ title: titleToFind });
+      const foundQuiz = await Quizc.findById(`${titleToFind}`)
   
       if (!foundQuiz) {
         res.status(404).send("Quiz not found");
