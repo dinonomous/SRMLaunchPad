@@ -6,7 +6,6 @@ const getCollectionTitles = async (req, res) => {
     try {
       const collectionName = req.params.collection;
       const Unitc = Subject.model(collectionName, unitSchema, collectionName); // Assuming Subject and unitSchema are defined elsewhere
-      const Quizc = QuizDB.model(collectionName, quizSchema, collectionName); // Assuming QuizDB and quizSchema are defined elsewhere
   
       const documents = await Unitc.find({ title: { $exists: true } });
   

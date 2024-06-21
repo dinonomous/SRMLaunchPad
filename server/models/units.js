@@ -2,17 +2,37 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 
 const unitSchema = new mongoose.Schema({
-  title: String,
+  title: {
+    type: String,
+    required: true,
+    default: "please create a name",
+  },
   videos: [
     {
-      title: String,
-      url: String
+      title: {
+        type: String,
+        required: true,
+        default: "please create a title of video",
+      },
+      url: {
+        type: String,
+        required: true,
+        default: "please create a url for the video",
+      }
     }
   ],
   PDFs: [
     {
-      name: String,
-      path: String
+      name: {
+        type: String,
+        required: true,
+        default: "please create a name for the PDF",
+      },
+      path: {
+        type: String,
+        required: true,
+        default: "Where is the PDF ?",
+      },
     }
   ]
 });
