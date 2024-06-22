@@ -114,6 +114,9 @@ li{
 li img{
   height: 2rem;
 }
+.lisp{
+  background-color: var(--primary-color-darker-10);
+}
 .burgur , .burgur2{
   height: 3rem;
   width: 3rem;

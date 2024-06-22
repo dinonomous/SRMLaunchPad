@@ -80,6 +80,7 @@ function App(props) {
   }
 
   console.log("Notebool value:", Notebool);
+  console.log(PDF)
 
   return (
     <>
@@ -136,7 +137,12 @@ function App(props) {
                   next_click = {nextclick}
                   next_bool = {selectedTopicIndex !== topicsArray.length-1}
                 />
-                <Pdf PDF={PDF} onClick={readermode}/>
+                {PDF.map((pdf) => (
+                    <Pdf
+                      PDF={pdf}
+                      onClick={() => readermode(pdf)}
+                    />
+                  ))}
               </main>
             </span>
             <Rightpannel
