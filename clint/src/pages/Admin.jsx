@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Format from "../components/Format";
 import SubjectForm from "../components/admin/subjectForm";
+import QuizForm from "../components/admin/QuizForm";
 import "../css/admin.css";
 
 const Admin = () => {
@@ -15,6 +16,7 @@ const Admin = () => {
       {addNewSubject && (
         <SubjectForm />
       )}
+        <QuizForm />
     </Format>
   );
 };

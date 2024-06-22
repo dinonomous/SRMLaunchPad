@@ -222,7 +222,7 @@ function Format({ admin, children, Notebool, toggleNotebool, breakpoint, ShowAdd
                           {item}
                         </li>
                       ))}
-                      {admin && Subjects.length > 0 && <li onClick={ShowAddSubjectForm} className="lisp">Add New</li>}
+                      {admin && Subjects.length > 0 && <li onClick={ShowAddSubjectForm} className="lisp">Add New Subject</li>}
                     </ul>
                   )}
                   {QuizSubjects && (
