@@ -21,7 +21,7 @@ const unitSchema = new mongoose.Schema({
       }
     }
   ],
-  PDFs: [
+  PDF: [
     {
       name: {
         type: String,

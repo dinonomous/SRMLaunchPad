@@ -1,10 +1,10 @@
-.container {
+.container_admin {
     margin: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    width: 100%;
+    width: 80%;
     min-height: 100%;
     height: fit-content;
     margin: auto;
@@ -42,7 +42,7 @@
     color: black;
 }
 
-.button {
+.button_admin {
     padding: 10px 20px;
     background-color: #007BFF;
     color: white;
@@ -51,7 +51,7 @@
     width: 100%;
 }
 
-.button:hover {
+.button_admin:hover {
     background-color: #0056b3;
     width: 100%;
 }

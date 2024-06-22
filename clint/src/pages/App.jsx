@@ -28,7 +28,7 @@ function App(props) {
   const [reader,setreader] = useState(false)
 
   const breakpoint = useMediaQuery({ query: "(max-width: 1200px)" });
-  const currentIp = '192.168.43.213';
+  const currentIp = '192.168.0.135';
 
   const encodedSubject = encodeURIComponent(subject);
   const encodedUnitId = encodeURIComponent(`${unit}`);

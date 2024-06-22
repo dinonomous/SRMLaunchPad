@@ -84,15 +84,16 @@ const Admin = () => {
       }
     }
 
-    console.log(units)
+    const unitsToSend = JSON.parse(JSON.stringify(units));
+    console.log(unitsToSend);
 
-
-    fetch(`http://192.168.43.213:5000/api/admin/subject/${subjectName}`, {
+    
+    fetch(`http://192.168.0.135:5000/api/admin/subject/${subjectName}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(units),
+      body: JSON.stringify(unitsToSend),
     })
     .then((response) => response.json())
       .then((data) => {
@@ -112,7 +113,7 @@ const Admin = () => {
   return (
     <Format admin={true} ShowAddSubjectForm={ShowAddSubjectForm}>
       {addNewSubject && (
-        <div className="container">
+        <div className="container_admin">
           <h2>Example Form</h2>
           <div className="section">
             <h3>Subject Details</h3>
@@ -258,11 +259,11 @@ const Admin = () => {
             </div>
           ))}
 
-          <button className="button" type="button" onClick={addUnit}>
+          <button className="button_admin" type="button" onClick={addUnit}>
             Add Unit
           </button>
 
-          <button className="button" type="button" onClick={submitForm}>
+          <button className="button_admin" type="button" onClick={submitForm}>
             Submit
           </button>
         </div>
