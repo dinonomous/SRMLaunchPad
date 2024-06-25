@@ -6,17 +6,23 @@ import "../css/admin.css";
 
 const Admin = () => {
   const [addNewSubject, setAddNewSubject] = useState(false);
+  const [addNewQuiz, setAddNewQuiz] = useState(false);
 
   const ShowAddSubjectForm = () => {
     setAddNewSubject(!addNewSubject);
   };
+  const showAddQuizForm = () => {
+    setAddNewQuiz(!addNewQuiz)
+  }
 
   return (
-    <Format admin={true} ShowAddSubjectForm={ShowAddSubjectForm}>
+    <Format admin={true} ShowAddSubjectForm={ShowAddSubjectForm} showAddQuizForm={showAddQuizForm}>
       {addNewSubject && (
         <SubjectForm />
       )}
+      {addNewQuiz && (
         <QuizForm />
+      )}
     </Format>
   );
 };

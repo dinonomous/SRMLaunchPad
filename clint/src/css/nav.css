@@ -4,25 +4,26 @@
   --navTotalWidth: 25%;
   --navTotalHeight: 100vh;
   --navZindex: 101;
-  --primary-color: #110B11;
+  --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  --primary-color: #FDFFFC;
 
   /* Lighter Shades */
-  --primary-color-lighter-10: #271E27;
-  --primary-color-lighter-20: #3E2E3E;
-  --primary-color-lighter-30: #553D55;
-  --primary-color-lighter-40: #6C4C6C;
-  --primary-color-lighter-50: #835B83;
+  --primary-color-lighter-10: #FFFFFF;
+  --primary-color-lighter-20: #FEFFFD;
+  --primary-color-lighter-30: #FEFFFB;
+  --primary-color-lighter-40: #FDFFFA;
+  --primary-color-lighter-50: #FCFFFA;
 
   /* Darker Shades */
-  --primary-color-darker-10: #0F0A0F;
-  --primary-color-darker-20: #0D090D;
-  --primary-color-darker-30: #0C080C;
-  --primary-color-darker-40: #0A070A;
-  --primary-color-darker-50: #090609;
-  --secondaryColor: #9DACFF; 
-  --Teritiorycolor: #357266; 
-  --QuatarnaryColor: #4F359B;
-  --white: #F7FFF6; 
+  --primary-color-darker-10: #D6DDD9;
+  --primary-color-darker-20: #AEB8B2;
+  --primary-color-darker-30: #879E98;
+  --primary-color-darker-40: #616F68;
+  --primary-color-darker-50: #3A5141;
+  --secondaryColor: #235789; 
+  --Teritiorycolor: #260F26; 
+  --QuatarnaryColor: #F1D302;
+  --black: #020100; 
 }
 *{
   box-sizing: border-box;
@@ -57,7 +58,7 @@
   border-radius: calc(var(--borderRad) - var(--padding));
   height: 10%;
   width: 100%;
-  background-color: var(--primary-color-lighter-10);
+  background-color: var(--primary-color-darker-10);
 }
 .imglogo{
   height: 100%;
@@ -72,7 +73,7 @@
   display: block;
   height: 100%;
   width: 100%;
-  background-color: var(--primary-color-lighter-10);
+  background-color: var(--primary-color-darker-10);
   padding: var(--padding);
   color: black;
   position: relative;
@@ -97,7 +98,7 @@
   width: 100%;
   top: 0;
   margin-left: 100%;
-  background-color: var(--primary-color-lighter-10);
+  background-color: var(--primary-color-darker-10);
 }
 
 li{
@@ -106,16 +107,18 @@ li{
   gap: var(--padding);
   padding: var(--padding);
   width: 100%;
-  background-color: var(--primary-color-lighter-20);
+  background-color: var(--primary-color);
+  box-shadow: var(--shadow);
   color: var(--white);
   border-radius: 1rem;
   font-size: 1.3rem;
 }
 li img{
   height: 2rem;
+  filter: invert(1);
 }
 .lisp{
-  background-color: var(--primary-color-darker-10);
+  background-color: var(--primary-color-darker-20);
 }
 .burgur , .burgur2{
   height: 3rem;
@@ -123,7 +126,8 @@ li img{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary-color);
+  background-color: var(--black);
+  box-shadow: var(--shadow);
   border-radius: 50%;
 }
 .burgur2{

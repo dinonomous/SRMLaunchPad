@@ -10,7 +10,7 @@ import QuizSvg from "../assets/svg/quiz.svg";
 import notesSvg from "../assets/svg/notes.svg";
 import burgerSvg from "../assets/svg/burger.svg";
 
-function Format({ admin, children, Notebool, toggleNotebool, breakpoint, ShowAddSubjectForm }) {
+function Format({ admin, children, Notebool, toggleNotebool, breakpoint, ShowAddSubjectForm, showAddQuizForm }) {
   // const mainRef = useRef(null);
   // const bellowRef = useRef(null);
   // const ulRef = useRef(null);
@@ -53,7 +53,7 @@ function Format({ admin, children, Notebool, toggleNotebool, breakpoint, ShowAdd
     }
   }, [CollectionData, CollectionDataQuiz]);
   function fetchData() {
-    fetch(`http://${currentIp}:5000/getcollectionnames`)
+    fetch(`http://${currentIp}:5000/api/subjects/getcollectionnames`)
       .then((response) => response.json())
       .then((data) => {
         const { collectionNames } = data;
@@ -97,7 +97,7 @@ function Format({ admin, children, Notebool, toggleNotebool, breakpoint, ShowAdd
 
   const handleClick = (parameter) => {
     console.log("Clicked with parameter:", parameter);
-    fetch(`http://${currentIp}:5000/${parameter}`)
+    fetch(`http://${currentIp}:5000/api/subjects/collection/${parameter}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -240,6 +240,7 @@ function Format({ admin, children, Notebool, toggleNotebool, breakpoint, ShowAdd
                           {item}
                         </li>
                       ))}
+                      {admin && QuizSubjects.length > 0 && <li onClick={showAddQuizForm} className="lisp">Add New Quiz</li>}
                     </ul>
                   )}
                 </span>
@@ -267,9 +268,9 @@ function Format({ admin, children, Notebool, toggleNotebool, breakpoint, ShowAdd
                             <Link
                               to={`/quizapi/${encodeURIComponent(
                                 parameter
-                              )}/${encodeURIComponent(item)}`}
+                              )}/${encodeURIComponent(item.id)}`}
                             >
-                              {item}
+                              {item.title}
                             </Link>
                           </li>
                         );

@@ -7,6 +7,7 @@ import Format from "../components/Format";
 import { useParams } from "react-router-dom";
 import layers from "../assets/icons8-layers-48.png";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate } from 'react-router-dom';
 
 function extractDataURL(topic) {
   const tempDiv = document.createElement("div");
@@ -26,32 +27,51 @@ function App(props) {
   const [Notebool, SetNotebool] = useState(false);
   const [RightToglle, setRightToglle] = useState("0%");
   const [reader,setreader] = useState(false)
+  const navigate = useNavigate();
 
   const breakpoint = useMediaQuery({ query: "(max-width: 1200px)" });
   const currentIp = '192.168.0.135';
 
   const encodedSubject = encodeURIComponent(subject);
   const encodedUnitId = encodeURIComponent(`${unit}`);
-  const apiUrl = `http://${currentIp}:5000/${encodedSubject}/${encodedUnitId}`;
+  const apiUrl = `http://${currentIp}:5000/api/subjects/collection/${encodedSubject}/${encodedUnitId}`;
 
   useEffect(() => {
     const fetchData = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        navigate('/login');
+        return;
+      }
+
       try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        });
+
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
+
         const data = await response.json();
         const { PDF, Heading, topicsHTML } = data;
         console.log("Data received from backend:", data);
         setTopicsArray(topicsHTML);
         setHeading(Heading);
         setPDF(PDF);
+
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Network error:', error);
+        navigate('/login');
+        // Handle the network error
       }
     };
-  
+
     fetchData();
   }, [apiUrl]);
 

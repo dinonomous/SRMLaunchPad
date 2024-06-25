@@ -5,6 +5,8 @@ import Landing from './pages/Landing.jsx';
 import NotesWindow from './pages/NotesWindow.jsx';
 import Quiz from './pages/Quiz.jsx'
 import Admin from './pages/Admin.jsx';
+import Login from './components/login.jsx';
+import Register from './components/register.jsx';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -32,6 +34,14 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <Admin />,
+  },
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   }
 ]);
 

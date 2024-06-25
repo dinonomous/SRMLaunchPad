@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const QuizForm = () => {
   const [quiz, setQuiz] = useState({
-    subject: '',
-    title: '',
+    subject: "",
+    title: "",
     questions: [
       {
-        text: '',
+        text: "",
         options: [
-          { text: '', isCorrect: false },
-          { text: '', isCorrect: false },
-          { text: '', isCorrect: false },
-          { text: '', isCorrect: false }
+          { text: "", isCorrect: false },
+          { text: "", isCorrect: false },
+          { text: "", isCorrect: false },
+          { text: "", isCorrect: false },
         ],
-        explanation: ''
-      }
-    ]
+        explanation: "",
+      },
+    ],
   });
 
   const handleInputChange = (e) => {
@@ -33,75 +33,82 @@ const QuizForm = () => {
   const handleOptionChange = (qIndex, oIndex, e) => {
     const { name, value, type, checked } = e.target;
     const questions = [...quiz.questions];
-    questions[qIndex].options[oIndex][name] = type === 'checkbox' ? checked : value;
+    questions[qIndex].options[oIndex][name] =
+      type === "checkbox" ? checked : value;
     setQuiz({ ...quiz, questions });
   };
 
   const addQuestion = () => {
     setQuiz({
       ...quiz,
-      questions: [...quiz.questions, {
-        text: '',
-        options: [
-          { text: '', isCorrect: false },
-          { text: '', isCorrect: false },
-          { text: '', isCorrect: false },
-          { text: '', isCorrect: false }
-        ],
-        explanation: ''
-      }]
+      questions: [
+        ...quiz.questions,
+        {
+          text: "",
+          options: [
+            { text: "", isCorrect: false },
+            { text: "", isCorrect: false },
+            { text: "", isCorrect: false },
+            { text: "", isCorrect: false },
+          ],
+          explanation: "",
+        },
+      ],
     });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(quiz)
+    console.log(quiz);
 
     fetch(`http://192.168.0.135:5000/api/admin/Quiz/${quiz.subject}`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(quiz)
+      body: JSON.stringify(quiz),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
         // Reset form or show success message
       })
       .catch((error) => {
-        console.error('Error:', error);
+        console.error("Error:", error);
       });
   };
 
   return (
-    <div>
+    <div className="container_admin">
       <h1>Create a New Quiz</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Subject:</label>
-          <input
-            type="text"
-            name="subject"
-            value={quiz.subject}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Title:</label>
-          <input
-            type="text"
-            name="title"
-            value={quiz.title}
-            onChange={handleInputChange}
-            required
-          />
+      <form onSubmit={handleSubmit} className="form_quiz">
+        <div className="section">
+        <h3>Subject Details</h3>
+          <div className="input-field">
+            <label>Subject:</label>
+            <input
+              type="text"
+              name="subject"
+              value={quiz.subject}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className="input-field">
+            <label>Title:</label>
+            <input
+              type="text"
+              name="title"
+              value={quiz.title}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
         </div>
         {quiz.questions.map((question, qIndex) => (
-          <div key={qIndex}>
+          <div key={qIndex} className="unit-section">
             <h3>Question {qIndex + 1}</h3>
-            <div>
+            <div className="input-field">
               <label>Question Text:</label>
               <input
                 type="text"
@@ -112,7 +119,7 @@ const QuizForm = () => {
               />
             </div>
             {question.options.map((option, oIndex) => (
-              <div key={oIndex}>
+              <div key={oIndex} className="input-field">
                 <label>Option {oIndex + 1}:</label>
                 <input
                   type="text"
@@ -132,7 +139,7 @@ const QuizForm = () => {
                 </label>
               </div>
             ))}
-            <div>
+            <div className="input-field">
               <label>Explanation:</label>
               <input
                 type="text"
@@ -143,8 +150,12 @@ const QuizForm = () => {
             </div>
           </div>
         ))}
-        <button type="button" onClick={addQuestion} className='button'>Add Question</button>
-        <button type="submit" className='button'>Create Quiz</button>
+        <button type="button" onClick={addQuestion} className="button">
+          Add Question
+        </button>
+        <button type="submit" className="button">
+          Create Quiz
+        </button>
       </form>
     </div>
   );
