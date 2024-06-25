@@ -89,7 +89,7 @@
   overflow-y: scroll;
   display: block;
   height: 100%;
-
+  overflow-x: hidden;
 }
 
 #suboptionSubjects{
@@ -138,4 +138,30 @@ li img{
 }
 .burgur img, .burgur2 img{
   height: 2rem;
+}
+.user_li{
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  flex-direction: column;
+  height: max-content;
+  position: relative;
+  bottom: 0;
+  top: 0;
+}
+.user_li span{
+  padding: 0.3rem;
+  border: 1px solid var(--black);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.custom-link {
+  color: var(--black); /* Change this to the desired color */
+  text-decoration: none; /* Optional: remove underline */
+}
+
+.custom-link:hover {
+  color: var(--secondaryColor); /* Optional: change color on hover */
+  cursor: pointer;
 }

@@ -1,9 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../css/authtication.css";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate()
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+    useEffect(()=>{
+        const token = localStorage.getItem('token');
+        if(token){
+            fetch('/',{
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token
+                }
+            }).then(res => {
+                navigate('/')
+            }).catch(res => {
+                navigate('/login')
+            })
+        }
+        else{
+            navigate('/login')
+        }
+
+    },[])
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,10 +42,11 @@ const Login = () => {
       const data = await response.json();
       console.log(data)
       localStorage.setItem('token', data.token)
-
+        localStorage.setItem('email', data.email)
+      navigate('/')
     } catch (error) {
       console.error('Error during login:', error);
-      // Handle network or other errors
+    //    Handle network or other errors
     }
   };
 

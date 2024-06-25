@@ -34,7 +34,8 @@ router.post('/login',(req,res)=>{
         return res.status(200).send({
             success: true,
             message: "logged in!",
-            token: "Bearer " + token
+            token: "Bearer " + token,
+            email: user.email
         })
     })
 })
