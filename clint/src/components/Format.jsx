@@ -53,7 +53,18 @@ function Format({ admin, children, Notebool, toggleNotebool, breakpoint, ShowAdd
     }
   }, [CollectionData, CollectionDataQuiz]);
   function fetchData() {
-    fetch(`http://${currentIp}:5000/api/subjects/getcollectionnames`)
+    const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        navigate('/login');
+        return;
+      }
+    fetch(`http://${currentIp}:5000/api/subjects/getcollectionnames`,{
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token
+      }})
       .then((response) => response.json())
       .then((data) => {
         const { collectionNames } = data;
