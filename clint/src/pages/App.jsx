@@ -122,7 +122,7 @@ function App(props) {
         : 
         
         (<div className={`container ${Notebool ? "half" : ""}`}>
-          <div className={`container ${Notebool ? "halfside" : ""}`}>
+          <div className={`custom_container ${Notebool ? "halfside" : ""}`}>
             <span
               className={
                 breakpoint === true && RightToglle === "0%"
@@ -132,19 +132,6 @@ function App(props) {
             >
               <main
                 className="mainapp"
-                style={{
-                  display: "inline-block",
-                  width: "100%",
-                  zIndex: 10,
-                  flexDirection: "column",
-                  boxSizing: "border-box",
-                  marginRight:
-                    RightToglle === "100%" ? "50px" : "calc(20% + 2rem)",
-                  marginLeft: "2rem",
-                  color: "white",
-                  position: "relative",
-                  top: "1rem",
-                }}
               >
                 <div className="text">
                   <h2>{Heading}</h2>

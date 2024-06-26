@@ -1,7 +1,7 @@
 :root{
   --borderRad: 2rem;
   --padding: 0.5rem;
-  --navTotalWidth: 25%;
+  --navTotalWidth: 350px;
   --navTotalHeight: 100vh;
   --navZindex: 101;
   --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -155,7 +155,17 @@ li img{
   border-radius: 10px;
   cursor: pointer;
 }
-
+.collapse-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  padding-top: 0.5rem;
+  padding-left: 0.7rem;
+}
+.collapse-container p{
+  color: #020100;
+}
 .custom-link {
   color: var(--black); /* Change this to the desired color */
   text-decoration: none; /* Optional: remove underline */
@@ -164,4 +174,34 @@ li img{
 .custom-link:hover {
   color: var(--secondaryColor); /* Optional: change color on hover */
   cursor: pointer;
+}
+
+[data-title] {
+  position: relative;
+}
+
+[data-title]:hover:after {
+  opacity: 1;
+  transition: all 0.1s ease 0.1s;
+  visibility: visible;
+}
+
+[data-title]:after {
+  content: attr(data-title);
+  position: fixed;
+  left: 80px;
+  padding: 4px 8px;
+  color: #222;
+  white-space: nowrap; 
+  border-radius: 5px;  
+  box-shadow: var(--shadow);  
+  border: 1px solid var(--black);
+  background-color: var(--primary-color);
+  opacity: 0;
+  z-index: 99999;
+  visibility: hidden;
+  transition: opacity 0.1s ease-in-out;
+}
+.main_body{
+  margin-left: 80px;
 }
