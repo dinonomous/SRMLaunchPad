@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../css/App.css";
 import Rightpannel from "../components/Rightpannel";
 import Video from "../components/Video";
-import Pdf from "../components/pdf";
+import Pdf from "../components/Pdf";
 import Format from "../components/Format";
 import { useParams } from "react-router-dom";
 import layers from "../assets/icons8-layers-48.png";
