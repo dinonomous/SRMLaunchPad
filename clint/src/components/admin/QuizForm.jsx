@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 
 const QuizForm = () => {
   const [quiz, setQuiz] = useState({
@@ -61,7 +63,7 @@ const QuizForm = () => {
     e.preventDefault();
     console.log(quiz);
 
-    fetch(`http://192.168.0.135:5000/api/admin/Quiz/${quiz.subject}`, {
+    fetch(`${apiUrl}/api/admin/Quiz/${quiz.subject}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -12,6 +12,8 @@ import burgerSvg from "../assets/svg/burger.svg";
 import userSvg from "../assets/svg/user.svg";
 import { useNavigate } from "react-router-dom";
 import { useGSAP } from '@gsap/react';
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 
 function Format({
   admin,
@@ -36,7 +38,6 @@ function Format({
   const spanRef = useRef(null);
   const navRef = useRef(null);
   const mainRef = useRef(null)
-  const currentIp = "192.168.0.135";
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -72,7 +73,7 @@ function Format({
       navigate("/login");
       return;
     }
-    fetch(`http://${currentIp}:5000/api/subjects/getcollectionnames`, {
+    fetch(`${apiUrl}/api/subjects/getcollectionnames`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -97,7 +98,7 @@ function Format({
       navigate("/login");
       return;
     }
-    fetch(`http://${currentIp}:5000/api/quizapi/getcollectionnames`, {
+    fetch(`${apiUrl}/api/quizapi/getcollectionnames`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -143,7 +144,7 @@ function Format({
       navigate("/login");
       return;
     }
-    fetch(`http://${currentIp}:5000/api/subjects/collection/${parameter}`, {
+    fetch(`${apiUrl}/api/subjects/collection/${parameter}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -171,7 +172,7 @@ function Format({
       navigate("/login");
       return;
     }
-    fetch(`http://${currentIp}:5000/api/quizapi/Quizz/${parameter}`, {
+    fetch(`${apiUrl}/api/quizapi/Quizz/${parameter}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

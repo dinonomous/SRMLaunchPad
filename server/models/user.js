@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
+const { Subject, QuizDB, UnitDB } = require('../config/db');
 
-// MongoDB connection string
-const dbURI = 'mongodb+srv://SRMlaunchPad:9704991147@srmlaunchpad.x99gtqi.mongodb.net/Users';
-
-mongoose.connect(dbURI, {
+mongoose.connect(UnitDB, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })

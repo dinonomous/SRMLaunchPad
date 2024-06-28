@@ -1,16 +1,16 @@
 const mongoose = require("mongoose");
+require('dotenv').config();
 
-const Subject = mongoose.createConnection(
-  `mongodb+srv://SRMlaunchPad:9704991147@srmlaunchpad.x99gtqi.mongodb.net/SRMLaunchpad2`,
-  { autoCreate: false }
-);
+const subjectConnectionString = process.env.MONGODB_SUBJECT_CONNECTION_STRING;
+const quizDBConnectionString = process.env.MONGODB_QUIZDB_CONNECTION_STRING;
 
-const QuizDB = mongoose.createConnection(
-  `mongodb+srv://SRMlaunchPad:9704991147@srmlaunchpad.x99gtqi.mongodb.net/Quizz`,
-  { autoCreate: false }
-);
+const Subject = mongoose.createConnection(subjectConnectionString, { autoCreate: false });
+const QuizDB = mongoose.createConnection(quizDBConnectionString, { autoCreate: false });
+const UnitDB = process.env.MONGODB_USERDB_CONNECTION_STRING;
 
 module.exports = {
   Subject: Subject,
   QuizDB: QuizDB,
+  UnitDB: UnitDB,
 };
+

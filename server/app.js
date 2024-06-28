@@ -3,6 +3,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+require('dotenv').config();
+
+const apiUrl = process.env.API_URL;
+const apiFrontUrl = process.env.FRONTEND_API_URL;
 
 var indexRouter = require('./routes/index');
 var authentication = require('./routes/authentication');
@@ -13,7 +17,7 @@ var app = express();
 require('./config/passport')
 
 app.use(cors({
-    origin: 'http://192.168.0.135:5173',
+    origin: `${apiFrontUrl}`,
     credentials: true
   }));
   

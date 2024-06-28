@@ -3,6 +3,7 @@ const UserModel = require("../models/user");
 const { hashSync, compareSync } = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
+const { secretOrKey } = require('../config/keys');
 
 router.get('/',(req,res)=>{
     res.send("welcome to auth")
@@ -29,7 +30,7 @@ router.post('/login',(req,res)=>{
             id: user._id
         }
 
-        const token = jwt.sign(payload,"this is a secret key", { expiresIn: "1d" })
+        const token = jwt.sign(payload, `${secretOrKey}` , { expiresIn: "1d" })
 
         return res.status(200).send({
             success: true,

@@ -3,6 +3,8 @@ import "../css/quiz.css";
 import Question from "../components/Question";
 import { useParams } from "react-router-dom";
 import Format from "../components/Format";
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 
 function Quiz(props) {
   const [unitTitle, setUnitTitle] = useState("");
@@ -19,6 +21,46 @@ function Quiz(props) {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [showfloat,setShowfloat] = useState(false);
   const { collection,title } = useParams();
+
+  useEffect(() => {
+    resetState();
+    const fetchData = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        console.error('No token found');
+        navigate('/login');
+        return;
+      }
+
+      try {
+        const response = await fetch(`${apiUrl}/quizapi/${collection}/${title}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        const { unitTitle, questions } = data;
+        console.log("Data received from backend:", data);
+        setUnitTitle(unitTitle);
+        setQuestions(shuffleArray(questions)); // Shuffle questions array
+        console.log(unitTitle, questions);
+
+      } catch (error) {
+        console.error('Network error:', error);
+        navigate('/login');
+        // Handle the network error
+      }
+    };
+
+    fetchData();
+  }, [collection, title]);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -40,21 +82,6 @@ function Quiz(props) {
     setCurrentQuestion(null);
     setShowfloat(false);
   };
-
-
-  useEffect(() => {
-    resetState();
-    
-    fetch(`http://192.168.0.135:5000/quizapi/${collection}/${title}`)
-      .then((response) => response.json())
-      .then((data) => {
-        const { unitTitle, questions } = data;
-        console.log("Data received from backend:", data);
-        setUnitTitle(unitTitle);
-        setQuestions(shuffleArray(questions)); // Shuffle questions array
-        console.log(unitTitle, questions);
-      });
-  }, [collection, title]);
 
   useEffect(() => {
     const newStyle = {

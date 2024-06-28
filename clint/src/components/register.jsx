@@ -1,14 +1,17 @@
 import React,{ useState } from "react";
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 
 const register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const response = await fetch(
-      "http://192.168.0.135:5000/authentication/register",
+      `${apiUrl}/authentication/register`,
       {
         method: "POST",
         headers: {
@@ -30,7 +33,7 @@ const register = () => {
 
             <div className="login_register">
               <a
-                href="http://192.168.0.135:5173/login"
+                href={`${apiFrontUrl}/login`}
                 className="login"
                 id="notactive"
                 rel="noopener noreferrer"
@@ -38,7 +41,7 @@ const register = () => {
                 Login
               </a>
               <a
-                href="http://192.168.0.135:5173/register"
+                href={`${apiFrontUrl}/register`}
                 className="register"
                 id="active"
                 rel="noopener noreferrer"

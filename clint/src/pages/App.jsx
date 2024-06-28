@@ -8,6 +8,8 @@ import { useParams } from "react-router-dom";
 import layers from "../assets/icons8-layers-48.png";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from 'react-router-dom';
+const apiUrl2 = import.meta.env.VITE_API_URL;
+const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 
 function extractDataURL(topic) {
   const tempDiv = document.createElement("div");
@@ -30,11 +32,10 @@ function App(props) {
   const navigate = useNavigate();
 
   const breakpoint = useMediaQuery({ query: "(max-width: 1200px)" });
-  const currentIp = '192.168.0.135';
 
   const encodedSubject = encodeURIComponent(subject);
   const encodedUnitId = encodeURIComponent(`${unit}`);
-  const apiUrl = `http://${currentIp}:5000/api/subjects/collection/${encodedSubject}/${encodedUnitId}`;
+  const apiUrl = `${apiUrl2}/api/subjects/collection/${encodedSubject}/${encodedUnitId}`;
 
   useEffect(() => {
     const fetchData = async () => {

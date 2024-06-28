@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 
 const SubjectForm = () => {
   const [subjectName, setSubjectName] = useState("");
@@ -81,7 +83,7 @@ const SubjectForm = () => {
     const unitsToSend = JSON.parse(JSON.stringify(units));
     console.log(unitsToSend);
 
-    fetch(`http://192.168.0.135:5000/api/admin/subject/${subjectName}`, {
+    fetch(`${apiUrl}/api/admin/subject/${subjectName}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../css/authtication.css";
 import { useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
+const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 
 const Login = () => {
     const navigate = useNavigate()
@@ -31,7 +33,7 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const response = await fetch('http://192.168.0.135:5000/authentication/login', {
+      const response = await fetch(`${apiUrl}/authentication/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,7 +61,7 @@ const Login = () => {
 
             <div className="login_register">
               <a
-                href="http://192.168.0.135:5173/login"
+                href={`${apiFrontUrl}/login`}
                 id="active"
                 className="login"
                 rel="noopener noreferrer"
@@ -67,7 +69,7 @@ const Login = () => {
                 Login
               </a>
               <a
-                href="http://192.168.0.135:5173/register"
+                href={`${apiFrontUrl}/register`}
                 id="notactive"
                 className="register"
                 rel="noopener noreferrer"
