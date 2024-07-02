@@ -5,8 +5,8 @@ import Landing from './pages/Landing.jsx';
 import NotesWindow from './pages/NotesWindow.jsx';
 import Quiz from './pages/Quiz.jsx'
 import Admin from './pages/Admin.jsx';
-import Login from './components/login.jsx';
-import Register from './components/Register.jsx';
+import Login from './components/auth/login.jsx';
+import Register from './components/auth/Register.jsx';
 import Logout from './components/logout.jsx';
 import {
   createBrowserRouter,
