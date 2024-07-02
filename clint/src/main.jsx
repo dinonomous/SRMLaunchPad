@@ -6,7 +6,7 @@ import NotesWindow from './pages/NotesWindow.jsx';
 import Quiz from './pages/Quiz.jsx'
 import Admin from './pages/Admin.jsx';
 import Login from './components/login.jsx';
-import Register from './components/register.jsx';
+import Register from './components/Register.jsx';
 import Logout from './components/logout.jsx';
 import {
   createBrowserRouter,
