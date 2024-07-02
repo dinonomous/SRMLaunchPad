@@ -2,7 +2,7 @@ import React,{ useState } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 
-const register = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
@@ -83,4 +83,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default Register;
