@@ -1,7 +1,7 @@
 :root{
   --borderRad: 2rem;
   --padding: 0.5rem;
-  --navTotalWidth: 350px;
+  --navTotalWidth: 80px;
   --navTotalHeight: 100vh;
   --navZindex: 101;
   --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
@@ -203,5 +203,9 @@ li img{
   transition: opacity 0.1s ease-in-out;
 }
 .main_body{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-left: 80px;
 }

@@ -122,7 +122,7 @@ function App(props) {
 
         : 
         
-        (<div className={`${Notebool ? "half" : ""}`}>
+        (<div className={`${Notebool ? "half" : ""}`} style={{width: "100%"}}>
           <div className={`custom_container ${Notebool ? "halfside" : ""}`}>
             <span>
               <main

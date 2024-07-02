@@ -418,21 +418,25 @@ h3 {
 }
 
 .app {
+  padding: var(--padding);
   height: 100%;
   width: 100%;
-  background-color: #0C1713;
+  background-color: var(--secondaryColor);
   position: relative;
-  top: -4rem;
+  /* top: -4rem; */
+  border-radius: var(--borderRad);
 }
 .page1_homescreen {
   position: relative;
   width: 100%;
   height: 95vh;
+  border-radius: var(--borderRad);
 }
 .page1_homescreen_background {
   height: 100%;
   width: 100%;
   object-fit: cover;
+  border-radius: var(--borderRad);
 }
 .page1_homescreen_bg_div {
   height: 95vh;
@@ -477,6 +481,7 @@ li {
   background-image: linear-gradient(to left, #0c17130a, #0c1713);
   box-sizing: border-box;
   padding: 2rem;
+  border-radius: var(--borderRad);
 }
 .textcontainerlanding h1 {
   color: #f8f4e3;

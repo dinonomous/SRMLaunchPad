@@ -30,7 +30,7 @@ function Format({
   // const childRef = useRef(null);
   gsap.registerPlugin(useGSAP);
   const [parameter, setparameter] = useState();
-  const [colapse, setcolapse] = useState(false);
+  const [colapse, setcolapse] = useState(true);
   const [CollectionData, setCollectionData] = useState([]);
   const [CollectionDataQuiz, setCollectionDataQuiz] = useState([]);
   const [Subjects, setSubjects] = useState([]);
