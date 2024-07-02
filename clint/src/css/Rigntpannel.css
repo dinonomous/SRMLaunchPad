@@ -1,30 +1,6 @@
-@media screen and (max-width: 1200px) {
-  .rightnav{
-    width: 20rem !important;
-    z-index: 101;
-    position: relative;
-  }
-  .mainapp{
-    margin-left: 1rem !important;
-    margin-right: 1rem !important;
-  }
-  .normal{
-    width: calc(100% - 2rem);
-  }
-}
-
 *{
     margin: 0;
     padding: 0;
-}
-
-#arrow {
-    border-right:2px solid black;
-    border-bottom:2px solid black;
-    width:10px;
-    height:10px;
-    transform: rotate(-45deg);
-    margin-top:40px;
 }
 
 .lefttext > h1{
@@ -36,38 +12,24 @@
 }
 
 .rightnav{
-  display: inline-block;
+    width: clamp(200px,20%,500px);
     height: 100%;
-    width: 20%;
-    position: fixed;
     right: 0;
-    border-top-left-radius: 142px;
-    background-color: #0C1713;
-    color: rgb(255, 255, 255) !important;
-    backdrop-filter: blur(10px);
-    padding-top: 50px;
+    background-color: var(--Teritiorycolor);
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #FE9000 #00111C;
-    scrollbar-arrow-color: #00111C;
     overflow-x: hidden;
     border: white 0.15rem solid;
-    box-sizing: border-box;
     transition: right 0.3s ease;
-    margin-right: 0vw;
+    border-radius: var(--borderRad);
+    padding: var(--padding);
   }
 
   .selectedLi{
-    display: block; /* Ensures the li takes the full width */
     min-height: 3rem;
     display: flex;
     align-items: center;
-    background-color: #FE9000;
+    background-color: var(--QuatarnaryColor) !important;
     color: #00111C;
-    background-size: 100%;
-    padding-right: 50px; /* Adjust padding as needed */
-    border-radius: 10px;
-    width: calc(100% - 50px) !important;
     border-radius: 10px;
     transition: background-color 0.5s;
   }
@@ -76,51 +38,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: var(--padding);
     width: 95%;
     margin: auto;
+    margin-bottom: var(--padding);
   }
-
-  
   .subtopics{
-    margin-top: 20px;
     width: calc(100%-40px);
-    margin-left: 40px;
-    margin-right: 10px;
-    margin-bottom: 90px;
-
   }
   .rightul{
     width: 100%;
     list-style: none;
-    
+    gap: var(--padding);
   }
   .rightli{
+    background-color: var(--primary-color);
     cursor: pointer;
-    height: max-content;
-    margin-bottom: 20px;
-    position: relative;
-	  display: flex;
-    flex-direction: row;
-    padding-left: 10px;
-    width: calc(100% - 50px);
+    width: 100%;
   }
-  .rightli:before{
-    content: '';
-    position: absolute;
-    border-right:2px solid rgb(255, 255, 255);
-    border-bottom:2px solid rgb(255, 246, 246);
-    width:10px;
-    height:10px;
-    top: calc(50%);
-    left: -20px;
-    transform: translateY(-50%) rotate(-45deg);
-    
- }
- .selectedLi::before{
-    border-right:2px solid #FE9000;
-    border-bottom:2px solid #FE9000;
- }
+  li{
+    margin-bottom: var(--padding);
+  }
  h3{
     width: 100%;
  }

@@ -25,7 +25,7 @@ app.use(passport.initialize());
 
 // CORS setup
 app.use(cors({
-  origin: [apiFrontUrl, 'http://another-allowed-origin.com'],
+  origin: [apiFrontUrl],
   credentials: true
 }));
 

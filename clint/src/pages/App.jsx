@@ -122,21 +122,12 @@ function App(props) {
 
         : 
         
-        (<div className={`container ${Notebool ? "half" : ""}`}>
+        (<div className={`${Notebool ? "half" : ""}`}>
           <div className={`custom_container ${Notebool ? "halfside" : ""}`}>
-            <span
-              className={
-                breakpoint === true && RightToglle === "0%"
-                  ? "darkbackground"
-                  : "normal"
-              }
-            >
+            <span>
               <main
                 className="mainapp"
               >
-                <div className="text">
-                  <h2>{Heading}</h2>
-                </div>
                 <Video
                   url={
                     topicsArray.length > 0 ? extractDataURL(topicsArray[selectedTopicIndex]) : ""
@@ -145,15 +136,7 @@ function App(props) {
                   next_click = {nextclick}
                   next_bool = {selectedTopicIndex !== topicsArray.length-1}
                 />
-                {PDF.map((pdf) => (
-                    <Pdf
-                      PDF={pdf}
-                      onClick={() => readermode(pdf)}
-                    />
-                  ))}
-              </main>
-            </span>
-            <Rightpannel
+                <Rightpannel
               topics={topicsArray}
               onTopicClick={handleTopicClick}
               fill={selectedTopicIndex}
@@ -161,6 +144,14 @@ function App(props) {
               Notebool={Notebool}
               sideBarPlacement={sideBarPlacement}
             />
+              </main>
+            </span>
+            {PDF.map((pdf) => (
+                    <Pdf
+                      PDF={pdf}
+                      onClick={() => readermode(pdf)}
+                    />
+                  ))}
           </div>
           {Notebool && (
             <div>

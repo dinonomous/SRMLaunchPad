@@ -58,6 +58,7 @@ export default function Video(props) {
         </>
       ) : (
         <>
+        <span className='video_parent'>
           <div className="video skelition">
             <iframe src={props.url} frameBorder="0"></iframe>
           </div>
@@ -69,6 +70,7 @@ export default function Video(props) {
               <p className="video_next_text" dangerouslySetInnerHTML={{ __html: props.next }}></p>
             </div>
           </div>
+          </span>
         </>
       )}
     </>
