@@ -3,24 +3,22 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+require('./config/passport')
 require('dotenv').config();
 
 const apiUrl = process.env.API_URL;
 const apiFrontUrl = process.env.FRONTEND_API_URL;
+app.use(cors({
+  origin: `${apiFrontUrl}`,
+  credentials: true
+}));
+
 
 var indexRouter = require('./routes/index');
 var authentication = require('./routes/authentication');
 const passport = require('passport');
 
 var app = express();
-
-require('./config/passport')
-
-app.use(cors({
-    origin: `${apiFrontUrl}`,
-    credentials: true
-  }));
-  
 
 app.use(logger('dev'));
 app.use(express.json());
