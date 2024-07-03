@@ -1,27 +1,47 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import "../../css/authtication.css";
 import { useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
+import _ from "lodash";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [emailExists, setEmailExists] = useState(false);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    const response = await fetch(
-      `${apiUrl}/authentication/register`,
-      {
+  const checkEmailExists = useCallback(
+    _.debounce(async (email) => {
+      const response = await fetch(`${apiUrl}/authentication/check-email`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
-      }
-    );
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+      setEmailExists(data.exists);
+    }, 300),
+    []
+  );
+
+  useEffect(() => {
+    if (email) {
+      checkEmailExists(email);
+    }
+  }, [email, checkEmailExists]);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch(`${apiUrl}/authentication/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
     const data = await response.json();
     console.log(data);
@@ -61,6 +81,9 @@ const Register = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
+              {emailExists && (
+                <p style={{ color: "red" }}>user alredy exists</p>
+              )}
               <input
                 type="password"
                 name="password"
@@ -68,8 +91,21 @@ const Register = () => {
                 className="pass"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                disabled={emailExists}
+                style={{
+                  backgroundColor: emailExists ? "#d3d3d3" : "white",
+                  cursor: emailExists ? "not-allowed" : "auto",
+                }}
               />
-              <button type="submit" className="register_btn">
+              <button
+                type="submit"
+                className="login_btn"
+                disabled={emailExists}
+                style={{
+                  backgroundColor: emailExists ? "#d3d3d3" : "",
+                  cursor: emailExists ? "not-allowed" : "pointer",
+                }}
+              >
                 Register
               </button>
             </form>

@@ -85,6 +85,17 @@ router.post('/register',(req,res)=>{
 
         })
     })
-})
+});
+
+router.post('/check-email', async (req, res) => {
+    const { email } = req.body;
+    const user = await UserModel.findOne({ email });
+  
+    if (user) {
+      return res.status(200).json({ exists: true });
+    } else {
+      return res.status(200).json({ exists: false });
+    }
+  });
 
 module.exports = router;
