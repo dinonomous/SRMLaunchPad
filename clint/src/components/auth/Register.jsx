@@ -6,6 +6,7 @@ const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 import _ from "lodash";
 
 const Register = () => {
+  const navigate = useNavigate()
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailExists, setEmailExists] = useState(false);
@@ -45,6 +46,8 @@ const Register = () => {
 
     const data = await response.json();
     console.log(data);
+    navigate("/");
+
   };
   return (
     <>
