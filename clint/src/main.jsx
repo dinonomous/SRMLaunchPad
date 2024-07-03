@@ -7,7 +7,7 @@ import Quiz from './pages/Quiz.jsx'
 import Admin from './pages/Admin.jsx';
 import Login from './components/auth/login.jsx';
 import Register from './components/auth/Register.jsx';
-import Logout from './components/logout.jsx';
+import Logout from './components/auth/logout.jsx';
 import {
   createBrowserRouter,
   RouterProvider,

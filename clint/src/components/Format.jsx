@@ -66,6 +66,7 @@ function Format({
       }
     }
   }, [CollectionData, CollectionDataQuiz]);
+  
   function fetchData() {
     const token = localStorage.getItem("token");
     if (!token) {

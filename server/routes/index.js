@@ -3,6 +3,7 @@ const router = express.Router();
 const { getCollectionNames, getCollectionNamesQuiz } = require('../controllers/getCollection')
 const { getCollectionTitles, getQuizCollectionTitles } = require('../controllers/getCollectionTitles')
 const { postCollectionTitles, postQuizCollectionTitles } = require('../controllers/admin/postCollection')
+const { deleteCollection } = require('../controllers/admin/deleteCollections')
 const { getUnitDetails, getQuizDetails } = require('../controllers/getInfo');
 const passport = require("passport");
 require('../config/passport')
@@ -20,6 +21,8 @@ router.post("/api/admin/subject/:collection", passport.authenticate('jwt',{ sess
 router.post("/api/admin/Quiz/:collection", passport.authenticate('jwt',{ session:false }),postQuizCollectionTitles);
 
 router.get("/api/subjects/collection/:collection/:id", passport.authenticate('jwt',{ session:false }), getUnitDetails);
+
+router.delete("/api/admin/subjects/collection/:collection", passport.authenticate('jwt',{ session:false }), deleteCollection);
 
 router.get("/quizapi/:collection/:id", passport.authenticate('jwt',{ session:false }),getQuizDetails);
 

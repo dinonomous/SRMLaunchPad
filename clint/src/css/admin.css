@@ -8,7 +8,8 @@
     min-height: 100%;
     height: fit-content;
     margin: auto;
-    color: aliceblue;
+    color: var(--black);
+    margin-bottom: calc(var(--padding)*2);
 }
 
 .section {
@@ -38,7 +39,7 @@
     padding: 8px;
     box-sizing: border-box;
     width: 100%;
-    color: var(--white);
+    color: var(--black);
     height: 3rem;
     border-radius: 1.5rem;
     background-color: var(--primary-color-lighter-20);
@@ -60,7 +61,7 @@
 .button_admin {
     padding: 10px 20px;
     background-color: #007BFF;
-    color: white;
+    color: var(--black);
     border: none;
     cursor: pointer;
     width: 100%;
@@ -81,4 +82,90 @@
 }
 .form_quiz{
     width: 100%;
+}
+
+.admin_controllpannel{
+    width: 100%;
+    height: calc(100vh - var(--padding)*2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--padding);
+    
+}
+.subject_controllpannel, .quiz_controllpannel{
+    height: calc(50% - var(--padding));
+    width: 100%;
+    background-color: var(--Teritiorycolor);
+    border-radius: var(--borderRad);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: var(--padding);
+    padding: var(--padding);
+}
+.subject_controllpannel_card, .quiz_controllpannel_card{
+    background-color: var(--primary-color-darker-20);
+    height: 100%;
+    width: calc(33.33%);
+    border-radius: calc(var(--borderRad) - var(--padding));
+    padding: var(--padding);
+}
+.subject_controllpannel_card > h2, .quiz_controllpannel_card > h2{
+    background-color: var(--primary-color-darker-10);
+    text-align: center;line-height: 3rem;
+    margin: 0;
+    height: 3rem;
+    width: 100%;
+    border-radius: calc(var(--borderRad) - var(--padding)*2);
+    margin-bottom: var(--padding);
+}
+.subject_controllpannel_card > .add, .subject_controllpannel_card > .update , .subject_controllpannel_card > .delete, .quiz_controllpannel_card > .add{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color-darker-10);
+    text-align: center;line-height: 3rem;
+    margin: 0;
+    height: calc(100% - 3rem - var(--padding));
+    width: 100%;
+    border-radius: calc(var(--borderRad) - var(--padding)*2);
+    overflow-y: scroll;
+}
+.subject_controllpannel_card > .add > img , .quiz_controllpannel_card > .add > img{
+    margin: 0;
+    height: 2rem;
+    width: 2rem;
+    margin: 1rem;
+}
+.subject_controllpannel_card > .update > ul, .subject_controllpannel_card > .delete > ul{
+    height: 100%;
+    background-color: rgba(251, 251, 251, 0) !important;
+}
+.delete > ul > li > div > img{
+    filter: invert(0) !important;
+    height: 100%;
+}
+.delete > ul > li > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 1rem;
+    position: absolute;
+    right: 0;
+    background-color: red;
+    box-shadow: var(--shadow);
+    padding: 1rem;
+    opacity: 0;
+}
+.delete > ul > li > div:hover {
+    opacity: 1;
+    transition: all 0.3s;
+}
+.delete > ul > li {
+    position: relative;
 }

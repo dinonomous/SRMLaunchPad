@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../css/App.css";
-import plus from "../assets/plus.svg";
+import plus from "../assets/svg/plus.svg";
 import Notes from "../components/Notes";
 
 function NotesWindow() {
