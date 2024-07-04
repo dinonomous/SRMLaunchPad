@@ -10,11 +10,16 @@ const opts = {
 passport.use(
   new JwtStrategy(opts, async (jwt_payload, done) => {
     try {
-      const user = await UserModel.findOne({ _id: jwt_payload.id });
-      if (user) {
-        return done(null, user);
-      } else {
-        return done(null, false);
+      if (jwt_payload.userType === "external") {
+        return done(null, true);
+      }
+      else{
+        const user = await UserModel.findOne({ _id: jwt_payload.id });
+        if (user) {
+          return done(null, user);
+        } else {
+          return done(null, false);
+        }
       }
     } catch (err) {
       return done(err, false);
