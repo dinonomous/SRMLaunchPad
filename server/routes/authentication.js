@@ -18,8 +18,8 @@ router.options("/login", (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-//   res.header("Access-Control-Allow-Origin", process.env.FRONTEND_API_URL);
-//   res.header("Access-Control-Allow-Credentials", "true");
+  res.header("Access-Control-Allow-Origin", process.env.FRONTEND_API_URL);
+  res.header("Access-Control-Allow-Credentials", "true");
   const email = req.body.email;
 
   if (email.includes("@srmist.edu.in")) {
