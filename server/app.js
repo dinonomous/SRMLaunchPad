@@ -1,17 +1,17 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
 const cors = require('cors');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const passport = require('passport');
 require('./config/passport');
 require('dotenv').config();
 
 const apiUrl = process.env.API_URL;
-const apiFrontUrl = process.env.FRONTEND_API_URL;
+const apiFrontUrls = [process.env.FRONTEND_API_URL, 'https://srmlaunchpad.vercel.app'];
 
 var indexRouter = require('./routes/index');
 var authentication = require('./routes/authentication');
-const passport = require('passport');
 
 var app = express();
 
@@ -25,7 +25,13 @@ app.use(passport.initialize());
 
 // CORS setup
 app.use(cors({
-  origin: [apiFrontUrl,"https://srmlaunchpad.vercel.app"],
+  origin: function (origin, callback) {
+    if (apiFrontUrls.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   allowedHeaders: 'Content-Type, Authorization'
