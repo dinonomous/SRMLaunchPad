@@ -9,17 +9,17 @@ router.get('/',(req,res)=>{
     res.send("welcome to auth")
 })
 
-router.options('/login', (req, res) => {
-    res.header('Access-Control-Allow-Origin', process.env.FRONTEND_API_URL);
-    res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.header('Access-Control-Allow-Credentials', 'true');
+router.options("/login", (req, res) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin);
+    res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
     res.sendStatus(200);
   });
 
 router.post('/login',(req,res)=>{
-    res.header('Access-Control-Allow-Origin', process.env.FRONTEND_API_URL);
-    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header("Access-Control-Allow-Origin", req.headers.origin);
+    res.header("Access-Control-Allow-Credentials", "true");
     UserModel.findOne({ email : req.body.email }).then(user => {
         if(!user){
             return res.status(401).send({
