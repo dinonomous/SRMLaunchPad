@@ -25,7 +25,7 @@ app.use(passport.initialize());
 
 // CORS setup
 app.use(cors({
-  origin: apiFrontUrl,
+  origin: [apiFrontUrl,"https://srmlaunchpad.vercel.app"],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   allowedHeaders: 'Content-Type, Authorization'
