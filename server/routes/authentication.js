@@ -21,11 +21,10 @@ router.post('/login',async(req,res)=>{
     res.header("Access-Control-Allow-Origin", req.headers.origin);
     res.header("Access-Control-Allow-Credentials", "true");
     const email = req.body.email;
-    
+    const password = req.body.password;
+
     if (email.includes("@srmist.edu.in")) {
         const username = email;
-        const password = req.body.password;
-    
         const cli_time = Date.now();
         const serviceurl = encodeURIComponent(
           "https://academia.srmist.edu.in/portal/academia-academic-services/redirectFromLogin"
@@ -52,6 +51,10 @@ router.post('/login',async(req,res)=>{
             body: requestBody,
           }
         );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
     
         const data = await response.json();
         const userNameCorrect = data.message;
