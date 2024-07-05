@@ -25,8 +25,10 @@ app.use(passport.initialize());
 
 // CORS setup
 app.use(cors({
-  origin: [apiFrontUrl],
-  credentials: true
+  origin: apiFrontUrl,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  allowedHeaders: 'Content-Type, Authorization'
 }));
 
 // Routes setup
