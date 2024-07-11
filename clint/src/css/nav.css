@@ -28,6 +28,15 @@
 *{
   box-sizing: border-box;
 }
+@media (max-width: 500px) {
+  .navigation_menue{
+    width: 350px !important;
+    margin-left: -100%;
+  }
+  .main_body{
+    margin-left: 0px !important;
+  }
+}
 .navigation_menue{
   display: flex;
   align-items: center;
@@ -120,7 +129,7 @@ li img{
 .lisp{
   background-color: var(--primary-color-darker-20);
 }
-.burgur , .burgur2{
+.burgur , .burgur_main{
   height: 3rem;
   width: 3rem;
   display: flex;
@@ -130,13 +139,13 @@ li img{
   box-shadow: var(--shadow);
   border-radius: 50%;
 }
-.burgur2{
+.burgur_main{
   position: fixed;
   left: 1rem;
   top: 1rem;
   z-index: 101;
 }
-.burgur img, .burgur2 img{
+.burgur img, .burgur_main img{
   height: 2rem;
 }
 .user_li{

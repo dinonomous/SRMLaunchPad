@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../css/nav.css";
-import "../css/navigation.css";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import gsap from "gsap";
@@ -11,7 +10,7 @@ import notesSvg from "../assets/svg/notes.svg";
 import burgerSvg from "../assets/svg/burger.svg";
 import userSvg from "../assets/svg/user.svg";
 import { useNavigate } from "react-router-dom";
-import { useGSAP } from '@gsap/react';
+import { useGSAP } from "@gsap/react";
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 
@@ -37,8 +36,19 @@ function Format({
   const [QuizSubjects, setQuizSubjects] = useState([]);
   const spanRef = useRef(null);
   const navRef = useRef(null);
-  const mainRef = useRef(null)
+  const mainRef = useRef(null);
   const navigate = useNavigate();
+
+  // use mediaquary
+  const [matches, setMatches] = useState(
+    window.matchMedia("(min-width: 500px)").matches
+  )
+  useEffect(() => {
+    window
+    .matchMedia("(min-width: 768px)")
+    .addEventListener('change', e => setMatches( e.matches ));
+  }, []);
+  // use mediaquary
 
   useEffect(() => {
     if (spanRef.current) {
@@ -66,7 +76,7 @@ function Format({
       }
     }
   }, [CollectionData, CollectionDataQuiz]);
-  
+
   function fetchData() {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -196,14 +206,27 @@ function Format({
   };
 
   const navColapse = () => {
-    if (colapse) {
-        gsap.fromTo(navRef.current,{ width: '80px' }, { width: '350px' });
-        gsap.to(mainRef.current, { filter: 'blur(5px)' });
-    } else {
-      gsap.fromTo(navRef.current,{ width: '350px' }, { width: '80px' });
-      gsap.to(mainRef.current, { filter: 'blur(0px)' });
+    if(matches){
+      if (colapse) {
+        gsap.fromTo(navRef.current, { width: "80px" }, { width: "350px" });
+        gsap.to(mainRef.current, { filter: "blur(5px)" });
+      } else {
+        gsap.fromTo(navRef.current, { width: "350px" }, { width: "80px" });
+        gsap.to(mainRef.current, { filter: "blur(0px)" });
+      }
+      setcolapse(!colapse);
     }
-    setcolapse(!colapse);  
+    else{
+      if (colapse) {
+        gsap.fromTo(navRef.current, { marginLeft: "-100%",width: "350px" }, { marginLeft: "0", width: "350px" });
+        gsap.to(mainRef.current, { filter: "blur(5px)" });
+      } else {
+        gsap.fromTo(navRef.current, { marginLeft: "0", width: "350px" }, { marginLeft: "-100%" ,width: "350px" });
+        gsap.to(mainRef.current, { filter: "blur(0px)" });
+      }
+      setcolapse(!colapse);
+    }
+    
   };
 
   const handleLogout = () => {
@@ -288,21 +311,21 @@ function Format({
                     <ul>
                       {Subjects.map((item, i) => (
                         <li
-                        className="custom-link"
-                        key={i}
-                        onClick={() => {
-                          handleClick(item);
-                          setparameter(item);  // ensure this matches your actual state setter
-                        }}
-                        data-title={colapse ? item : undefined}
-                      >
-                        {colapse && (
-                          <div className="collapse-container">
-                            <p>*</p>
-                          </div>
-                        )}
-                        {!colapse && item}
-                      </li>
+                          className="custom-link"
+                          key={i}
+                          onClick={() => {
+                            handleClick(item);
+                            setparameter(item); // ensure this matches your actual state setter
+                          }}
+                          data-title={colapse ? item : undefined}
+                        >
+                          {colapse && (
+                            <div className="collapse-container">
+                              <p>*</p>
+                            </div>
+                          )}
+                          {!colapse && item}
+                        </li>
                       ))}
                       {admin && Subjects.length > 0 && (
                         <li
@@ -326,14 +349,14 @@ function Format({
                             }
                             setparameter(item);
                           }}
-                          data-title={colapse ? item : ''}
+                          data-title={colapse ? item : ""}
                         >
                           {colapse && (
-                          <div className="collapse-container">
-                            <p>*</p>
-                          </div>
-                        )}
-                        {!colapse && item}
+                            <div className="collapse-container">
+                              <p>*</p>
+                            </div>
+                          )}
+                          {!colapse && item}
                         </li>
                       ))}
                       {admin && QuizSubjects.length > 0 && (
@@ -351,7 +374,11 @@ function Format({
                   {CollectionData && (
                     <ul>
                       {CollectionData.map((item, index) => (
-                        <li key={index} data-id={item.id} data-title={colapse ? item.title : ''}>
+                        <li
+                          key={index}
+                          data-id={item.id}
+                          data-title={colapse ? item.title : ""}
+                        >
                           <Link
                             className="custom-link"
                             to={`/${encodeURIComponent(
@@ -359,11 +386,11 @@ function Format({
                             )}/${encodeURIComponent(item.id)}`}
                           >
                             {colapse && (
-                          <div className="collapse-container">
-                            <p>*</p>
-                          </div>
-                        )}
-                        {!colapse && item.title}
+                              <div className="collapse-container">
+                                <p>*</p>
+                              </div>
+                            )}
+                            {!colapse && item.title}
                           </Link>
                         </li>
                       ))}
@@ -373,7 +400,10 @@ function Format({
                     <ul>
                       {CollectionDataQuiz.map(function (item, index) {
                         return (
-                          <li key={index} data-title={colapse ? item.title : ''}>
+                          <li
+                            key={index}
+                            data-title={colapse ? item.title : ""}
+                          >
                             <Link
                               className="custom-link"
                               to={`/quizapi/${encodeURIComponent(
@@ -381,11 +411,11 @@ function Format({
                               )}/${encodeURIComponent(item.id)}`}
                             >
                               {colapse && (
-                          <div className="collapse-container">
-                            <p>*</p>
-                          </div>
-                        )}
-                        {!colapse && item.title}
+                                <div className="collapse-container">
+                                  <p>*</p>
+                                </div>
+                              )}
+                              {!colapse && item.title}
                             </Link>
                           </li>
                         );
@@ -399,6 +429,9 @@ function Format({
         </nav>
       )}
       <main Notebool={Notebool} className="main_body" ref={mainRef}>
+        <span className="burgur burgur_main" onClick={navColapse}>
+          <img src={burgerSvg} alt="burgour" />
+        </span>
         {children}
       </main>
       <footer></footer>
