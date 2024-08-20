@@ -8,6 +8,9 @@ import Admin from './pages/Admin.jsx';
 import Login from './components/auth/login.jsx';
 import Register from './components/auth/Register.jsx';
 import Logout from './components/auth/logout.jsx';
+import { Grid } from 'react-loader-spinner';
+import LoaderComp from './components/loader.jsx';
+
 import {
   createBrowserRouter,
   RouterProvider,

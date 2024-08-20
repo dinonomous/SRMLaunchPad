@@ -25,6 +25,13 @@
   --QuatarnaryColor: #F1D302;
   --black: #020100; 
 }
+::-webkit-scrollbar {
+  display: none;
+}
+* {
+  scrollbar-width: none; /* hide scrollbar */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
 *{
   box-sizing: border-box;
 }
@@ -218,4 +225,19 @@ li img{
   align-items: center;
   justify-content: center;
   margin-left: 80px;
+}
+/* Add this to your CSS file */
+.spinner {
+  border: 8px solid #f3f3f3; /* Light grey */
+  border-top: 8px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
