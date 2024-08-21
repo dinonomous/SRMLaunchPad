@@ -4,6 +4,7 @@ import pic from "../assets/image-removebg-preview.png";
 import quizpng from "../assets/quiz.png"
 import studybg from "../assets/windrisesbackground.png"
 import { useNavigate } from 'react-router-dom';
+import SubjectCollections from "../components/subject/SubjectCollections";
 
 function Landing() {
   const [logedin,setloggedin] = useState(false)
@@ -33,6 +34,7 @@ function Landing() {
             </div>
           </div>
         </div>
+        <SubjectCollections />
       </Format>
     </div>
   );

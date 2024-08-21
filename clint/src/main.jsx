@@ -10,12 +10,18 @@ import Register from './components/auth/Register.jsx';
 import Logout from './components/auth/logout.jsx';
 import { Grid } from 'react-loader-spinner';
 import LoaderComp from './components/loader.jsx';
-
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import './css/App.css';
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 60, // 1 hour
+      cacheTime: 1000 * 60 * 60, // 1 hour
+    },
+  },
+});
 
 const router = createBrowserRouter([
   {
@@ -53,17 +59,10 @@ const router = createBrowserRouter([
   }
 ]);
 
-// Define a placeholder component for dynamic rendering of App
-function DynamicApp() {
-  const { match } = useRouter(); // Get the matched route params
-  const { dynamicRoute } = match.params; // Extract the dynamic part from the route params
-
-  // Pass the dynamicRoute as a prop to the App component
-  return <App dynamicRoute={dynamicRoute} />;
-}
-
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>,
 );

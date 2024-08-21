@@ -11,7 +11,7 @@ import burgerSvg from "../assets/svg/burger.svg";
 import userSvg from "../assets/svg/user.svg";
 import { useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
-import { fetchData, fetchDataQuiz, fetchCollectionData, fetchCollectionDataQuiz } from "./ApiCalles.js";
+import { useCollectionNames, useQuizCollectionNames, useCollectionData, useQuizCollectionData } from "./ApiCalles.jsx";
 
 function Format({
   admin,
@@ -79,9 +79,13 @@ function Format({
   const handleMouseclick = async () => {
     setSubjects([]);
     setQuizSubjects([]);
-    const { data, error, loading } = await fetchData();
+    const { data, error, loading } = useCollectionNames();
     if (error) {
       console.error("Error fetching data:", error);
+      return;
+    }
+    if (loading) {
+      console.log("Loading...");
       return;
     }
     setSubjects(data);
@@ -99,7 +103,7 @@ function Format({
   const handleMouseclickQuiz = async () => {
     setSubjects([]);
     setQuizSubjects([]);
-    const { data, error, loading } = await fetchDataQuiz();
+    const { data, error, loading } = useQuizCollectionNames();
     if (error) {
       console.error("Error fetching data:", error);
       return;
@@ -108,12 +112,12 @@ function Format({
   };
 
   const handleClick = async (parameter) => {
-    const result = await fetchCollectionData(parameter);
+    const result = useCollectionData(parameter);
     setCollectionData(result.data);
   };
-  
+
   const handleClickQuiz = async (parameter) => {
-    const result = await fetchCollectionDataQuiz(parameter);
+    const result = useQuizCollectionData(parameter);
     setCollectionDataQuiz(result.data);
   };
 
