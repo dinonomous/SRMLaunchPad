@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import VideoPlayer from './VideoPlayer';
-import left from '../assets/chevron-left-svgrepo-com.svg';
-import right from '../assets/chevron-right-svgrepo-com.svg';
+import left from '../../assets/chevron-left-svgrepo-com.svg';
+import right from '../../assets/chevron-right-svgrepo-com.svg';
 
 export default function Video(props) {
   const [showControls, setShowControls] = useState(false);

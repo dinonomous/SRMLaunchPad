@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import '../css/Rigntpannel.css';
-import layers from '../assets/icons8-layers-48.png';
+import '../../css/Rigntpannel.css';
+import layers from '../../assets/icons8-layers-48.png';
 
 export default function Rightpannel(props) {
     const { topics, onTopicClick, fill, RightToglle, sideBarPlacement, Notebool } = props;

@@ -11,8 +11,7 @@ import burgerSvg from "../assets/svg/burger.svg";
 import userSvg from "../assets/svg/user.svg";
 import { useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
-const apiUrl = import.meta.env.VITE_API_URL;
-const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
+import { fetchData, fetchDataQuiz, fetchCollectionData, fetchCollectionDataQuiz } from "./ApiCalles.js";
 
 function Format({
   admin,
@@ -42,11 +41,11 @@ function Format({
   // use mediaquary
   const [matches, setMatches] = useState(
     window.matchMedia("(min-width: 500px)").matches
-  )
+  );
   useEffect(() => {
     window
-    .matchMedia("(min-width: 768px)")
-    .addEventListener('change', e => setMatches( e.matches ));
+      .matchMedia("(min-width: 768px)")
+      .addEventListener("change", (e) => setMatches(e.matches));
   }, []);
   // use mediaquary
 
@@ -77,60 +76,15 @@ function Format({
     }
   }, [CollectionData, CollectionDataQuiz]);
 
-  function fetchData() {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found");
-      navigate("/login");
-      return;
-    }
-    fetch(`${apiUrl}/api/subjects/getcollectionnames`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const { collectionNames } = data;
-        console.log("Data received from backend:", data);
-        setSubjects(data); // Corrected assignment
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error), navigate("/login");
-      });
-  }
-
-  function fetchDataQuiz() {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found");
-      navigate("/login");
-      return;
-    }
-    fetch(`${apiUrl}/api/quizapi/getcollectionnames`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const { collectionNames } = data;
-        console.log("Data received from backend:", data);
-        setQuizSubjects(data); // Corrected assignment
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error), navigate("/login");
-      });
-  }
-
-  const handleMouseclick = () => {
+  const handleMouseclick = async () => {
     setSubjects([]);
     setQuizSubjects([]);
-    fetchData();
+    const { data, error, loading } = await fetchData();
+    if (error) {
+      console.error("Error fetching data:", error);
+      return;
+    }
+    setSubjects(data);
   };
 
   useEffect(() => {
@@ -142,71 +96,29 @@ function Format({
     setCollectionDataQuiz([]);
   }, [QuizSubjects]);
 
-  const handleMouseclickQuiz = () => {
+  const handleMouseclickQuiz = async () => {
     setSubjects([]);
     setQuizSubjects([]);
-    fetchDataQuiz();
+    const { data, error, loading } = await fetchDataQuiz();
+    if (error) {
+      console.error("Error fetching data:", error);
+      return;
+    }
+    setQuizSubjects(data);
   };
 
-  const handleClick = (parameter) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found");
-      navigate("/login");
-      return;
-    }
-    fetch(`${apiUrl}/api/subjects/collection/${parameter}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Data fetched:", data);
-        setCollectionData(data.titles); // Set collection data
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error), navigate("/login");
-      });
+  const handleClick = async (parameter) => {
+    const result = await fetchCollectionData(parameter);
+    setCollectionData(result.data);
   };
-  const handleClickQuiz = (parameter) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found");
-      navigate("/login");
-      return;
-    }
-    fetch(`${apiUrl}/api/quizapi/Quizz/${parameter}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Data fetched:", data);
-        setCollectionDataQuiz(data.titles); // Set collection data
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error), navigate("/login");
-      });
+  
+  const handleClickQuiz = async (parameter) => {
+    const result = await fetchCollectionDataQuiz(parameter);
+    setCollectionDataQuiz(result.data);
   };
 
   const navColapse = () => {
-    if(matches){
+    if (matches) {
       if (colapse) {
         gsap.fromTo(navRef.current, { width: "80px" }, { width: "350px" });
         gsap.to(mainRef.current, { filter: "blur(5px)" });
@@ -215,18 +127,24 @@ function Format({
         gsap.to(mainRef.current, { filter: "blur(0px)" });
       }
       setcolapse(!colapse);
-    }
-    else{
+    } else {
       if (colapse) {
-        gsap.fromTo(navRef.current, { marginLeft: "-100%",width: "350px" }, { marginLeft: "0", width: "350px" });
+        gsap.fromTo(
+          navRef.current,
+          { marginLeft: "-100%", width: "350px" },
+          { marginLeft: "0", width: "350px" }
+        );
         gsap.to(mainRef.current, { filter: "blur(5px)" });
       } else {
-        gsap.fromTo(navRef.current, { marginLeft: "0", width: "350px" }, { marginLeft: "-100%" ,width: "350px" });
+        gsap.fromTo(
+          navRef.current,
+          { marginLeft: "0", width: "350px" },
+          { marginLeft: "-100%", width: "350px" }
+        );
         gsap.to(mainRef.current, { filter: "blur(0px)" });
       }
       setcolapse(!colapse);
     }
-    
   };
 
   const handleLogout = () => {
@@ -432,6 +350,7 @@ function Format({
         <span className="burgur burgur_main" onClick={navColapse}>
           <img src={burgerSvg} alt="burgour" />
         </span>
+
         {children}
       </main>
       <footer></footer>

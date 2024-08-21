@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import "../css/quiz.css";
-import Question from "../components/Question";
+import Question from "../components/quiz/Question";
 import { useParams } from "react-router-dom";
 import Format from "../components/Format";
 const apiUrl = import.meta.env.VITE_API_URL;
