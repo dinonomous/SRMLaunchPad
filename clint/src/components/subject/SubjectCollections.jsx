@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   useCollectionNames,
   useQuizCollectionNames,
@@ -6,8 +6,18 @@ import {
   useQuizCollectionData,
 } from "../ApiCalles.jsx";
 import { Link } from "react-router-dom";
+import SubjectCollectionData from "./SubjectCollectionData.jsx";
 
-const SubjectCollections = () => {
+const SubjectCollections = ({ admin }) => {
+  const [showCollectionData, setShowCollectionData] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleClick = (parameter) => {
+    console.log(parameter);
+    setSelectedItem(parameter);
+    setShowCollectionData(true);
+  };
+
   const { data, error, isLoading } = useCollectionNames();
 
   if (isLoading) {
@@ -19,32 +29,33 @@ const SubjectCollections = () => {
   }
 
   return (
-    <div>
-      <ul>
-        {Subjects.map((item, i) => (
-          <li
-            className="custom-link"
-            key={i}
-            onClick={() => {
-              handleClick(item);
-              setparameter(item); // ensure this matches your actual state setter
-            }}
-            data-title={colapse ? item : undefined}
-          >
-            {colapse && (
-              <div className="collapse-container">
-                <p>*</p>
-              </div>
-            )}
-            {!colapse && item}
-          </li>
-        ))}
-        {admin && Subjects.length > 0 && (
-          <li onClick={ShowAddSubjectForm} className="lisp custom-link">
-            Add New Subject
-          </li>
-        )}
-      </ul>
+    <div className="SubjectCollectionParent">
+      <div className="SubjectCollectioncontainer">
+        <div className="SubjectCollection">
+          {data.map((item, i) => (
+            <li
+              className="custom-link"
+              key={i}
+              onMouseEnter={() => {
+                handleClick(item);
+              }}
+              data-title={item}
+            >
+              {item}
+            </li>
+          ))}
+          {admin && Subjects.length > 0 && (
+            <li onClick={ShowAddSubjectForm} className="lisp custom-link">
+              Add New Subject
+            </li>
+          )}
+        </div>
+        <div className="SubjectCollectionChild" style={{display: showCollectionData ? 'block' : 'none'}}>
+          {showCollectionData && selectedItem && (
+            <SubjectCollectionData item={selectedItem} />
+          )}
+        </div>
+      </div>
     </div>
   );
 };

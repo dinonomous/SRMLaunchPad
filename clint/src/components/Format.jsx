@@ -350,7 +350,7 @@ function Format({
           </div>
         </nav>
       )}
-      <main Notebool={Notebool} className="main_body" ref={mainRef}>
+      <main Notebool={Notebool} className="main_body" ref={mainRef} admin={admin}>
         <span className="burgur burgur_main" onClick={navColapse}>
           <img src={burgerSvg} alt="burgour" />
         </span>

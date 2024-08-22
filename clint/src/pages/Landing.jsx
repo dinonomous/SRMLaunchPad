@@ -6,7 +6,7 @@ import studybg from "../assets/windrisesbackground.png"
 import { useNavigate } from 'react-router-dom';
 import SubjectCollections from "../components/subject/SubjectCollections";
 
-function Landing() {
+function Landing({admin}) {
   const [logedin,setloggedin] = useState(false)
   const navigate = useNavigate();
   useEffect(()=>{
@@ -34,7 +34,9 @@ function Landing() {
             </div>
           </div>
         </div>
-        <SubjectCollections />
+        <div className="appPage2">
+          <SubjectCollections admin={admin}/>
+        </div>
       </Format>
     </div>
   );

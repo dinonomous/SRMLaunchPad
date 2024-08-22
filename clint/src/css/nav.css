@@ -224,6 +224,7 @@ li img{
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   margin-left: 80px;
 }
 /* Add this to your CSS file */

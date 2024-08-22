@@ -717,3 +717,44 @@ li {
   height: 2rem;
   filter: invert(1);
 }
+.appPage2{
+  width: 100%;
+}
+.SubjectCollectionParent{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  height: 100vh;
+  overflow-y: scroll;
+  width: 100%;
+}
+.SubjectCollectioncontainer{
+  background-color: var(--secondaryColor);
+  height: 50%;
+  overflow-y: hidden;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+}
+.SubjectCollection{
+  padding: 1rem;
+  border-radius: 1rem;
+  height: 100%;
+  background-color: #343a40;
+  flex-grow: 1;
+  width: 40%;
+}
+.SubjectCollectionChild{
+  padding: 1rem;
+  border-radius: 1rem;
+  height: 100%;
+  background-color: #343a40;
+  flex-grow: 1;
+  width: 40%;
+  overflow-y: scroll;
+}
