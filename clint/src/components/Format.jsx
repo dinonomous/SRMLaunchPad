@@ -11,7 +11,13 @@ import burgerSvg from "../assets/svg/burger.svg";
 import userSvg from "../assets/svg/user.svg";
 import { useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
-import { useCollectionNames, useQuizCollectionNames, useCollectionData, useQuizCollectionData } from "./ApiCalles.jsx";
+import {
+  useCollectionNames,
+  useQuizCollectionNames,
+  useCollectionData,
+  useQuizCollectionData,
+} from "./ApiCalles.jsx";
+import SubjectCollections from "./subject/SubjectCollections.jsx";
 
 function Format({
   admin,
@@ -157,11 +163,8 @@ function Format({
 
   return (
     <>
-      {!breakpoint && (
-        <nav className="navigation_menue" ref={navRef}>
-          <span className="logo">
-            {!colapse && (
-              <span className="imglogo">
+      <nav>
+      <span className="imglogo">
                 <div className="logoimg">
                   <svg
                     viewBox="60 0 309.6551724137931 60.344834026370364"
@@ -178,182 +181,58 @@ function Format({
                   </svg>
                 </div>
               </span>
-            )}
-            <span className="burgur" onClick={navColapse}>
-              <img src={burgerSvg} alt="burgour" />
-            </span>
-          </span>
-          <div className="upper_nav_body">
-            <span className="nav_options">
-              <span className="nav_options_li">
-                <ul>
-                  <li>
-                    <img src={HomeSvg} alt="home" />
-                    {!colapse && (
-                      <Link to={`/`} className="custom-link">
+        <ul>
+          <li>
+          <Link to={`/`} className="custom-link">
                         Home
                       </Link>
-                    )}
+          </li>
+          <li>
+            <a href="#">Subjects</a>
+            <SubjectCollections />
+          </li>
+          <li>
+            <a href="#">About</a>
+          </li>
+          <li>
+            <a href="#">Survey</a>
+            <ul>
+              <li>
+                <a href="#">Menu1</a>
+              </li>
+              <li>
+                <a href="#">Menu1</a>
+              </li>
+              <li>
+                <a href="#">Menu1</a>
+              </li>
+              <li>
+                <a href="#">Dropdown</a>
+                <ul>
+                  <li>
+                    <a href="#">Home</a>
                   </li>
-                  <li onClick={handleMouseclick} className="custom-link">
-                    {" "}
-                    <img src={SubjectSvg} alt="subjects" />
-                    {!colapse && `Subjects`}
+                  <li>
+                    <a href="#">Info</a>
                   </li>
-                  <li onClick={handleMouseclickQuiz} className="custom-link">
-                    {" "}
-                    <img src={QuizSvg} alt="Quiz" />
-                    {!colapse && `Quiz`}
+                  <li>
+                    <a href="#">About</a>
                   </li>
-                  <li className="custom-link">
-                    {" "}
-                    <img src={notesSvg} alt="notesSvg" />
-                    {!colapse && `Notes`}
+                  <li>
+                    <a href="#">Survey</a>
                   </li>
-                  {localStorage.getItem("email") && (
-                    <li className="user_li">
-                      <img src={userSvg} alt="notesSvg" />
-                      {!colapse && localStorage.getItem("email")}
-                      {!colapse && (
-                        <span onClick={handleLogout} className="custom-link">
-                          Logout
-                        </span>
-                      )}
-                    </li>
-                  )}
                 </ul>
-              </span>
-            </span>
-          </div>
-          <div className="bellow_nav_body">
-            <span className="nav_sub_options">
-              <span className="nav_suboptions_li">
-                <span className="suboptions">
-                  {Subjects && (
-                    <ul>
-                      {Subjects.map((item, i) => (
-                        <li
-                          className="custom-link"
-                          key={i}
-                          onClick={() => {
-                            handleClick(item);
-                            setparameter(item); // ensure this matches your actual state setter
-                          }}
-                          data-title={colapse ? item : undefined}
-                        >
-                          {colapse && (
-                            <div className="collapse-container">
-                              <p>*</p>
-                            </div>
-                          )}
-                          {!colapse && item}
-                        </li>
-                      ))}
-                      {admin && Subjects.length > 0 && (
-                        <li
-                          onClick={ShowAddSubjectForm}
-                          className="lisp custom-link"
-                        >
-                          Add New Subject
-                        </li>
-                      )}
-                    </ul>
-                  )}
-                  {QuizSubjects && (
-                    <ul>
-                      {QuizSubjects.map((item, i) => (
-                        <li
-                          className="custom-link"
-                          key={i}
-                          onClick={() => {
-                            {
-                              handleClickQuiz(item);
-                            }
-                            setparameter(item);
-                          }}
-                          data-title={colapse ? item : ""}
-                        >
-                          {colapse && (
-                            <div className="collapse-container">
-                              <p>*</p>
-                            </div>
-                          )}
-                          {!colapse && item}
-                        </li>
-                      ))}
-                      {admin && QuizSubjects.length > 0 && (
-                        <li
-                          onClick={showAddQuizForm}
-                          className="lisp custom-link"
-                        >
-                          Add New Quiz
-                        </li>
-                      )}
-                    </ul>
-                  )}
-                </span>
-                <span className="" id="suboptionSubjects" ref={spanRef}>
-                  {CollectionData && (
-                    <ul>
-                      {CollectionData.map((item, index) => (
-                        <li
-                          key={index}
-                          data-id={item.id}
-                          data-title={colapse ? item.title : ""}
-                        >
-                          <Link
-                            className="custom-link"
-                            to={`/${encodeURIComponent(
-                              parameter
-                            )}/${encodeURIComponent(item.id)}`}
-                          >
-                            {colapse && (
-                              <div className="collapse-container">
-                                <p>*</p>
-                              </div>
-                            )}
-                            {!colapse && item.title}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  {CollectionDataQuiz && (
-                    <ul>
-                      {CollectionDataQuiz.map(function (item, index) {
-                        return (
-                          <li
-                            key={index}
-                            data-title={colapse ? item.title : ""}
-                          >
-                            <Link
-                              className="custom-link"
-                              to={`/quizapi/${encodeURIComponent(
-                                parameter
-                              )}/${encodeURIComponent(item.id)}`}
-                            >
-                              {colapse && (
-                                <div className="collapse-container">
-                                  <p>*</p>
-                                </div>
-                              )}
-                              {!colapse && item.title}
-                            </Link>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  )}
-                </span>
-              </span>
-            </span>
-          </div>
-        </nav>
-      )}
-      <main Notebool={Notebool} className="main_body" ref={mainRef} admin={admin}>
-        <span className="burgur burgur_main" onClick={navColapse}>
-          <img src={burgerSvg} alt="burgour" />
-        </span>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <main
+        Notebool={Notebool}
+        className="main_body"
+        ref={mainRef}
+        admin={admin}
+      >
 
         {children}
       </main>

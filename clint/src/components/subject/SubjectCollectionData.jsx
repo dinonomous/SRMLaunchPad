@@ -21,7 +21,7 @@ const SubjectCollectionData = ({item}) => {
   }
 
   return (
-    <div>
+    <>
       <ul>
         {data.map((items, index) => (
           <li
@@ -39,7 +39,7 @@ const SubjectCollectionData = ({item}) => {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 };
 

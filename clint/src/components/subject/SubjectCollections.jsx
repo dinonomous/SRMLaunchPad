@@ -29,9 +29,8 @@ const SubjectCollections = ({ admin }) => {
   }
 
   return (
-    <div className="SubjectCollectionParent">
-      <div className="SubjectCollectioncontainer">
-        <div className="SubjectCollection">
+    <>
+        <ul className="SubjectCollection">
           {data.map((item, i) => (
             <li
               className="custom-link"
@@ -42,6 +41,7 @@ const SubjectCollections = ({ admin }) => {
               data-title={item}
             >
               {item}
+              <SubjectCollectionData item={item} />
             </li>
           ))}
           {admin && Subjects.length > 0 && (
@@ -49,14 +49,8 @@ const SubjectCollections = ({ admin }) => {
               Add New Subject
             </li>
           )}
-        </div>
-        <div className="SubjectCollectionChild" style={{display: showCollectionData ? 'block' : 'none'}}>
-          {showCollectionData && selectedItem && (
-            <SubjectCollectionData item={selectedItem} />
-          )}
-        </div>
-      </div>
-    </div>
+        </ul>
+    </>
   );
 };
 
