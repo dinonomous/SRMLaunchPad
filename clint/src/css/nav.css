@@ -65,7 +65,7 @@ body,main,#root{
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  margin-top: 6rem;
+  padding-top: 6.5rem;
 }
 
 
@@ -141,24 +141,28 @@ nav>ul>li:hover>ul {
 nav ul li a {
   text-decoration: none;
   display: block;
-  color: chocolate;
+  color: var(--black);
+  letter-spacing: 0.1rem;
+  font-weight: 500;
 }
 
 nav ul li a:hover {
-  color: black;
+  color: var(--secondaryColor);
 }
 
 nav>ul>li>ul {
   position: absolute;
-  top: 100%;
-  left: 0;
+  top: 4rem;
+  left: -2rem;
   display: none;
-  width: 100%;
+  width: 12rem;
+  border-radius: 1rem;
+  background-color: var(--primary-color);
+  padding: 0.5rem;
 }
 
 nav>ul>li>ul>li {
   position: relative;
-  background-color: beige;
 }
 
 nav>ul>li>ul>li:hover>ul {
