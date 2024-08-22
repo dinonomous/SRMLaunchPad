@@ -1,14 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import {
-  useCollectionNames,
   useQuizCollectionNames,
-  useCollectionData,
-  useQuizCollectionData,
 } from "../ApiCalles.jsx";
-import { Link } from "react-router-dom";
-import SubjectCollectionData from "./SubjectCollectionData.jsx";
+import QuizCollectionData from "./QuizCollectionData.jsx";
 
-const SubjectCollections = ({
+const QuizCollection = ({
   admin,
   showSubjects,
   onHideCollectionData, // Add this prop
@@ -21,7 +17,7 @@ const SubjectCollections = ({
     setshowcollection(false)
   };
 
-  const { data, error, isLoading } = useCollectionNames();
+  const { data, error, isLoading } = useQuizCollectionNames();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -48,7 +44,7 @@ const SubjectCollections = ({
             data-title={item}
           >
             {item}
-            <SubjectCollectionData item={item} />
+            <QuizCollectionData item={item} />
           </li>
         ))}
         {admin && Subjects.length > 0 && (
@@ -61,4 +57,4 @@ const SubjectCollections = ({
   );
 };
 
-export default SubjectCollections;
+export default QuizCollection;

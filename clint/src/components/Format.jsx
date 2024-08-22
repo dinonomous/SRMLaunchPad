@@ -3,158 +3,43 @@ import "../css/nav.css";
 import { Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import gsap from "gsap";
-import HomeSvg from "../assets/svg/home.svg";
-import SubjectSvg from "../assets/svg/subject.svg";
-import QuizSvg from "../assets/svg/quiz.svg";
-import notesSvg from "../assets/svg/notes.svg";
-import burgerSvg from "../assets/svg/burger.svg";
-import userSvg from "../assets/svg/user.svg";
 import { useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
-import {
-  useCollectionNames,
-  useQuizCollectionNames,
-  useCollectionData,
-  useQuizCollectionData,
-} from "./ApiCalles.jsx";
 import SubjectCollections from "./subject/SubjectCollections.jsx";
+import QuizCollection from "./subject/QuizCollections.jsx";
 
 function Format({
   admin,
   children,
   Notebool,
-  toggleNotebool,
-  breakpoint,
-  ShowAddSubjectForm,
-  showAddQuizForm,
 }) {
-  // const mainRef = useRef(null);
-  // const bellowRef = useRef(null);
-  // const ulRef = useRef(null);
-  // const childRef = useRef(null);
   gsap.registerPlugin(useGSAP);
-  const [parameter, setparameter] = useState();
-  const [colapse, setcolapse] = useState(true);
-  const [CollectionData, setCollectionData] = useState([]);
-  const [CollectionDataQuiz, setCollectionDataQuiz] = useState([]);
-  const [Subjects, setSubjects] = useState([]);
-  const [QuizSubjects, setQuizSubjects] = useState([]);
-  const spanRef = useRef(null);
-  const navRef = useRef(null);
   const mainRef = useRef(null);
   const navigate = useNavigate();
+  const [showSubjects, setShowSubjects] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // use mediaquary
-  const [matches, setMatches] = useState(
-    window.matchMedia("(min-width: 500px)").matches
-  );
   useEffect(() => {
-    window
-      .matchMedia("(min-width: 768px)")
-      .addEventListener("change", (e) => setMatches(e.matches));
+    // Check if a token exists in local storage
+    const token = localStorage.getItem("token");
+    setIsAuthenticated(!!token);
   }, []);
-  // use mediaquary
 
-  useEffect(() => {
-    if (spanRef.current) {
-      if (CollectionData?.length > 0 || CollectionDataQuiz?.length > 0) {
-        // Animate from marginLeft 100% to 0
-        gsap.fromTo(
-          spanRef.current,
-          { marginLeft: "100%" },
-          {
-            marginLeft: "0",
-            duration: 1,
-            ease: "power2.inOut",
-          }
-        );
-      } else {
-        // Animate back from marginLeft 0 to 100%
-        gsap.fromTo(
-          spanRef.current,
-          { marginLeft: "0" },
-          {
-            marginLeft: "100%",
-            duration: 0.1,
-          }
-        );
-      }
-    }
-  }, [CollectionData, CollectionDataQuiz]);
-
-  const handleMouseclick = async () => {
-    setSubjects([]);
-    setQuizSubjects([]);
-    const { data, error, loading } = useCollectionNames();
-    if (error) {
-      console.error("Error fetching data:", error);
-      return;
-    }
-    if (loading) {
-      console.log("Loading...");
-      return;
-    }
-    setSubjects(data);
+  const handleClick = () => {
+    setShowSubjects(!showSubjects);
   };
 
-  useEffect(() => {
-    setCollectionData([]);
-    setCollectionDataQuiz([]);
-  }, [Subjects]);
-  useEffect(() => {
-    setCollectionData([]);
-    setCollectionDataQuiz([]);
-  }, [QuizSubjects]);
-
-  const handleMouseclickQuiz = async () => {
-    setSubjects([]);
-    setQuizSubjects([]);
-    const { data, error, loading } = useQuizCollectionNames();
-    if (error) {
-      console.error("Error fetching data:", error);
-      return;
-    }
-    setQuizSubjects(data);
+  const onHideCollectionData = () => {
+    setShowSubjects(false); // Update the state in the parent component
   };
 
-  const handleClick = async (parameter) => {
-    const result = useCollectionData(parameter);
-    setCollectionData(result.data);
+  const handleClickQuiz = () => {
+    setShowQuiz(!showQuiz);
   };
 
-  const handleClickQuiz = async (parameter) => {
-    const result = useQuizCollectionData(parameter);
-    setCollectionDataQuiz(result.data);
-  };
-
-  const navColapse = () => {
-    if (matches) {
-      if (colapse) {
-        gsap.fromTo(navRef.current, { width: "80px" }, { width: "350px" });
-        gsap.to(mainRef.current, { filter: "blur(5px)" });
-      } else {
-        gsap.fromTo(navRef.current, { width: "350px" }, { width: "80px" });
-        gsap.to(mainRef.current, { filter: "blur(0px)" });
-      }
-      setcolapse(!colapse);
-    } else {
-      if (colapse) {
-        gsap.fromTo(
-          navRef.current,
-          { marginLeft: "-100%", width: "350px" },
-          { marginLeft: "0", width: "350px" }
-        );
-        gsap.to(mainRef.current, { filter: "blur(5px)" });
-      } else {
-        gsap.fromTo(
-          navRef.current,
-          { marginLeft: "0", width: "350px" },
-          { marginLeft: "-100%", width: "350px" }
-        );
-        gsap.to(mainRef.current, { filter: "blur(0px)" });
-      }
-      setcolapse(!colapse);
-    }
+  const onHideCollectionDataQuiz = () => {
+    setShowQuiz(false); // Update the state in the parent component
   };
 
   const handleLogout = () => {
@@ -164,6 +49,7 @@ function Format({
   return (
     <>
       <nav>
+        
         <span className="imglogo">
           <div className="logoimg">
             <svg
@@ -188,44 +74,43 @@ function Format({
             </Link>
           </li>
           <li>
-            <a href="#">Subjects</a>
-            <SubjectCollections />
+            <a href="#" onClick={handleClick}>
+              Subjects
+            </a>
+            <SubjectCollections
+              showSubjects={showSubjects}
+              onHideCollectionData={onHideCollectionData}
+            />
+          </li>
+          <li>
+            <a href="#" onClick={handleClickQuiz}>
+              Quiz
+            </a>
+            <QuizCollection
+              showSubjects={showQuiz}
+              onHideCollectionData={onHideCollectionDataQuiz}
+            />
           </li>
           <li>
             <a href="#">About</a>
           </li>
-          <li>
-            <a href="#">Survey</a>
-            <ul>
-              <li>
-                <a href="#">Menu1</a>
-              </li>
-              <li>
-                <a href="#">Menu1</a>
-              </li>
-              <li>
-                <a href="#">Menu1</a>
-              </li>
-              <li>
-                <a href="#">Dropdown</a>
-                <ul>
-                  <li>
-                    <a href="#">Home</a>
-                  </li>
-                  <li>
-                    <a href="#">Info</a>
-                  </li>
-                  <li>
-                    <a href="#">About</a>
-                  </li>
-                  <li>
-                    <a href="#">Survey</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </li>
         </ul>
+        <div className="authdiv">
+            {isAuthenticated ? (
+              <button className="logout btn" onClick={handleLogout}>
+                Log out
+              </button>
+            ) : (
+              <>
+                <Link to="/login">
+                  <button className="login btn">Log in</button>
+                </Link>
+                <Link to="/register">
+                  <button className="signup btn">Sign up</button>
+                </Link>
+              </>
+            )}
+          </div>
       </nav>
       <main
         Notebool={Notebool}

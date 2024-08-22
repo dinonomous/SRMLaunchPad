@@ -1,11 +1,11 @@
 import React from "react";
 import {
-    useCollectionData,
+    useQuizCollectionData,
   } from "../ApiCalles.jsx";
   import { Link } from "react-router-dom";
 
-  const SubjectCollectionData = ({ item, showcollection, onMouseLeave }) => {
-    const { data, error, isLoading } = useCollectionData(item);
+  const QuizCollectionData = ({ item, showcollection, onMouseLeave }) => {
+    const { data, error, isLoading } = useQuizCollectionData(item);
     console.log(data);
   
     if (isLoading) {
@@ -28,7 +28,7 @@ import {
             >
               <Link
                 className="custom-link"
-                to={`/${encodeURIComponent(item)}/${encodeURIComponent(
+                to={`/quizapi/${encodeURIComponent(item)}/${encodeURIComponent(
                   items.id
                 )}`}
               >
@@ -41,4 +41,4 @@ import {
     );
   };
 
-export default SubjectCollectionData;
+export default QuizCollectionData;

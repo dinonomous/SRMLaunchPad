@@ -129,30 +129,34 @@ nav>ul>li {
   display: inline-block;
   position: relative;
   border-radius: 5px;
-  padding: 0 20px;
   font-size: var(--font-size-h3);
 
 }
 
-nav>ul>li:hover>ul {
-  display: block;
-}
 
-nav ul li a {
+
+nav>ul>li>a {
   text-decoration: none;
   display: block;
   color: var(--black);
   letter-spacing: 0.1rem;
   font-weight: 500;
+  height: 4rem;
+  margin-top: 0.5rem;
+  width: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
 }
 
 nav ul li a:hover {
-  color: var(--secondaryColor);
+  background-color: var(--primary-color-darker-10);
 }
 
 nav>ul>li>ul {
   position: absolute;
-  top: 4rem;
+  top: 6rem;
   left: -2rem;
   display: none;
   width: 12rem;
@@ -165,17 +169,92 @@ nav>ul>li>ul>li {
   position: relative;
 }
 
+nav>ul>li>ul>li:hover {
+  background-color: var(--primary-color-darker-10);
+  border-radius: 0.3rem;
+  border: none;
+  transition: all 0.3ms;
+}
+
 nav>ul>li>ul>li:hover>ul {
   display: block;
 }
 
-nav>ul>li>ul>li>ul>li {
-  background-color: beige;
+nav>ul>li>ul>li>ul>li{
+  padding: 0.5rem;
+  min-height: 3.5rem;
+  background-color: var(--primary-color);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav>ul>li>ul>li>ul>li>a {
+  padding: 0.5rem;
+  color: #020100;
+  height: 100%;
+  width: 100%;
+  border-radius: 0.5rem;
+}
+
+nav>ul>li>ul>li>ul>li:first-child {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+}
+
+nav>ul>li>ul>li>ul>li:last-child {
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
 }
 
 nav>ul>li>ul>li>ul {
+  padding-right: 1.5rem;
   position: absolute;
-  left: 100%;
+  left: -12rem;
+  border-radius: 1rem;
   top: 0;
   display: none;
+  width: 12rem;
+}
+
+
+.SubjectCollection li {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.SubjectCollection li:last-child {
+  border-bottom: none;
+}
+
+.SubjectCollection li.lisp {
+  border-top: 1px solid #ccc;
+}
+
+.logout{
+  background-color: var(--Teritiorycolor);
+  border-radius: 2rem;
+}
+
+.btn{
+  height: 4rem;
+  width: 8rem;
+  font-size: var(--font-size-h3);
+  border: none;
+  cursor: pointer;
+  color: var(--primary-color);
+}
+
+.login{
+  background-color: var(--primary-color-darker-10);
+  border-radius: 0.5rem;
+  color: #020100;
+  margin-right: 0.5rem;
+}
+
+.signup{
+  background-color: var(--Teritiorycolor);
+  border-radius: 2rem;
+  color: var(--primary-color);
 }

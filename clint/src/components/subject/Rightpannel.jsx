@@ -11,7 +11,6 @@ export default function Rightpannel(props) {
     sideBarPlacement,
     Notebool,
   } = props;
-  const [right, setRight] = useState("0%"); // Initialize right state to 0%
 
   const handleClick = (index) => {
     if (onTopicClick) {
