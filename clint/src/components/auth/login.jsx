@@ -3,55 +3,63 @@ import "../../css/authtication.css";
 import { useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
+import Cookies from "js-cookie";
 
 const Login = () => {
-    const navigate = useNavigate()
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-    useEffect(()=>{
-        const token = localStorage.getItem('token');
-        if(token){
-            fetch('/',{
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token
-                }
-            }).then(res => {
-                navigate('/')
-            }).catch(res => {
-                navigate('/login')
-            })
-        }
-        else{
-            navigate('/login')
-        }
-
-    },[])
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      fetch("/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => {
+          if (res.ok) {
+            // If response is okay, navigate to the home page
+            navigate("/");
+          } else {
+            // If response is not okay (e.g., 401 Unauthorized), navigate to login
+            navigate("/login");
+          }
+        })
+        .catch(() => {
+          // On fetch error, navigate to login
+          navigate("/login");
+        });
+    } else {
+      // If no token found, navigate to login
+      navigate("/login");
+    }
+  }, [navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       const response = await fetch(`${apiUrl}/authentication/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': `${apiUrl}`,
-          'Access-Control-Allow-Credentials': 'true'
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": `${apiUrl}`,
+          "Access-Control-Allow-Credentials": "true",
         },
         body: JSON.stringify({ email, password }),
-        credentials: 'include'
+        credentials: "include",
       });
 
       const data = await response.json();
-      console.log(data)
-      localStorage.setItem('token', data.token)
-        localStorage.setItem('email', data.email)
-      navigate('/')
+      console.log(data);
+      localStorage.setItem("email", data.email);
+      navigate("/");
     } catch (error) {
-      console.error('Error during login:', error);
-    //    Handle network or other errors
+      console.error("Error during login:", error);
+      //    Handle network or other errors
     }
   };
 

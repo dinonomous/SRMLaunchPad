@@ -7,12 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import SubjectCollections from "./subject/SubjectCollections.jsx";
 import QuizCollection from "./subject/QuizCollections.jsx";
+import Cookies from "js-cookie";
 
-function Format({
-  admin,
-  children,
-  Notebool,
-}) {
+function Format({ admin, children, Notebool }) {
   gsap.registerPlugin(useGSAP);
   const mainRef = useRef(null);
   const navigate = useNavigate();
@@ -22,12 +19,13 @@ function Format({
 
   useEffect(() => {
     // Check if a token exists in local storage
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     setIsAuthenticated(!!token);
   }, []);
 
   const handleClick = () => {
     setShowSubjects(!showSubjects);
+    setShowQuiz(showSubjects);
   };
 
   const onHideCollectionData = () => {
@@ -36,6 +34,7 @@ function Format({
 
   const handleClickQuiz = () => {
     setShowQuiz(!showQuiz);
+    setShowSubjects(showQuiz);
   };
 
   const onHideCollectionDataQuiz = () => {
@@ -49,7 +48,6 @@ function Format({
   return (
     <>
       <nav>
-        
         <span className="imglogo">
           <div className="logoimg">
             <svg
@@ -73,44 +71,62 @@ function Format({
               Home
             </Link>
           </li>
-          <li>
-            <a href="#" onClick={handleClick}>
-              Subjects
-            </a>
-            <SubjectCollections
-              showSubjects={showSubjects}
-              onHideCollectionData={onHideCollectionData}
-            />
-          </li>
-          <li>
-            <a href="#" onClick={handleClickQuiz}>
-              Quiz
-            </a>
-            <QuizCollection
-              showSubjects={showQuiz}
-              onHideCollectionData={onHideCollectionDataQuiz}
-            />
-          </li>
+          {isAuthenticated ? (
+            <>
+              <li>
+                <a href="#" onClick={handleClick}>
+                  Subjects
+                </a>
+                <SubjectCollections
+                  showSubjects={showSubjects}
+                  onHideCollectionData={onHideCollectionData}
+                />
+              </li>
+              <li>
+                <a href="#" onClick={handleClickQuiz}>
+                  Quiz
+                </a>
+                <QuizCollection
+                  showSubjects={showQuiz}
+                  onHideCollectionData={onHideCollectionDataQuiz}
+                />
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link to="/login">
+                  <a href="#">Subjects</a>
+                </Link>
+              </li>
+
+              <li>
+                <Link to="/login">
+                  <a href="#">Quiz</a>
+                </Link>
+              </li>
+            </>
+          )}
           <li>
             <a href="#">About</a>
           </li>
         </ul>
         <div className="authdiv">
-            {isAuthenticated ? (
-              <button className="logout btn" onClick={handleLogout}>
-                Log out
-              </button>
-            ) : (
-              <>
-                <Link to="/login">
-                  <button className="login btn">Log in</button>
-                </Link>
-                <Link to="/register">
-                  <button className="signup btn">Sign up</button>
-                </Link>
-              </>
-            )}
-          </div>
+          {isAuthenticated ? (
+            <button className="logout btn" onClick={handleLogout}>
+              Log out
+            </button>
+          ) : (
+            <>
+              <Link to="/login">
+                <button className="login btn">Log in</button>
+              </Link>
+              <Link to="/register">
+                <button className="signup btn">Sign up</button>
+              </Link>
+            </>
+          )}
+        </div>
       </nav>
       <main
         Notebool={Notebool}

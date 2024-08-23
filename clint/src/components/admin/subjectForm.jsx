@@ -54,7 +54,7 @@ const SubjectForm = () => {
   };
 
   const submitForm = () => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (!subjectName) {
       alert("Please fill in the subject name");
       return;
@@ -88,7 +88,7 @@ const SubjectForm = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(unitsToSend),
     })

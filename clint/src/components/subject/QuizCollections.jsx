@@ -20,7 +20,7 @@ const QuizCollection = ({
   const { data, error, isLoading } = useQuizCollectionNames();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="spinner"></div>;
   }
 
   if (error) {

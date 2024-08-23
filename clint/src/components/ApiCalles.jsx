@@ -1,6 +1,6 @@
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import axios from 'axios';
-
+import Cookies from "js-cookie"
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -14,14 +14,15 @@ const queryClient = new QueryClient({
 });
 
 const fetchCollectionNames = async () => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
+  console.log(token)
   if (!token) {
     throw new Error("No token found");
   }
   try {
     const { data } = await axios.get(`${apiUrl}/api/subjects/getcollectionnames`, {
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -32,14 +33,14 @@ const fetchCollectionNames = async () => {
 };
 
 const fetchQuizCollectionNames = async () => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
   if (!token) {
     throw new Error("No token found");
   }
   try {
     const { data } = await axios.get(`${apiUrl}/api/quizapi/getcollectionnames`, {
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -50,7 +51,7 @@ const fetchQuizCollectionNames = async () => {
 };
 
 const fetchCollectionData = async ({ queryKey }) => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
   if (!token) {
     throw new Error("No token found");
   }
@@ -58,7 +59,7 @@ const fetchCollectionData = async ({ queryKey }) => {
   try {
     const { data } = await axios.get(`${apiUrl}/api/subjects/collection/${parameter}`, {
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -69,7 +70,7 @@ const fetchCollectionData = async ({ queryKey }) => {
 };
 
 const fetchQuizCollectionData = async ({ queryKey }) => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("token");
   if (!token) {
     throw new Error("No token found");
   }
@@ -77,7 +78,7 @@ const fetchQuizCollectionData = async ({ queryKey }) => {
   try {
     const { data } = await axios.get(`${apiUrl}/api/quizapi/Quizz/${parameter}`, {
       headers: {
-        Authorization: token,
+        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     });
@@ -107,7 +108,6 @@ export const useCollectionData = (parameter) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['collectionData', parameter],
     queryFn: fetchCollectionData,
-    enabled: !!parameter, // Only fetch if parameter is defined
   });
   return { data, error, isLoading };
 };
@@ -116,7 +116,6 @@ export const useQuizCollectionData = (parameter) => {
   const { data, error, isLoading } = useQuery({
     queryKey: ['quizCollectionData', parameter],
     queryFn: fetchQuizCollectionData,
-    enabled: !!parameter, // Only fetch if parameter is defined
   });
   return { data, error, isLoading };
 };

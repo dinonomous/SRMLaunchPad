@@ -43,11 +43,19 @@ router.post('/login',async(req,res)=>{
           };
     
           const token = jwt.sign(payload, `${secretOrKey}`, { expiresIn: "1d" });
-    
+          
+          res.cookie("token", token, {
+            path: "/",  // Ensures the cookie is available across your entire app
+              // Ensure this is set to localhost for local development
+            
+            secure: false,  // In local development, secure should be false since you're using HTTP
+            sameSite: "Lax",  // "Lax" is generally safe for CSRF protection and works in most scenarios
+        });
+
           return res.status(200).send({
             success: true,
             message: "logged in!",
-            token: "Bearer " + token,
+
             email: user.email,
           });
         });

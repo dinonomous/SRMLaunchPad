@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import Format from "../components/Format";
 const apiUrl = import.meta.env.VITE_API_URL;
 const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
+import { useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie'
 
 function Quiz(props) {
   const [unitTitle, setUnitTitle] = useState("");
@@ -21,11 +23,12 @@ function Quiz(props) {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [showfloat,setShowfloat] = useState(false);
   const { collection,title } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     resetState();
     const fetchData = async () => {
-      const token = localStorage.getItem('token');
+      const token = Cookies.get("token");
       if (!token) {
         console.error('No token found');
         navigate('/login');
@@ -37,7 +40,7 @@ function Quiz(props) {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': token
+            'Authorization': `Bearer ${token}`
           }
         });
 
