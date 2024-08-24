@@ -45,11 +45,14 @@ router.post('/login',async(req,res)=>{
           const token = jwt.sign(payload, `${secretOrKey}`, { expiresIn: "1d" });
           
           res.cookie("token", token, {
-            path: "/",  
-            httpOnly: true,   // Prevents client-side JavaScript from reading the cookie (optional based on your needs)
-            secure: process.env.NODE_ENV === 'production', // true if using HTTPS
-            sameSite: "None", // Allows cross-site cookies
+            path: "/",  // Ensures the cookie is available across your entire app
+            domain: process.env.NODE_ENV === 'production' ? '.srmlaunchpad.vercel.app' : undefined,  // Use domain in production, undefined for localhost
+            httpOnly: false,  // Must be false to read in JavaScript; set to true if not needed by JS
+            secure: process.env.NODE_ENV === 'production',  // Only secure in production
+            sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',  // None for cross-site, Lax for local
         });
+        
+        
 
           return res.status(200).send({
             success: true,
