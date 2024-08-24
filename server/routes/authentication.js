@@ -46,12 +46,11 @@ router.post('/login',async(req,res)=>{
           
           res.cookie("token", token, {
             path: "/",  // Ensures the cookie is available across your entire app
-            domain: process.env.NODE_ENV === 'production' ? 'https://srmlaunchpad.vercel.app/' : undefined,  // Use domain in production, undefined for localhost
-            httpOnly: false, 
-            sameSite: 'None',  // None for cross-site, Lax for local
+              // Ensure this is set to localhost for local development
+            
+            secure: false,  // In local development, secure should be false since you're using HTTP
+            sameSite: "Lax",  // "Lax" is generally safe for CSRF protection and works in most scenarios
         });
-        
-        
 
           return res.status(200).send({
             success: true,
