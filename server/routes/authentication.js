@@ -45,11 +45,13 @@ router.post('/login',async(req,res)=>{
           const token = jwt.sign(payload, `${secretOrKey}`, { expiresIn: "1d" });
           
           res.cookie("token", token, {
-            path: "/",  // Available across your entire app
-            httpOnly: false,  // Allows JavaScript to read the cookie
-            secure: false,  // Not using HTTPS, so set to false
-            sameSite: 'Lax',  // Basic CSRF protection, but flexible enough for most cases
-        });
+            path: "/",  // Available across the entire app
+            domain: "srm-launch-pad-api.vercel.app",  // Your backend's domain
+            httpOnly: false,  // Allow JavaScript to read the cookie (if needed)
+            secure: false,  // Set to true if you're using HTTPS
+            sameSite: 'Lax',  // Basic CSRF protection
+          });
+          
 
           return res.status(200).send({
             success: true,

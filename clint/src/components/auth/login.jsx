@@ -9,34 +9,6 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  useEffect(() => {
-    const token = Cookies.get("token");
-    if (token) {
-      fetch("/", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((res) => {
-          if (res.ok) {
-            // If response is okay, navigate to the home page
-            navigate("/");
-          } else {
-            // If response is not okay (e.g., 401 Unauthorized), navigate to login
-            navigate("/login");
-          }
-        })
-        .catch(() => {
-          // On fetch error, navigate to login
-          navigate("/login");
-        });
-    } else {
-      // If no token found, navigate to login
-      navigate("/login");
-    }
-  }, [navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
