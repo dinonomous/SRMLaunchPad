@@ -45,11 +45,10 @@ router.post('/login',async(req,res)=>{
           const token = jwt.sign(payload, `${secretOrKey}`, { expiresIn: "1d" });
           
           res.cookie("token", token, {
-            path: "/",  // Ensures the cookie is available across your entire app
-              // Ensure this is set to localhost for local development
-            
-            secure: false,  // In local development, secure should be false since you're using HTTP
-            sameSite: "Lax",  // "Lax" is generally safe for CSRF protection and works in most scenarios
+            path: "/",  // Available across your entire app
+            httpOnly: false,  // Allows JavaScript to read the cookie
+            secure: false,  // Not using HTTPS, so set to false
+            sameSite: 'Lax',  // Basic CSRF protection, but flexible enough for most cases
         });
 
           return res.status(200).send({
