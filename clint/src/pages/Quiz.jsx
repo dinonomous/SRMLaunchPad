@@ -7,6 +7,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie'
+import axios from 'axios';
 
 function Quiz(props) {
   const [unitTitle, setUnitTitle] = useState("");
@@ -24,46 +25,36 @@ function Quiz(props) {
   const [showfloat,setShowfloat] = useState(false);
   const { collection,title } = useParams();
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     resetState();
     const fetchData = async () => {
-      const token = Cookies.get("token");
-      if (!token) {
-        console.error('No token found');
-        navigate('/login');
-        return;
-      }
-
       try {
-        const response = await fetch(`${apiUrl}/quizapi/${collection}/${title}`, {
-          method: 'GET',
+        const response = await axios.get(`${apiUrl}/quizapi/${collection}/${title}`, {
+          withCredentials: true, // Include cookies in the request
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
+          },
         });
 
-        if (!response.ok) {
+        if (response.status === 200) {
+          const { unitTitle, questions } = response.data;
+          console.log("Data received from backend:", response.data);
+          setUnitTitle(unitTitle);
+          setQuestions(shuffleArray(questions)); // Shuffle questions array
+          console.log(unitTitle, questions);
+        } else {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-
-        const data = await response.json();
-        const { unitTitle, questions } = data;
-        console.log("Data received from backend:", data);
-        setUnitTitle(unitTitle);
-        setQuestions(shuffleArray(questions)); // Shuffle questions array
-        console.log(unitTitle, questions);
-
       } catch (error) {
         console.error('Network error:', error);
         navigate('/login');
-        // Handle the network error
       }
     };
 
     fetchData();
-  }, [collection, title]);
+  }, [apiUrl, collection, title, navigate]);
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {

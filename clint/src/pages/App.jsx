@@ -10,7 +10,7 @@ import { useMediaQuery } from "react-responsive";
 import { useNavigate } from 'react-router-dom';
 const apiUrl2 = import.meta.env.VITE_API_URL;
 const apiFrontUrl = import.meta.env.VITE_API_FRONT_URL;
-import Cookies from 'js-cookie'
+import axios from "axios";
 
 function extractDataURL(topic) {
   const tempDiv = document.createElement("div");
@@ -40,42 +40,31 @@ function App(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = Cookies.get("token");
-      if (!token) {
-        console.error('No token found');
-        navigate('/login');
-        return;
-      }
-
       try {
-        const response = await fetch(apiUrl, {
-          method: 'GET',
+        const response = await axios.get(apiUrl, {
+          withCredentials: true, // Include cookies in the request
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
+          },
         });
 
-        if (!response.ok) {
+        if (response.status === 200) {
+          const { PDF, Heading, topicsHTML } = response.data;
+          console.log("Data received from backend:", response.data);
+          setTopicsArray(topicsHTML);
+          setHeading(Heading);
+          setPDF(PDF);
+        } else {
           throw new Error(`Error: ${response.status} ${response.statusText}`);
         }
-
-        const data = await response.json();
-        const { PDF, Heading, topicsHTML } = data;
-        console.log("Data received from backend:", data);
-        setTopicsArray(topicsHTML);
-        setHeading(Heading);
-        setPDF(PDF);
-
       } catch (error) {
         console.error('Network error:', error);
         navigate('/login');
-        // Handle the network error
       }
     };
 
     fetchData();
-  }, [apiUrl]);
+  }, [apiUrl, navigate]);
 
   const handleTopicClick = (index) => {
     setSelectedTopicIndex(index); // Update the selected topic index when a topic is clicked

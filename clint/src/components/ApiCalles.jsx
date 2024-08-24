@@ -21,11 +21,11 @@ const fetchCollectionNames = async () => {
   }
   try {
     const { data } = await axios.get(`${apiUrl}/api/subjects/getcollectionnames`, {
+      withCredentials: true, // This will include cookies in the request
       headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+          "Content-Type": "application/json",
       },
-    });
+  });
     return data;
   } catch (error) {
     throw new Error(error.response?.data?.message || error.message);
@@ -39,9 +39,9 @@ const fetchQuizCollectionNames = async () => {
   }
   try {
     const { data } = await axios.get(`${apiUrl}/api/quizapi/getcollectionnames`, {
+      withCredentials: true, // This will include cookies in the request
       headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+          "Content-Type": "application/json",
       },
     });
     return data;
@@ -58,9 +58,9 @@ const fetchCollectionData = async ({ queryKey }) => {
   const parameter = queryKey[1];
   try {
     const { data } = await axios.get(`${apiUrl}/api/subjects/collection/${parameter}`, {
+      withCredentials: true, // This will include cookies in the request
       headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+          "Content-Type": "application/json",
       },
     });
     return data.titles;
@@ -77,9 +77,9 @@ const fetchQuizCollectionData = async ({ queryKey }) => {
   const parameter = queryKey[1];
   try {
     const { data } = await axios.get(`${apiUrl}/api/quizapi/Quizz/${parameter}`, {
+      withCredentials: true, // This will include cookies in the request
       headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
+          "Content-Type": "application/json",
       },
     });
     return data.titles;
