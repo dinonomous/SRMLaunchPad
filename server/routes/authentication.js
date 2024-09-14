@@ -106,7 +106,7 @@ router.post('/check-email', async (req, res) => {
 });
 
 router.get('/checkAuth', (req, res) => {
-  const token = req.cookies.token; // Get the token from the HttpOnly cookie
+  const token = req.cookies.token;
 
   if (!token) {
       return res.status(401).send({
@@ -115,7 +115,6 @@ router.get('/checkAuth', (req, res) => {
       });
   }
 
-  // Verify the token
   jwt.verify(token, secretOrKey, (err, decoded) => {
       if (err) {
           return res.status(401).send({
@@ -127,8 +126,24 @@ router.get('/checkAuth', (req, res) => {
       return res.status(200).send({
           success: true,
           message: 'User is authenticated',
-          user: decoded, // Optional: Send user details if needed
+          user: decoded,
       });
+  });
+});
+
+router.post('/logout', (req, res) => {
+  res.cookie('token', '', {
+      path: '/',  
+      domain: 'srm-launch-pad-api.vercel.app',
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+      expires: new Date(0)
+  });
+
+  res.status(200).send({
+      success: true,
+      message: 'Logged out successfully',
   });
 });
 
