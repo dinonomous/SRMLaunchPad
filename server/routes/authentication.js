@@ -132,19 +132,28 @@ router.get('/checkAuth', (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  res.cookie('token', '', {
-      path: '/',  
-      domain: 'srm-launch-pad-api.vercel.app',
-      httpOnly: true,
-      secure: true,
-      sameSite: 'None',
-      expires: new Date(0)
-  });
+  try {
+      if (process.env.NODE_ENV === 'development') {
+          res.setHeader('Set-Cookie', [
+              `token=; Path=/; HttpOnly; Max-Age=0; SameSite=Lax;` 
+          ]);
+      } else {
+          res.setHeader('Set-Cookie', [
+              `token=; Path=/; HttpOnly; Max-Age=0; SameSite=None; Secure=true;` 
+          ]);
+      }
 
-  res.status(200).send({
-      success: true,
-      message: 'Logged out successfully',
-  });
+      res.status(200).send({
+          success: true,
+          message: 'Logged out successfully',
+      });
+  } catch (error) {
+      console.error('Logout error:', error);
+      res.status(500).send({
+          success: false,
+          message: 'Internal Server Error during logout',
+      });
+  }
 });
 
 module.exports = router;
