@@ -117,7 +117,7 @@ export const useQuizCollectionData = (parameter) => {
 
 export const checkIfUserLoggedIn = async () => {
   try {
-    const { data } = await axios.get(`${apiUrl}/api/authentication/checkAuth`, {
+    const { data } = await axios.get(`${apiUrl}/authentication/checkAuth`, {
       withCredentials: true, // Include cookies in the request
     });
 
