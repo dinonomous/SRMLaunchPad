@@ -47,10 +47,10 @@ router.post('/login',async(req,res)=>{
           res.cookie("token", token, {
             path: "/",  // Available across the entire app
             domain: "srm-launch-pad-api.vercel.app",  // Your backend's domain
-            httpOnly: false,  // Allow JavaScript to read the cookie (if needed)
+            httpOnly: true,  // For security, set this to true for non-JS access
             secure: true,  // Set to true if you're using HTTPS
-            sameSite: 'None',  // Basic CSRF protection
-          });
+            sameSite: 'None',  // Set the value as 'None' for cross-site cookies
+          });          
           
 
           return res.status(200).send({
