@@ -105,4 +105,31 @@ router.post('/check-email', async (req, res) => {
   }
 });
 
+router.get('/checkAuth', (req, res) => {
+  const token = req.cookies.token; // Get the token from the HttpOnly cookie
+
+  if (!token) {
+      return res.status(401).send({
+          success: false,
+          message: 'User not authenticated',
+      });
+  }
+
+  // Verify the token
+  jwt.verify(token, secretOrKey, (err, decoded) => {
+      if (err) {
+          return res.status(401).send({
+              success: false,
+              message: 'Token is invalid',
+          });
+      }
+
+      return res.status(200).send({
+          success: true,
+          message: 'User is authenticated',
+          user: decoded, // Optional: Send user details if needed
+      });
+  });
+});
+
 module.exports = router;

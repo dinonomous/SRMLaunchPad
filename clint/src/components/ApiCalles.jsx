@@ -1,6 +1,5 @@
 import { useQuery, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import axios from 'axios';
-import Cookies from "js-cookie"
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -13,77 +12,73 @@ const queryClient = new QueryClient({
   },
 });
 
+// Fetch collection names without token in frontend
 const fetchCollectionNames = async () => {
-  const token = Cookies.get("token");
-  console.log(token)
-  if (!token) {
-    throw new Error("No token found");
-  }
   try {
     const { data } = await axios.get(`${apiUrl}/api/subjects/getcollectionnames`, {
-      withCredentials: true, // This will include cookies in the request
+      withCredentials: true,
       headers: {
-          "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
-  });
+    });
     return data;
   } catch (error) {
+    if (error.response?.status === 401) {
+      throw new Error("User is not authenticated");
+    }
     throw new Error(error.response?.data?.message || error.message);
   }
 };
 
 const fetchQuizCollectionNames = async () => {
-  const token = Cookies.get("token");
-  if (!token) {
-    throw new Error("No token found");
-  }
   try {
     const { data } = await axios.get(`${apiUrl}/api/quizapi/getcollectionnames`, {
-      withCredentials: true, // This will include cookies in the request
+      withCredentials: true,
       headers: {
-          "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
     });
     return data;
   } catch (error) {
+    if (error.response?.status === 401) {
+      throw new Error("User is not authenticated");
+    }
     throw new Error(error.response?.data?.message || error.message);
   }
 };
 
 const fetchCollectionData = async ({ queryKey }) => {
-  const token = Cookies.get("token");
-  if (!token) {
-    throw new Error("No token found");
-  }
   const parameter = queryKey[1];
   try {
     const { data } = await axios.get(`${apiUrl}/api/subjects/collection/${parameter}`, {
-      withCredentials: true, // This will include cookies in the request
+      withCredentials: true,
       headers: {
-          "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
     });
     return data.titles;
   } catch (error) {
+    if (error.response?.status === 401) {
+      throw new Error("User is not authenticated");
+    }
     throw new Error(error.response?.data?.message || error.message);
   }
 };
 
 const fetchQuizCollectionData = async ({ queryKey }) => {
-  const token = Cookies.get("token");
-  if (!token) {
-    throw new Error("No token found");
-  }
   const parameter = queryKey[1];
   try {
     const { data } = await axios.get(`${apiUrl}/api/quizapi/Quizz/${parameter}`, {
-      withCredentials: true, // This will include cookies in the request
+      withCredentials: true,
       headers: {
-          "Content-Type": "application/json",
+        "Content-Type": "application/json",
       },
     });
     return data.titles;
   } catch (error) {
+    if (error.response?.status === 401) {
+      throw new Error("User is not authenticated");
+    }
     throw new Error(error.response?.data?.message || error.message);
   }
 };
@@ -118,4 +113,23 @@ export const useQuizCollectionData = (parameter) => {
     queryFn: fetchQuizCollectionData,
   });
   return { data, error, isLoading };
+};
+
+export const checkIfUserLoggedIn = async () => {
+  try {
+    const { data } = await axios.get(`${apiUrl}/api/authentication/checkAuth`, {
+      withCredentials: true, // Include cookies in the request
+    });
+
+    if (data.success) {
+      return { loggedIn: true, user: data.user };
+    } else {
+      return { loggedIn: false };
+    }
+  } catch (error) {
+    if (error.response?.status === 401) {
+      return { loggedIn: false };
+    }
+    throw new Error(error.response?.data?.message || error.message);
+  }
 };

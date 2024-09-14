@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import SubjectCollections from "./subject/SubjectCollections.jsx";
 import QuizCollection from "./subject/QuizCollections.jsx";
-import Cookies from "js-cookie";
 
 function Format({ admin, children, Notebool }) {
   gsap.registerPlugin(useGSAP);
@@ -15,12 +14,19 @@ function Format({ admin, children, Notebool }) {
   const navigate = useNavigate();
   const [showSubjects, setShowSubjects] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authStatus, setAuthStatus] = useState({ loggedIn: false, user: null });
 
   useEffect(() => {
-    // Check if a token exists in local storage
-    const token = Cookies.get("token");
-    setIsAuthenticated(!!token);
+    const fetchAuthStatus = async () => {
+      try {
+        const result = await checkIfUserLoggedIn();
+        setAuthStatus(result);
+      } catch (error) {
+        console.error('Error checking auth status:', error);
+      }
+    };
+
+    fetchAuthStatus();
   }, []);
 
   const handleClick = () => {
@@ -71,7 +77,7 @@ function Format({ admin, children, Notebool }) {
               Home
             </Link>
           </li>
-          {isAuthenticated ? (
+          {authStatus.loggedIn ? (
             <>
               <li>
                 <a href="#" onClick={handleClick}>
@@ -112,7 +118,7 @@ function Format({ admin, children, Notebool }) {
           </li>
         </ul>
         <div className="authdiv">
-          {isAuthenticated ? (
+          {authStatus.loggedIn ? (
             <button className="logout btn" onClick={handleLogout}>
               Log out
             </button>
