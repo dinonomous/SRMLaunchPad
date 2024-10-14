@@ -141,3 +141,31 @@
   font-size: 1.3rem;
   font-style: italic;
 }
+
+.google-login-button{
+  color: var(--text);
+  border: 1px solid var(--grey);
+  margin: 40px 0 20px;
+  display: flex;
+  height: 4rem;
+  width: 18rem;
+  justify-content: space-evenly;
+  border: 1px solid rgb(87, 87, 87);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 2rem;
+  background-color: rgb(238, 238, 238);
+}
+
+.google-login-button:hover{
+  box-shadow: 0px 0px 5px 1px rgb(139, 139, 139);
+}
+
+.google-login-button > span {
+  display: flex;
+  align-items: center;
+} 
+
+.google-icon > svg{
+height: 100%;
+}

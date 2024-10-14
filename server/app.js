@@ -25,7 +25,7 @@ app.use(passport.initialize());
 
 // CORS setup
 app.use(cors({
-  origin: 'https://srmlaunchpad.vercel.app',
+  origin: ['https://srmlaunchpad.vercel.app','http://localhost:5174/'],
   credentials: true
 }));
 
