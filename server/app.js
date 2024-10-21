@@ -5,12 +5,20 @@ var logger = require('morgan');
 const cors = require('cors');
 require('./config/passport');
 require('dotenv').config();
+const cron = require('node-cron');
+const { autoUpdateCache } = require('./controllers/driveController');
+
+cron.schedule('0 * * * *', () => {
+    console.log('Running scheduled cache update');
+    autoUpdateCache();
+});
 
 const apiUrl = process.env.API_URL;
 const apiFrontUrl = process.env.FRONTEND_API_URL;
 
 var indexRouter = require('./routes/index');
 var authentication = require('./routes/authentication');
+var googleRouter = require("./routes/googleRouter")
 const passport = require('passport');
 
 var app = express();
@@ -25,12 +33,13 @@ app.use(passport.initialize());
 
 // CORS setup
 app.use(cors({
-  origin: ['https://srmlaunchpad.vercel.app','http://localhost:5174/'],
+  origin: ['https://srmlaunchpad.vercel.app','http://localhost:3000'],
   credentials: true
 }));
 
 // Routes setup
-app.use('/', indexRouter);
-app.use('/authentication', authentication);
+app.use('/api/v2/', indexRouter);
+app.use('/api/v2/authentication', authentication);
+app.use('/api/v2/google/', googleRouter)
 
 module.exports = app;

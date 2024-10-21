@@ -32,36 +32,19 @@ exports.login = async (req, res) => {
             secure: true,
           };
 
-    const cookieOptionsReadable =
-      process.env.NODE_ENV === "development"
-        ? { path: "/", httpOnly: false, maxAge: 86400000, sameSite: "Lax" }
-        : {
-            path: "/",
-            httpOnly: false,
-            maxAge: 86400000,
-            sameSite: "None",
-            secure: true,
-          };
-
-    // Create cookies array
-    const cookies = [
+    res.setHeader(
+      "Set-Cookie",
       `token=${token}; ${Object.entries(cookieOptions)
         .map(([key, value]) => `${key}=${value}`)
-        .join("; ")}`,
-      `email=${user.email}; ${Object.entries(cookieOptionsReadable)
-        .map(([key, value]) => `${key}=${value}`)
-        .join("; ")}`,
-      `uid=${user._id}; ${Object.entries(cookieOptionsReadable)
-        .map(([key, value]) => `${key}=${value}`)
-        .join("; ")}`,
-    ];
+        .join("; ")}`
+    );
 
-    // Set cookies using a single header
-    res.setHeader("Set-Cookie", cookies);
-
+    // Send uid and email in the response body for client-side setting
     res.status(200).send({
       success: true,
       message: "Logged in!",
+      email: user.email,
+      uid: user._id,
     });
   } catch (err) {
     res.status(500).send({

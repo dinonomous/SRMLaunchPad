@@ -10,34 +10,34 @@ const { getUnitDetails, getQuizDetails } = require("../controllers/getInfo");
 const passport = require("passport");
 require("../config/passport");
 
-router.get("/api/getcollectionnames", getAllCollectionNames);
+router.get("/getcollectionnames", getAllCollectionNames);
 
 router.post(
-  "/api/admin/subject/:collection",
+  "/admin/subject/:collection",
   passport.authenticate("jwt", { session: false }),
   postCollectionTitles
 );
 
 router.post(
-  "/api/admin/Quiz/:collection",
+  "/admin/Quiz/:collection",
   passport.authenticate("jwt", { session: false }),
   postQuizCollectionTitles
 );
 
 router.delete(
-  "/api/admin/subjects/collection/:collection",
+  "/admin/subjects/collection/:collection",
   passport.authenticate("jwt", { session: false }),
   deleteCollection
 );
 
 router.get(
-  "/api/subjects/:collection/:id",
-  passport.authenticate("jwt", { session: false }),
+  "/subjects/:collection/:id",
+  
   getUnitDetails
 );
 
 router.get(
-  "/api/quizapi/:collection/:id",
+  "/quizapi/:collection/:id",
   passport.authenticate("jwt", { session: false }),
   getQuizDetails
 );
