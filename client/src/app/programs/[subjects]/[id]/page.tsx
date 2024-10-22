@@ -5,8 +5,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getProgramsData } from "@/utils/api";
 import { useParams } from "next/navigation";
 import ReactQueryProvider from "@/components/QueryClientProvider";
-import VideoList from "@/components/VideoList";
-import VideoPlayer from "@/components/VideoPlayer";
+import VideoList from "@/components/subjects/VideoList";
+import VideoPlayer from "@/components/subjects/VideoPlayer";
 import DocumentViewer from "@/components/DocumentViewer";
 import Navbar from "@/components/nav/Navbar";
 import Wraper from "@/components/Wraper";
@@ -56,18 +56,18 @@ const ExampleComponent: React.FC = () => {
   return (
     <Wraper>
       <Navbar />
-      <div className="flex m-auto gap-4 bg-neutral-700 p-4 rounded-3xl w-fit my-8 max-w-[90%]">
-        <div className="w-[70vw] h-[39.375vw] rounded-2xl">
+      <div className="flex m-auto gap-4 bg-neutral-700 p-4 rounded-3xl w-fit mb-8 max-w-[90%]">
+        <div className="w-[75vw] h-[39.375vw] rounded-2xl">
           <VideoPlayer key={videoKey} videoUrl={currentVideo} />
         </div>
         <div className="w-[20%] h-[39.375vw]">
           <VideoList videos={data?.videos} onVideoSelect={handleVideoSelect} selected={videoKey}/>
         </div>
       </div>
-      <div className="max-w-[90%] m-auto p-4 rounded-3xl">
+      <div className="max-w-[90%] h-[90vh] m-auto p-4 rounded-3xl">
         {data?.PDF?.map((pdfs) => {
           return (
-            <DocumentViewer documentId={pdfs.path || "defaultDocumentId"} />
+            <DocumentViewer documentId={pdfs.path || "defaultDocumentId"} height={null}/>
           );
         })}
       </div>

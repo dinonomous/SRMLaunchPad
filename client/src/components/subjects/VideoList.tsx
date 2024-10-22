@@ -1,5 +1,11 @@
 import React from "react";
 import Image from "next/image";
+import {
+  FiChevronDown,
+  FiChevronRight,
+  FiFile,
+  FiFolder,
+} from "react-icons/fi";
 
 interface VideoListProps {
   videos: { _id: string; title: string; url: string }[];
@@ -11,13 +17,6 @@ const VideoList: React.FC<VideoListProps> = ({ videos, onVideoSelect, selected }
   return (
     <div className="bg-neutral-800 rounded-2xl p-4 h-full">
       <div className="flex gap-2 h-10 justify-center items-center">
-        <Image
-          src="/images/burger-sub.svg"
-          alt="burger"
-          width={50}
-          height={50}
-          className="h-full pb-1"
-        />
         <h2 className="font-bold text-3xl mb-2">Sub Topics</h2>
       </div>
 
@@ -28,7 +27,7 @@ const VideoList: React.FC<VideoListProps> = ({ videos, onVideoSelect, selected }
               className="text-white hover:underline text-wrap text-left flex items-center relative"
               onClick={() => onVideoSelect(video.url,index)}
             >
-            <Image src="/images/right.svg" alt="arrow" width={30} height={50} className="relative left-[-0.2rem]"/>
+            <FiChevronRight />
               {video.title}
             </button>
           </li>

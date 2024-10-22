@@ -141,7 +141,7 @@ const Page: React.FC<{ params: { slug?: string[] | undefined } }> = ({
               <></>
             )}
 
-            <div className="h-[80vh] pt-2">
+            <div className="h-[80vh] ">
               {openFile ? (
                 <DocumentViewer documentId={openFile} height={null} />
               ) : (
