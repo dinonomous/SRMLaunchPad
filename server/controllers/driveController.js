@@ -1,5 +1,6 @@
 const { google } = require("googleapis");
-const redisClient = require("../config/redisClient");
+const NodeCache = require("node-cache");
+const cache = new NodeCache({ stdTTL: 3600 });
 
 const drive = google.drive({
   version: "v3",
@@ -22,27 +23,28 @@ async function listRootFolders(req, res) {
   console.log(pageToken + " " + pageSize);
 
   try {
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = cache.get(cacheKey);
     if (cachedData) {
       console.log("Returning cached root folders");
-      return res.json(JSON.parse(cachedData));
+      return res.json(cachedData);
     }
 
     const result = await drive.files.list({
       q: `'${rootFolderId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
-      fields: "files(id, name, mimeType), nextPageToken",
+      fields: "files(id, name, mimeType, modifiedTime), nextPageToken",
       pageSize: pageSize,
       pageToken: pageToken,
-    });
+    });    
 
     const folders = result.data.files.map((file) => ({
       name: file.name,
       id: file.id,
       type: "folder",
-    }));
+      modifiedTime: file.modifiedTime,
+    }));    
 
     const nextPageToken = result.data.nextPageToken || null;
-    const hasMore = !!nextPageToken; // True if there are more folders to fetch
+    const hasMore = !!nextPageToken; 
 
     const response = {
       folders,
@@ -50,9 +52,7 @@ async function listRootFolders(req, res) {
       nextPageToken,
     };
 
-    // Cache the result for the current page token (cache for 1 hour)
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(response));
-
+    cache.set(cacheKey, response);
     return res.json(response);
   } catch (error) {
     console.error("Error fetching root folders:", error);
@@ -60,35 +60,33 @@ async function listRootFolders(req, res) {
   }
 }
 
-// Function to get contents inside a folder with pagination and lazy loading
 async function listFolderContents(req, res) {
   const folderId = req.params.folderId;
-  const pageSize = parseInt(req.query.pageSize) || 10; // Limit the number of files returned per request
-  const pageToken = req.query.pageToken || null; // For pagination
-
-  const cacheKey = `folder_${folderId}_${pageToken || 'initial'}`; // Unique cache key for each folder and pageToken
+  const pageSize = parseInt(req.query.pageSize) || 10; 
+  const pageToken = req.query.pageToken || null; 
+  const cacheKey = `folder_${folderId}_${pageToken || 'initial'}`;
 
   try {
-    const cachedData = await redisClient.get(cacheKey);
+    const cachedData = cache.get(cacheKey);
     if (cachedData) {
       console.log("Returning cached folder contents");
-      return res.json(JSON.parse(cachedData));
+      return res.json(cachedData);
     }
 
-    // Fetch folder contents (Lazy Loading with Pagination)
     const result = await drive.files.list({
       q: `'${folderId}' in parents and trashed = false`,
-      fields: "files(id, name, mimeType, webViewLink), nextPageToken",
+      fields: "files(id, name, mimeType, webViewLink, modifiedTime), nextPageToken",
       pageSize: pageSize,
       pageToken: pageToken,
-    });
+    });    
 
     const files = result.data.files.map((file) => ({
       name: file.name,
       id: file.id,
       type: file.mimeType === "application/vnd.google-apps.folder" ? "folder" : "file",
       webViewLink: file.webViewLink,
-    }));
+      modifiedTime: file.modifiedTime,
+    }));    
 
     const nextPageToken = result.data.nextPageToken || null;
     const hasMore = !!nextPageToken;
@@ -99,8 +97,7 @@ async function listFolderContents(req, res) {
       nextPageToken,
     };
 
-    // Cache the folder contents for the current page token
-    await redisClient.setEx(cacheKey, 3600, JSON.stringify(response));
+    cache.set(cacheKey, response);
 
     return res.json(response);
   } catch (error) {
@@ -109,12 +106,11 @@ async function listFolderContents(req, res) {
   }
 }
 
-// Function to automatically check Google Drive changes and update Redis cache
 async function autoUpdateCache() {
   const pageTokenCacheKey = "drivePageToken";
 
   try {
-    const cachedPageToken = await redisClient.get(pageTokenCacheKey);
+    const cachedPageToken = cache.get(pageTokenCacheKey);
     const pageToken =
       cachedPageToken ||
       (await drive.changes.getStartPageToken()).data.startPageToken;
@@ -132,11 +128,10 @@ async function autoUpdateCache() {
         change.file.mimeType === "application/vnd.google-apps.folder"
       ) {
         const folderCacheKey = `folder_${change.file.id}`;
-        await redisClient.del(folderCacheKey);
+        cache.del(folderCacheKey);
       }
     }
-
-    await redisClient.setEx(pageTokenCacheKey, 86400, newPageToken);
+    cache.set(pageTokenCacheKey, newPageToken);
   } catch (error) {
     console.error("Error checking for changes in Google Drive:", error);
   }

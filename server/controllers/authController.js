@@ -108,27 +108,11 @@ exports.logout = (req, res) => {
             secure: true,
           };
 
-    const cookieOptionsReadable =
-      process.env.NODE_ENV === "development"
-        ? { path: "/", httpOnly: false, maxAge: 0, sameSite: "Lax" }
-        : {
-            path: "/",
-            httpOnly: false,
-            maxAge: 0,
-            sameSite: "None",
-            secure: true,
-          };
 
     res.setHeader("Set-Cookie", [
       `token=; ${Object.entries(cookieOptions)
         .map(([key, value]) => `${key}=${value}`)
-        .join("; ")}`,
-      `email=; ${Object.entries(cookieOptionsReadable)
-        .map(([key, value]) => `${key}=${value}`)
-        .join("; ")}`,
-      `uid=; ${Object.entries(cookieOptionsReadable)
-        .map(([key, value]) => `${key}=${value}`)
-        .join("; ")}`,
+        .join("; ")}`
     ]);
 
     res.status(200).send({
