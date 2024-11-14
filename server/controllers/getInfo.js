@@ -1,34 +1,41 @@
-const unitSchema = require("../models/units");
-const quizSchema = require("../models/models");
+const { LearningModuleSchema } = require("../models/LearningModuleSchema");
+const testSchema = require("../models/testSchema");
 const { Subject, QuizDB } = require("../config/db");
-const { extractYouTubeVideoId, extractGoogleDriveFileId } = require('./VideoIdExtractor');
+const {
+  extractYouTubeVideoId,
+  extractGoogleDriveFileId,
+} = require("./VideoIdExtractor");
 
 const getUnitDetails = async (req, res) => {
   try {
     const collectionName = req.params.collection;
     const unitTitleToFind = req.params.id;
-    const Unitc = Subject.model(collectionName, unitSchema, collectionName);
-    const foundUnit = await Unitc.findById(`${unitTitleToFind}`);
+    const Unitc = Subject.model(
+      collectionName,
+      LearningModuleSchema,
+      collectionName
+    );
+    const foundUnit = await Unitc.findById(unitTitleToFind);
 
     if (!foundUnit) {
       res.status(404).send("Unit not found");
     } else {
-      const updatedVideos = foundUnit.videos.map(video => ({
+      const updatedVideos = foundUnit.videos.map((video) => ({
         _id: video._id,
         title: video.title,
-        url: extractYouTubeVideoId(video.url)
+        url: extractYouTubeVideoId(video.url),
       }));
 
-      const updatedPDFs = foundUnit.PDF.map(pdf => ({
+      const updatedPDFs = foundUnit.PDF.map((pdf) => ({
         _id: pdf._id,
         name: pdf.name,
-        path: extractGoogleDriveFileId(pdf.path)
+        path: extractGoogleDriveFileId(pdf.path),
       }));
 
       const response = {
         ...foundUnit.toObject(),
         videos: updatedVideos,
-        PDF: updatedPDFs
+        PDF: updatedPDFs,
       };
 
       res.send(response);
@@ -39,13 +46,12 @@ const getUnitDetails = async (req, res) => {
   }
 };
 
-
 const getQuizDetails = async (req, res) => {
   try {
     const subject = req.params.collection;
     const titleToFind = req.params.id;
 
-    const Quizc = QuizDB.model(subject, quizSchema, subject);
+    const Quizc = QuizDB.model(subject, testSchema, subject);
     const foundQuiz = await Quizc.findById(`${titleToFind}`);
 
     if (!foundQuiz) {

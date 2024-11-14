@@ -1,4 +1,5 @@
-const unitSchema = require("../../models/units");
+const LearningModule = require("../../models/LearningModuleSchema")
+const testSchema = require("../../models/testSchema");
 const { Subject, TrashDB } = require("../../config/db");
 
 const deleteCollection = async (req, res) => {

@@ -1,67 +1,123 @@
-const unitSchema = require("../models/units");
-const quizSchema = require("../models/models");
+const { LearningModuleSchema } = require("../models/LearningModuleSchema");
+const TestModel = require("../models/testSchema");
 const { Subject, QuizDB } = require("../config/db");
 
+/**
+ * Fetches collection names from a given database.
+ *
+ * @param {Object} db - The database connection object.
+ * @returns {Promise<string[]>} - An array of collection names.
+ * @throws {Error} - If unable to retrieve collection names.
+ */
+const fetchCollectionNames = async (db) => {
+  try {
+    const collections = await db.listCollections().toArray();
+    return collections.map((collection) => collection.name);
+  } catch (error) {
+    console.error("Error fetching collection names:", error);
+    throw new Error("Failed to retrieve collection names from the database.");
+  }
+};
+
+/**
+ * Fetches titles from collections in the Subject database.
+ *
+ * @param {string[]} collectionNames - An array of collection names.
+ * @returns {Promise<Object[]>} - An array of objects containing titles and ids.
+ */
+const fetchSubjectData = async (collectionNames) => {
+  return Promise.all(
+    collectionNames.map(async (collectionName) => {
+      try {
+        const UnitModel = Subject.model(
+          collectionName,
+          LearningModuleSchema,
+          collectionName
+        );
+        const documents = await UnitModel.find({ title: { $exists: true } });
+        return {
+          [collectionName]: documents.map((doc) => ({
+            title: doc.title,
+            id: doc._id,
+          })),
+        };
+      } catch (error) {
+        console.error(`Error fetching data from ${collectionName}:`, error);
+        return { [collectionName]: [] }; // Return an empty array on error
+      }
+    })
+  );
+};
+
+/**
+ * Fetches titles from collections in the QuizDB.
+ *
+ * @param {string[]} collectionNames - An array of collection names.
+ * @returns {Promise<Object[]>} - An array of objects containing titles and ids.
+ */
+const fetchQuizData = async (collectionNames) => {
+  return Promise.all(
+    collectionNames.map(async (collectionName) => {
+      try {
+        const QuizModel = QuizDB.model(
+          collectionName,
+          TestModel,
+          collectionName
+        );
+        const documents = await QuizModel.find({ title: { $exists: true } });
+        return {
+          [collectionName]: documents.map((doc) => ({
+            title: doc.title,
+            id: doc._id,
+          })),
+        };
+      } catch (error) {
+        console.error(`Error fetching data from ${collectionName}:`, error);
+        return { [collectionName]: [] }; // Return an empty array on error
+      }
+    })
+  );
+};
+
+/**
+ * Retrieves all collection names and their corresponding data from Subject and QuizDB.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} - Sends a JSON response with the collected data.
+ */
 const getAllCollectionNames = async (req, res) => {
   try {
-    // Fetch collections from both Subject and QuizDB
-    const [subjectCollections, quizCollections] = await Promise.all([
-      Subject.db.listCollections().toArray(),
-      QuizDB.db.listCollections().toArray(),
+    // Fetch collection names from both Subject and QuizDB
+    const [subjectCollectionNames, quizCollectionNames] = await Promise.all([
+      fetchCollectionNames(Subject.db),
+      fetchCollectionNames(QuizDB.db),
     ]);
-
-    const subjectCollectionNames = subjectCollections.map((collection) => collection.name);
-    const quizCollectionNames = quizCollections.map((collection) => collection.name);
 
     // Fetch data for both Subject and QuizDB collections
     const [subjectData, quizData] = await Promise.all([
-      Promise.all(
-        subjectCollectionNames.map(async (collectionName) => {
-          try {
-            const Unitc = Subject.model(collectionName, unitSchema, collectionName);
-            const documents = await Unitc.find({ title: { $exists: true } });
-            const titles = documents.map((doc) => ({
-              title: doc.title,
-              id: doc._id,
-            }));
-            return { [collectionName]: titles };
-          } catch (error) {
-            console.error(`Error fetching data from ${collectionName}:`, error);
-            return { [collectionName]: [] };
-          }
-        })
-      ),
-      Promise.all(
-        quizCollectionNames.map(async (collectionName) => {
-          try {
-            const QuizModel = QuizDB.model(collectionName, quizSchema, collectionName);
-            const documents = await QuizModel.find({ title: { $exists: true } });
-            const titles = documents.map((doc) => ({
-              title: doc.title,
-              id: doc._id,
-            }));
-            return { [collectionName]: titles };
-          } catch (error) {
-            console.error(`Error fetching data from ${collectionName}:`, error);
-            return { [collectionName]: [] };
-          }
-        })
-      ),
+      fetchSubjectData(subjectCollectionNames),
+      fetchQuizData(quizCollectionNames),
     ]);
 
-    // Combine results into an array with two objects
-    const result = [
-      { subject: subjectData.reduce((acc, curr) => ({ ...acc, ...curr }), {}) },
-      { quiz: quizData.reduce((acc, curr) => ({ ...acc, ...curr }), {}) },
-    ];
+    // Combine results into a structured response
+    const result = {
+      status: "success",
+      message: "Collection names and data retrieved successfully.",
+      data: {
+        subjects: subjectData.reduce((acc, curr) => ({ ...acc, ...curr }), {}),
+        quizzes: quizData.reduce((acc, curr) => ({ ...acc, ...curr }), {}),
+      },
+    };
 
-    res.json(result);
+    res.status(200).json(result); // Success response
   } catch (error) {
     console.error("Error getting collection names:", error);
     res.status(500).json({
-      error: "Failed to retrieve collection names",
+      status: "error",
+      message: "Failed to retrieve collection names and data.",
       errorMessage: error.message,
-    });
+    }); // Error response
   }
 };
 

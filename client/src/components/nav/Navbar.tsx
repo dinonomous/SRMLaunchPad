@@ -170,9 +170,9 @@ const Navbar: React.FC = () => {
                 Home
               </Link>
             </li>
-            {data?.map((menu: Record<string, any>) => (
+            {/* {data.data?.map((menu: Record<string, any>) => (
               <DropDown key={menu.id} data={menu} />
-            ))}
+            ))} */}
             <li>
               <Link
                 href="/books/g"
