@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import ReactQueryProvider from "@/components/QueryClientProvider";
 import Navbar from "@/components/nav/Navbar";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
+import Cookies from "js-cookie";
 
 interface Folder {
   name: string;
@@ -36,7 +37,6 @@ const truncateText = (text: string, maxWords: number): string => {
 const Page: React.FC<{ params: { slug?: string[] | undefined } }> = ({
   params,
 }) => {
-  const router = useRouter();
   const { slug } = params || {};
   const [folders, setFolders] = useState<Folder[]>([]);
   const [nextPageToken, setNextPageToken] = useState<string | null>(null);
@@ -45,6 +45,15 @@ const Page: React.FC<{ params: { slug?: string[] | undefined } }> = ({
   const [openFile, setOpenFile] = useState<string | null>(null);
   const [fileName, setFileName] = useState<string | null>(null);
   const [children, setChildren] = useState<Folder[]>([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const uid = Cookies.get("uid");
+    console.log("UID:", uid); // Debug log to check the cookie value
+    if (!uid) {
+      router.replace("/login/user");
+    }
+  }, []);
 
   useEffect(() => {
     const fetchFolders = async () => {

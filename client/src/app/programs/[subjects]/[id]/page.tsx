@@ -3,13 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProgramsData } from "@/utils/api";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import ReactQueryProvider from "@/components/QueryClientProvider";
 import VideoList from "@/components/subjects/VideoList";
 import VideoPlayer from "@/components/subjects/VideoPlayer";
 import DocumentViewer from "@/components/DocumentViewer";
 import Navbar from "@/components/nav/Navbar";
 import Wraper from "@/components/Wraper";
+import Cookies from "js-cookie";
 
 // Define types for the expected structure of data
 interface Video {
@@ -31,6 +32,15 @@ const ExampleComponent: React.FC = () => {
   const [currentVideo, setCurrentVideo] = useState<string>("");
   const [videoKey, setVideoKey] = useState(0);
   const { subjects, id } = useParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const uid = Cookies.get("uid");
+    console.log("UID:", uid); // Debug log to check the cookie value
+    if (!uid) {
+      router.replace("/login/user");
+    }
+  }, []);  
 
   const { data, error, isLoading } = useQuery<ProgramData>({
     queryKey: ["collection", subjects, id],
@@ -61,13 +71,20 @@ const ExampleComponent: React.FC = () => {
           <VideoPlayer key={videoKey} videoUrl={currentVideo} />
         </div>
         <div className="w-[20%] h-[39.375vw]">
-          <VideoList  videos={data?.videos || []} onVideoSelect={handleVideoSelect} selected={videoKey}/>
+          <VideoList
+            videos={data?.videos || []}
+            onVideoSelect={handleVideoSelect}
+            selected={videoKey}
+          />
         </div>
       </div>
       <div className="max-w-[90%] h-[90vh] m-auto p-4 rounded-3xl">
         {data?.PDF?.map((pdfs) => {
           return (
-            <DocumentViewer documentId={pdfs.path || "defaultDocumentId"} height={null}/>
+            <DocumentViewer
+              documentId={pdfs.path || "defaultDocumentId"}
+              height={null}
+            />
           );
         })}
       </div>

@@ -36,7 +36,7 @@ const Login = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/v2/authentication/register",
+        `${process.env.NEXT_PUBLIC_API_URL}/authentication/register`,
         {
           method: "POST",
           headers: {

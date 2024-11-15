@@ -32,7 +32,7 @@ router.delete(
 
 router.get(
   "/subjects/:collection/:id",
-  
+  passport.authenticate("jwt", { session: false }),
   getUnitDetails
 );
 
