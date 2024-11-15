@@ -170,9 +170,8 @@ const Navbar: React.FC = () => {
                 Home
               </Link>
             </li>
-            {/* {data.data?.map((menu: Record<string, any>) => (
-              <DropDown key={menu.id} data={menu} />
-            ))} */}
+                <DropDown dropdownTitle={"Subject"} data={data.data.subjects} />
+                <DropDown dropdownTitle={"Quiz"} data={data.data.quizzes} />
             <li>
               <Link
                 href="/books/g"
@@ -253,4 +252,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default React.memo(Navbar);

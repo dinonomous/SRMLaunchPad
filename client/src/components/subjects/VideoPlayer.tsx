@@ -19,8 +19,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ videoUrl }) => {
         <Skeleton
           sx={{ bgcolor: "gray" }}
           variant="rounded"
-          height={"70vh"}
-          className="mb-2"
+          height={"67vh"}
+          className="mb-2 rounded-2xl" 
         />
       )}
 

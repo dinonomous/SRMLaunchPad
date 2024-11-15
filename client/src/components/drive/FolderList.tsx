@@ -6,7 +6,8 @@ import { Skeleton } from "@mui/material";
 interface Folder {
   name: string;
   id: string;
-  type: string;
+  type: "folder" | "file";
+  modifiedTime: string;
 }
 
 interface FolderNavigationProps {
@@ -97,10 +98,10 @@ const FolderNavigation: React.FC<FolderNavigationProps> = memo(
                     slug={slug.slice(1)}
                     toggleFile={toggleFile}
                     onChildFoldersUpdate={onChildFoldersUpdate}
-                    nextPageToken={nextPageToken}
+                    
                   />
                 ))}
-                {nextPageToken? <a href="">more</a> : <></> }
+                {nextPageToken? <a href="">mLore</a> : <></> }
               </div>
             </ul>
           )}

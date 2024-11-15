@@ -34,7 +34,7 @@ const ExampleComponent: React.FC = () => {
 
   const { data, error, isLoading } = useQuery<ProgramData>({
     queryKey: ["collection", subjects, id],
-    queryFn: () => getProgramsData(subjects, id),
+    queryFn: () => getProgramsData(subjects as string, id as string),
     enabled: !!subjects && !!id,
   });
 
@@ -61,7 +61,7 @@ const ExampleComponent: React.FC = () => {
           <VideoPlayer key={videoKey} videoUrl={currentVideo} />
         </div>
         <div className="w-[20%] h-[39.375vw]">
-          <VideoList videos={data?.videos} onVideoSelect={handleVideoSelect} selected={videoKey}/>
+          <VideoList  videos={data?.videos || []} onVideoSelect={handleVideoSelect} selected={videoKey}/>
         </div>
       </div>
       <div className="max-w-[90%] h-[90vh] m-auto p-4 rounded-3xl">

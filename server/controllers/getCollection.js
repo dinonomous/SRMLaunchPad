@@ -100,13 +100,23 @@ const getAllCollectionNames = async (req, res) => {
       fetchQuizData(quizCollectionNames),
     ]);
 
+    // Transform the data structure to arrays
+    const transformToArray = (data) =>
+      data.map((item) => {
+        const [collectionName, collectionData] = Object.entries(item)[0];
+        return { collectionName, data: collectionData };
+      });
+
+    const subjectsArray = transformToArray(subjectData);
+    const quizzesArray = transformToArray(quizData);
+
     // Combine results into a structured response
     const result = {
       status: "success",
       message: "Collection names and data retrieved successfully.",
       data: {
-        subjects: subjectData.reduce((acc, curr) => ({ ...acc, ...curr }), {}),
-        quizzes: quizData.reduce((acc, curr) => ({ ...acc, ...curr }), {}),
+        subjects: subjectsArray,
+        quizzes: quizzesArray,
       },
     };
 

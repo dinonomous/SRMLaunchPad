@@ -14,7 +14,8 @@ import { Skeleton } from "@mui/material";
 interface Folder {
   name: string;
   id: string;
-  type: string;
+  type: "folder" | "file";
+  modifiedTime: string;
 }
 
 // Utility function to create a slug
@@ -46,7 +47,7 @@ const FolderItem: React.FC<FolderItemProps> = ({
   const isFolderOpen = decodedSlugs.includes(folder.name); // Check if the folder is open based on decoded slugs
   const [open, setOpen] = useState<boolean>(isFolderOpen);
   const [nextPageToken, setnextPageToken] = useState<boolean>(isFolderOpen);
-  const [expands, setExpand] = useState<string>();
+  const [expands, setExpand] = useState<string>("");
 
   useEffect(() => {
     const fetchChildFolders = async () => {
@@ -75,11 +76,24 @@ const FolderItem: React.FC<FolderItemProps> = ({
 
   const expand = async (id: string) => {
     try {
+      setLoading(true);
       const data = await getBooksChildExpand(folder.id, expands);
-      setChildren((prevChildren) => [...(prevChildren || []), ...data.files]); // Append new files
+  
+      // Append new files to the existing children
+      setChildren((prevChildren) => {
+        const updatedChildren = [...(prevChildren || []), ...data.files];
+        return updatedChildren;
+      });
+
+      setLoading(false);
+  
       setnextPageToken(data.nextPageToken);
-      onChildFoldersUpdate(folder.name, data.files);
-      setExpand(data.nextPageToken); // Update the parent with the new child folders
+  
+      // Update all the child folders, including both old and new
+      onChildFoldersUpdate(folder.name, children ? [...children, ...data.files] : data.files);
+  
+      // Update expand state
+      setExpand(data.nextPageToken);
     } catch (err) {
       setError("Failed to load child folders");
     } finally {
@@ -157,6 +171,7 @@ const FolderItem: React.FC<FolderItemProps> = ({
               slug={[...decodedSlugs]}
               toggleFile={toggleFile}
               onChildFoldersUpdate={onChildFoldersUpdate}
+              
             />
           ))}
           {nextPageToken ? (
