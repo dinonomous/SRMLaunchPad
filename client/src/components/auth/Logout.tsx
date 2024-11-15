@@ -13,7 +13,7 @@ const LogoutButton: React.FC = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:5001/api/v2/authentication/logout",
+        `${process.env.NEXT_PUBLIC_API_URL}/authentication/logout`,
         {
           method: "POST",
           headers: {

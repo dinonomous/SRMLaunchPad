@@ -1,7 +1,7 @@
 // src/utils/api/v2/v2.ts
 import axios from "axios";
 
-const API_URL = "http://localhost:5001/api/v2";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Function to fetch all collections
 export const getCollectionNames = async () => {
