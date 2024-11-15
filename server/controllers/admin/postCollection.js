@@ -1,5 +1,5 @@
-const unitSchema = require("../../models/units");
-const quizSchema = require("../../models/models");
+const LearningModule = require("../../models/LearningModuleSchema")
+const testSchema = require("../../models/testSchema")
 const { Subject, QuizDB } = require('../../config/db');
 
 const postCollectionTitles = async (req, res) => {

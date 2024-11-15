@@ -1,29 +1,45 @@
 const express = require("express");
 const router = express.Router();
-const { getCollectionNames, getCollectionNamesQuiz } = require('../controllers/getCollection')
-const { getCollectionTitles, getQuizCollectionTitles } = require('../controllers/getCollectionTitles')
-const { postCollectionTitles, postQuizCollectionTitles } = require('../controllers/admin/postCollection')
-const { deleteCollection } = require('../controllers/admin/deleteCollections')
-const { getUnitDetails, getQuizDetails } = require('../controllers/getInfo');
+const { getAllCollectionNames } = require("../controllers/getCollection");
+const {
+  postCollectionTitles,
+  postQuizCollectionTitles,
+} = require("../controllers/admin/postCollection");
+const { deleteCollection } = require("../controllers/admin/deleteCollections");
+const { getUnitDetails, getQuizDetails } = require("../controllers/getInfo");
 const passport = require("passport");
-require('../config/passport')
+require("../config/passport");
 
-router.get("/api/subjects/getcollectionnames", passport.authenticate('jwt',{ session:false }), getCollectionNames );
+router.get("/getcollectionnames", getAllCollectionNames);
 
-router.get("/api/quizapi/getcollectionnames", passport.authenticate('jwt',{ session:false }),getCollectionNamesQuiz);
+router.post(
+  "/admin/subject/:collection",
+  passport.authenticate("jwt", { session: false }),
+  postCollectionTitles
+);
 
-router.get("/api/subjects/collection/:collection", passport.authenticate('jwt',{ session:false }),getCollectionTitles);
+router.post(
+  "/admin/Quiz/:collection",
+  passport.authenticate("jwt", { session: false }),
+  postQuizCollectionTitles
+);
 
-router.get("/api/quizapi/Quizz/:collection", passport.authenticate('jwt',{ session:false }),getQuizCollectionTitles);
+router.delete(
+  "/admin/subjects/collection/:collection",
+  passport.authenticate("jwt", { session: false }),
+  deleteCollection
+);
 
-router.post("/api/admin/subject/:collection", passport.authenticate('jwt',{ session:false }),postCollectionTitles);
+router.get(
+  "/subjects/:collection/:id",
+  
+  getUnitDetails
+);
 
-router.post("/api/admin/Quiz/:collection", passport.authenticate('jwt',{ session:false }),postQuizCollectionTitles);
-
-router.get("/api/subjects/collection/:collection/:id", passport.authenticate('jwt',{ session:false }), getUnitDetails);
-
-router.delete("/api/admin/subjects/collection/:collection", passport.authenticate('jwt',{ session:false }), deleteCollection);
-
-router.get("/quizapi/:collection/:id", passport.authenticate('jwt',{ session:false }),getQuizDetails);
+router.get(
+  "/quizapi/:collection/:id",
+  passport.authenticate("jwt", { session: false }),
+  getQuizDetails
+);
 
 module.exports = router;
