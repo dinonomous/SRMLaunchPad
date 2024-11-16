@@ -1,20 +1,35 @@
 const mongoose = require('mongoose');
-const { Subject, QuizDB, UnitDB } = require('../config/db');
+const { getDatabase } = require('../config/db');
 
-mongoose.connect(UnitDB, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+// Get the database connection
+const dbConnection = getDatabase("Users");
 
+if (!dbConnection) {
+  console.error('Database connection is not established. Check your configuration.');
+  process.exit(1);
+}
 
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true },
-  password: { type: String, required: true }
+// Import Schema directly from mongoose
+const { Schema } = mongoose;
+
+// Define the user schema
+const userSchema = new Schema({
+  email: {
+    type: String,
+    required: true,
+    unique: true, // Enforce unique email addresses
+    match: [/.+@.+\..+/, 'Invalid email format'], // Validate email format
+  },
+  password: {
+    type: String,
+    required: true,
+    minlength: 6, // Enforce a minimum password length
+  },
+}, {
+  timestamps: true, // Automatically adds createdAt and updatedAt fields
 });
 
-// Create the user model
-const UserModel = mongoose.model('User', userSchema);
+// Create the User model using the existing connection
+const UserModel = dbConnection.model('User', userSchema);
 
 module.exports = UserModel;

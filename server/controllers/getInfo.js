@@ -1,6 +1,7 @@
 const { LearningModuleSchema } = require("../models/LearningModuleSchema");
 const testSchema = require("../models/testSchema");
 const { Subject, QuizDB } = require("../config/db");
+const { getDatabase } = require("../config/db");
 const {
   extractYouTubeVideoId,
   extractGoogleDriveFileId,
@@ -10,7 +11,7 @@ const getUnitDetails = async (req, res) => {
   try {
     const collectionName = req.params.collection;
     const unitTitleToFind = req.params.id;
-    const Unitc = Subject.model(
+    const Unitc = getDatabase("SRMLaunchpad2").model(
       collectionName,
       LearningModuleSchema,
       collectionName
@@ -48,10 +49,10 @@ const getUnitDetails = async (req, res) => {
 
 const getQuizDetails = async (req, res) => {
   try {
-    const subject = req.params.collection;
+    const object = req.params.collection;
     const titleToFind = req.params.id;
 
-    const Quizc = QuizDB.model(subject, testSchema, subject);
+    const Quizc = getDatabase("Quizz").model(object, testSchema, object);
     const foundQuiz = await Quizc.findById(`${titleToFind}`);
 
     if (!foundQuiz) {

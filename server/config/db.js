@@ -1,50 +1,73 @@
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const {
-  MONGODB_SUBJECT_CONNECTION_STRING,
-  MONGODB_QUIZDB_CONNECTION_STRING,
-  MONGODB_TRASHDB_CONNECTION_STRING,
-  MONGODB_USERDB_CONNECTION_STRING,
-} = process.env;
+/**
+ * MongoDB Cluster Connection String from Environment Variables
+ * @constant {string}
+ */
+const { MONGODB_CLUSTER_CONNECTION_STRING } = process.env;
 
-// Verify that all required environment variables are set
-if (
-  !MONGODB_SUBJECT_CONNECTION_STRING ||
-  !MONGODB_QUIZDB_CONNECTION_STRING ||
-  !MONGODB_TRASHDB_CONNECTION_STRING ||
-  !MONGODB_USERDB_CONNECTION_STRING
-) {
-  console.error("Error: Missing one or more MongoDB connection strings in environment variables.");
+/**
+ * Verifies if the MongoDB connection string is present.
+ */
+if (!MONGODB_CLUSTER_CONNECTION_STRING) {
+  console.error("Error: Missing MongoDB cluster connection string in environment variables.");
   process.exit(1);
 }
 
-// Recommended Mongoose connection options
+/**
+ * MongoDB Connection Options
+ * @constant {object}
+ */
 const mongooseOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
 };
 
-// Function to create a connection with error handling
-const createConnection = (connectionString, dbName) => {
-  const connection = mongoose.createConnection(connectionString, mongooseOptions);
-  connection.on("connected", () => console.log(`Successfully connected to ${dbName}`));
-  connection.on("error", (error) => {
-    console.error(`Error connecting to ${dbName}:`, error.message);
-    process.exit(1);
-  });
-  return connection;
+/**
+ * MongoDB Cluster Connection
+ * @type {mongoose.Connection}
+ */
+const clusterConnection = mongoose.createConnection(MONGODB_CLUSTER_CONNECTION_STRING, mongooseOptions);
+
+clusterConnection.on("connected", () => console.log("✅ MongoDB cluster connected successfully"));
+clusterConnection.on("error", (error) => {
+  console.error("❌ MongoDB cluster connection error:", error.message);
+  process.exit(1);
+});
+
+/**
+ * Keeps the MongoDB connection alive by periodically pinging the server.
+ */
+const keepAlive = () => {
+  setInterval(async () => {
+    try {
+      await clusterConnection.db.admin().ping();
+      console.log("✅ MongoDB connection is active (Ping successful)");
+    } catch (error) {
+      console.error("❌ MongoDB ping failed:", error.message);
+    }
+  }, 30000);
 };
 
-// Directly initialize connections and export them
-const Subject = createConnection(MONGODB_SUBJECT_CONNECTION_STRING, "SRMLaunchpad2");
-const QuizDB = createConnection(MONGODB_QUIZDB_CONNECTION_STRING, "Quizz");
-const TrashDB = createConnection(MONGODB_TRASHDB_CONNECTION_STRING, "TrashDB");
-const UnitDB = MONGODB_USERDB_CONNECTION_STRING; // Exported as URI for direct use if required
+keepAlive();
+
+/**
+ * Dynamically retrieves a database instance by name.
+ * @param {string} dbName - The name of the database to retrieve.
+ * @returns {mongoose.Connection} - The database instance.
+ */
+const getDatabase = (dbName) => {
+  try {
+    return clusterConnection.useDb(dbName);
+  } catch (error) {
+    console.error(`❌ Error accessing database "${dbName}":`, error.message);
+    throw error;
+  }
+};
 
 module.exports = {
-  Subject,
-  QuizDB,
-  TrashDB,
-  UnitDB,
+  getDatabase,
 };

@@ -1,6 +1,6 @@
 const { LearningModuleSchema } = require("../models/LearningModuleSchema");
 const TestModel = require("../models/testSchema");
-const { Subject, QuizDB } = require("../config/db");
+const { getDatabase } = require("../config/db");
 
 /**
  * Fetches collection names from a given database.
@@ -29,7 +29,7 @@ const fetchSubjectData = async (collectionNames) => {
   return Promise.all(
     collectionNames.map(async (collectionName) => {
       try {
-        const UnitModel = Subject.model(
+        const UnitModel = getDatabase("SRMLaunchpad2").model(
           collectionName,
           LearningModuleSchema,
           collectionName
@@ -59,7 +59,7 @@ const fetchQuizData = async (collectionNames) => {
   return Promise.all(
     collectionNames.map(async (collectionName) => {
       try {
-        const QuizModel = QuizDB.model(
+        const QuizModel = getDatabase("Quizz").model(
           collectionName,
           TestModel,
           collectionName
@@ -90,8 +90,8 @@ const getAllCollectionNames = async (req, res) => {
   try {
     // Fetch collection names from both Subject and QuizDB
     const [subjectCollectionNames, quizCollectionNames] = await Promise.all([
-      fetchCollectionNames(Subject.db),
-      fetchCollectionNames(QuizDB.db),
+      fetchCollectionNames(getDatabase("SRMLaunchpad2").db),
+      fetchCollectionNames(getDatabase("Quizz").db),
     ]);
 
     // Fetch data for both Subject and QuizDB collections

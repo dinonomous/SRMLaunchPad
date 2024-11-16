@@ -1,8 +1,8 @@
-const UserModel = require("../models/user");
+const UserModel = require("../../models/user");
 const { hashSync, compareSync } = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
-const { secretOrKey } = require("../config/keys");
+const { secretOrKey } = require("../../config/keys");
 
 exports.login = async (req, res) => {
   try {
