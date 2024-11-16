@@ -5,7 +5,7 @@ require("dotenv").config();
  * MongoDB Cluster Connection String from Environment Variables
  * @constant {string}
  */
-const { MONGODB_CLUSTER_CONNECTION_STRING } = process.env;
+const MONGODB_CLUSTER_CONNECTION_STRING = process.env.MONGODB_CLUSTER_CONNECTION_STRING;
 
 /**
  * Verifies if the MongoDB connection string is present.
