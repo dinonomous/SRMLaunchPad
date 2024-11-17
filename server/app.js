@@ -7,6 +7,7 @@ require('./config/passport');
 require('dotenv').config();
 const cron = require('node-cron');
 const { autoUpdateCache } = require('./controllers/driveController');
+const { LearningModule, tests, user } = require('./models/LearningModuleSchema');
 
 cron.schedule('0 * * * *', () => {
     console.log('Running scheduled cache update');
@@ -15,6 +16,10 @@ cron.schedule('0 * * * *', () => {
 
 const apiUrl = process.env.API_URL;
 const apiFrontUrl = process.env.FRONTEND_API_URL;
+
+const l = LearningModule;
+const t = tests;
+const u = user;
 
 var indexRouter = require('./routes/index');
 var authentication = require('./routes/authentication');

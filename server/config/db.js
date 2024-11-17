@@ -5,7 +5,8 @@ require("dotenv").config();
  * MongoDB Cluster Connection String from Environment Variables
  * @constant {string}
  */
-const MONGODB_CLUSTER_CONNECTION_STRING = process.env.MONGODB_CLUSTER_CONNECTION_STRING;
+const MONGODB_CLUSTER_CONNECTION_STRING =
+  process.env.MONGODB_CLUSTER_CONNECTION_STRING;
 
 if (!MONGODB_CLUSTER_CONNECTION_STRING) {
   console.error("Error: Missing MongoDB cluster connection string.");
@@ -29,7 +30,9 @@ const LearningModule = mongoose.createConnection(
   mongooseOptions
 );
 
-LearningModule.on("connected", () => console.log("✅ Connected to LearningModule database"));
+LearningModule.on("connected", () =>
+  console.log("✅ Connected to LearningModule database")
+);
 LearningModule.on("error", (error) =>
   console.error("❌ Error in saperae database connection:", error)
 );
