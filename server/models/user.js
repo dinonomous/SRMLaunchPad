@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const { getDatabase } = require('../config/db');
+const { user } = require('../config/db');
 
 // Get the database connection
-const dbConnection = getDatabase("Users");
+const dbConnection = user;
 
 if (!dbConnection) {
   console.error('Database connection is not established. Check your configuration.');

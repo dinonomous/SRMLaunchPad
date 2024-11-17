@@ -7,11 +7,8 @@ require("dotenv").config();
  */
 const MONGODB_CLUSTER_CONNECTION_STRING = process.env.MONGODB_CLUSTER_CONNECTION_STRING;
 
-/**
- * Verifies if the MongoDB connection string is present.
- */
 if (!MONGODB_CLUSTER_CONNECTION_STRING) {
-  console.error("Error: Missing MongoDB cluster connection string in environment variables.");
+  console.error("Error: Missing MongoDB cluster connection string.");
   process.exit(1);
 }
 
@@ -22,52 +19,50 @@ if (!MONGODB_CLUSTER_CONNECTION_STRING) {
 const mongooseOptions = {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS: 45000,
 };
 
 /**
- * MongoDB Cluster Connection
- * @type {mongoose.Connection}
+ * Separate MongoDB Connections for Different Databases
  */
-const clusterConnection = mongoose.createConnection(MONGODB_CLUSTER_CONNECTION_STRING, mongooseOptions);
+const LearningModule = mongoose.createConnection(
+  `${MONGODB_CLUSTER_CONNECTION_STRING}/SRMLaunchpad2`,
+  mongooseOptions
+);
 
-clusterConnection.on("connected", () => console.log("✅ MongoDB cluster connected successfully"));
-clusterConnection.on("error", (error) => {
-  console.error("❌ MongoDB cluster connection error:", error.message);
-  process.exit(1);
-});
+LearningModule.on("connected", () => console.log("✅ Connected to LearningModule database"));
+LearningModule.on("error", (error) =>
+  console.error("❌ Error in saperae database connection:", error)
+);
 
 /**
- * Keeps the MongoDB connection alive by periodically pinging the server.
+ * Additional Connections (if required)
+ * Example for another database:
  */
-const keepAlive = () => {
-  setInterval(async () => {
-    try {
-      await clusterConnection.db.admin().ping();
-      console.log("✅ MongoDB connection is active (Ping successful)");
-    } catch (error) {
-      console.error("❌ MongoDB ping failed:", error.message);
-    }
-  }, 30000);
-};
+const tests = mongoose.createConnection(
+  `${MONGODB_CLUSTER_CONNECTION_STRING}/Quizz`,
+  mongooseOptions
+);
 
-keepAlive();
+tests.on("connected", () => console.log("✅ Connected to tests database"));
+tests.on("error", (error) =>
+  console.error("❌ Error in saperae database connection:", error)
+);
+
+const user = mongoose.createConnection(
+  `${MONGODB_CLUSTER_CONNECTION_STRING}/Users`,
+  mongooseOptions
+);
+
+user.on("connected", () => console.log("✅ Connected to Users database"));
+user.on("error", (error) =>
+  console.error("❌ Error in saperae database connection:", error)
+);
 
 /**
- * Dynamically retrieves a database instance by name.
- * @param {string} dbName - The name of the database to retrieve.
- * @returns {mongoose.Connection} - The database instance.
+ * Exports
  */
-const getDatabase = (dbName) => {
-  try {
-    return clusterConnection.useDb(dbName);
-  } catch (error) {
-    console.error(`❌ Error accessing database "${dbName}":`, error.message);
-    throw error;
-  }
-};
-
 module.exports = {
-  getDatabase,
+  LearningModule,
+  tests,
+  user,
 };
