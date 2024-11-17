@@ -3,23 +3,6 @@ const TestModel = require("../models/testSchema");
 const { LearningModule, tests } = require("../config/db");
 
 /**
- * Fetches collection names from a given database.
- *
- * @param {Object} db - The database connection object.
- * @returns {Promise<string[]>} - An array of collection names.
- * @throws {Error} - If unable to retrieve collection names.
- */
-const fetchCollectionNames = async (db) => {
-  try {
-    const collections = await db.listCollections().toArray();
-    return collections.map((collection) => collection.name);
-  } catch (error) {
-    console.error("Error fetching collection names:", error);
-    throw new Error("Failed to retrieve collection names from the database.");
-  }
-};
-
-/**
  * Fetches titles from collections in the Subject database.
  *
  * @param {string[]} collectionNames - An array of collection names.
@@ -89,10 +72,10 @@ const fetchQuizData = async (collectionNames) => {
 const getAllCollectionNames = async (req, res) => {
   try {
     // Fetch collection names from both Subject and QuizDB
-    const [subjectCollectionNames, quizCollectionNames] = await Promise.all([
-      fetchCollectionNames(LearningModule.db),
-      fetchCollectionNames(tests.db),
-    ]);
+    const subjectCollectionName = await LearningModule.db.listCollections().toArray();
+    const subjectCollectionNames = subjectCollectionName.map((collection) => collection.name);
+    const quizCollectionName = await tests.db.listCollections().toArray();
+    const quizCollectionNames = quizCollectionName.map((collection) => collection.name);
 
     // Fetch data for both Subject and QuizDB collections
     const [subjectData, quizData] = await Promise.all([
