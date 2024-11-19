@@ -32,9 +32,10 @@ exports.login = async (req, res) => {
             secure: true,
           };
 
+    const expiryDate = new Date(Date.now() + 86400000).toUTCString(); // 24 hours from now
     res.setHeader(
       "Set-Cookie",
-      `token=${token}; ${Object.entries(cookieOptions)
+      `token=${token}; Expires=${expiryDate}; ${Object.entries(cookieOptions)
         .map(([key, value]) => `${key}=${value}`)
         .join("; ")}`
     );
@@ -108,11 +109,10 @@ exports.logout = (req, res) => {
             secure: true,
           };
 
-
     res.setHeader("Set-Cookie", [
       `token=; ${Object.entries(cookieOptions)
         .map(([key, value]) => `${key}=${value}`)
-        .join("; ")}`
+        .join("; ")}`,
     ]);
 
     res.status(200).send({
