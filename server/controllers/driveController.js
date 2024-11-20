@@ -1,58 +1,117 @@
 const { google } = require("googleapis");
-const NodeCache = require("node-cache");
-const cache = new NodeCache({ stdTTL: 3600 });
+const Redis = require("ioredis");
+const cron = require("node-cron");
+require("dotenv").config();
+
+const redis = new Redis(process.env.REDIS_URL);
+
+redis.on("connect", () => console.log("Connected to Upstash Redis"));
+redis.on("error", (err) => console.error("Redis error", err));
 
 const drive = google.drive({
   version: "v3",
   auth: process.env.GOOGLE_API_KEY,
 });
 
-async function getDriveChanges(pageToken) {
-  return await drive.changes.list({
-    pageToken: pageToken,
-    fields: "newStartPageToken, changes(file(id, name, mimeType, parents))",
+async function getCachedData(key) {
+  const data = await redis.get(key);
+  return data ? JSON.parse(data) : null;
+}
+
+async function setCachedData(key, value, ttl = 3600) {
+  await redis.set(key, JSON.stringify(value), "EX", ttl);
+}
+
+async function pragnation(folderId, pageToken) {
+  const pageSize = 10;
+  const cacheKey = `folder_${folderId}_${pageToken || "initial"}`;
+
+  try {
+    const cachedData = await getCachedData(cacheKey);
+    if (cachedData) {
+      console.log("Returning cached folder contents");
+      preloadChildren(cachedData.files);
+      return cachedData;
+    }
+
+    const result = await drive.files.list({
+      q: `'${folderId}' in parents and trashed = false`,
+      fields: "files(id, name, mimeType, webViewLink, modifiedTime), nextPageToken",
+      pageSize,
+      pageToken,
+    });
+
+    const files = result.data.files.map((file) => ({
+      name: file.name,
+      id: file.id,
+      type: file.mimeType === "application/vnd.google-apps.folder" ? "folder" : "file",
+      webViewLink: file.webViewLink,
+      modifiedTime: file.modifiedTime,
+    }));
+
+    const nextPageToken = result.data.nextPageToken || null;
+    const hasMore = !!nextPageToken;
+
+    const response = { files, hasMore, nextPageToken };
+
+    await setCachedData(cacheKey, response);
+
+    preloadChildren(files);
+
+    return response;
+  } catch (error) {
+    console.error("Error fetching paginated folder contents:", error);
+    throw new Error("Error fetching folder contents.");
+  }
+}
+
+async function preloadChildren(files) {
+  console.log("Preloading children for files:", files);
+  const folderFiles = files.filter(file => file.type === "folder");
+
+  if (folderFiles.length === 0) return;
+
+  Promise.all(
+    folderFiles.map(async (folder) => {
+      const folderCacheKey = `folder_${folder.id}_initial`;
+
+      // Check if already cached
+      const cachedData = await getCachedData(folderCacheKey);
+      if (!cachedData) {
+        try {
+          // Fetch and cache the folder's children
+          const result = await drive.files.list({
+            q: `'${folder.id}' in parents and trashed = false`,
+            fields: "files(id, name, mimeType, webViewLink, modifiedTime)",
+            pageSize: 10,
+          });
+
+          const children = result.data.files.map((file) => ({
+            name: file.name,
+            id: file.id,
+            type: file.mimeType === "application/vnd.google-apps.folder" ? "folder" : "file",
+            webViewLink: file.webViewLink,
+            modifiedTime: file.modifiedTime,
+          }));
+
+          await setCachedData(folderCacheKey, { files: children, hasMore: false, nextPageToken: null });
+          console.log(`Cached children of folder ${folder.id}`);
+        } catch (error) {
+          console.error(`Error preloading children for folder ${folder.id}:`, error);
+        }
+      }
+    })
+  ).catch(error => {
+    console.error("Error during folder preloading:", error);
   });
 }
 
 async function listRootFolders(req, res) {
   const rootFolderId = "1P6T-OqLXQtD3DNPSniWqu1tzO40pmlQV";
-  const pageSize = parseInt(req.query.pageSize) || 10;
-  const pageToken = req.query.pageToken || null; 
-
-  const cacheKey = `rootFolders_${pageToken || 'initial'}`;
-  console.log(pageToken + " " + pageSize);
+  const pageToken = req.query.pageToken || null;
 
   try {
-    const cachedData = cache.get(cacheKey);
-    if (cachedData) {
-      console.log("Returning cached root folders");
-      return res.json(cachedData);
-    }
-
-    const result = await drive.files.list({
-      q: `'${rootFolderId}' in parents and mimeType = 'application/vnd.google-apps.folder' and trashed = false`,
-      fields: "files(id, name, mimeType, modifiedTime), nextPageToken",
-      pageSize: pageSize,
-      pageToken: pageToken,
-    });    
-
-    const folders = result.data.files.map((file) => ({
-      name: file.name,
-      id: file.id,
-      type: "folder",
-      modifiedTime: file.modifiedTime,
-    }));    
-
-    const nextPageToken = result.data.nextPageToken || null;
-    const hasMore = !!nextPageToken; 
-
-    const response = {
-      folders,
-      hasMore,
-      nextPageToken,
-    };
-
-    cache.set(cacheKey, response);
+    const response = await pragnation(rootFolderId, pageToken);
     return res.json(response);
   } catch (error) {
     console.error("Error fetching root folders:", error);
@@ -62,43 +121,10 @@ async function listRootFolders(req, res) {
 
 async function listFolderContents(req, res) {
   const folderId = req.params.folderId;
-  const pageSize = parseInt(req.query.pageSize) || 10; 
-  const pageToken = req.query.pageToken || null; 
-  const cacheKey = `folder_${folderId}_${pageToken || 'initial'}`;
+  const pageToken = req.query.pageToken || null;
 
   try {
-    const cachedData = cache.get(cacheKey);
-    if (cachedData) {
-      console.log("Returning cached folder contents");
-      return res.json(cachedData);
-    }
-
-    const result = await drive.files.list({
-      q: `'${folderId}' in parents and trashed = false`,
-      fields: "files(id, name, mimeType, webViewLink, modifiedTime), nextPageToken",
-      pageSize: pageSize,
-      pageToken: pageToken,
-    });    
-
-    const files = result.data.files.map((file) => ({
-      name: file.name,
-      id: file.id,
-      type: file.mimeType === "application/vnd.google-apps.folder" ? "folder" : "file",
-      webViewLink: file.webViewLink,
-      modifiedTime: file.modifiedTime,
-    }));    
-
-    const nextPageToken = result.data.nextPageToken || null;
-    const hasMore = !!nextPageToken;
-
-    const response = {
-      files,
-      hasMore,
-      nextPageToken,
-    };
-
-    cache.set(cacheKey, response);
-
+    const response = await pragnation(folderId, pageToken);
     return res.json(response);
   } catch (error) {
     console.error("Error fetching folder contents:", error);
@@ -107,34 +133,18 @@ async function listFolderContents(req, res) {
 }
 
 async function autoUpdateCache() {
-  const pageTokenCacheKey = "drivePageToken";
-
   try {
-    const cachedPageToken = cache.get(pageTokenCacheKey);
-    const pageToken =
-      cachedPageToken ||
-      (await drive.changes.getStartPageToken()).data.startPageToken;
-
-    const changeResponse = await getDriveChanges(pageToken);
-
-    const changes = changeResponse.data.changes;
-    const newPageToken = changeResponse.data.newStartPageToken;
-
-    console.log("Detected changes in Google Drive:", changes);
+    const changes = await getIncrementalChanges();
 
     for (const change of changes) {
-      if (
-        change.file &&
-        change.file.mimeType === "application/vnd.google-apps.folder"
-      ) {
+      if (change.file && change.file.mimeType === "application/vnd.google-apps.folder") {
         const folderCacheKey = `folder_${change.file.id}`;
-        cache.del(folderCacheKey);
+        await redis.del(folderCacheKey); // Invalidate folder cache
       }
     }
-    cache.set(pageTokenCacheKey, newPageToken);
   } catch (error) {
     console.error("Error checking for changes in Google Drive:", error);
   }
 }
 
-module.exports = { listFolderContents, listRootFolders, autoUpdateCache };
+module.exports = { listRootFolders, listFolderContents, autoUpdateCache };

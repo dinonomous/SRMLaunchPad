@@ -31,7 +31,7 @@ const FolderNavigation: React.FC<FolderNavigationProps> = memo(
           setError(null);
           try {
             const data = await getBooksRoot();
-            setFolders(data.folders);
+            setFolders(data.files);
             setHasFetched(true);
           } catch (err) {
             setError("Failed to fetch folders");
