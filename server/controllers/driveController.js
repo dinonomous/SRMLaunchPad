@@ -32,7 +32,13 @@ async function getCachedData(key) {
 }
 
 async function setCachedData(key, value, ttl = 3600) {
-  await redis.set(key, JSON.stringify(value), "EX", ttl);
+  // Ensure ttl is a valid number and greater than 0
+  if (typeof ttl !== "number" || ttl <= 0) {
+    console.error("Invalid TTL value, must be a positive number.");
+    ttl = 3600; // fallback to default TTL
+  }
+
+  await redis.set(key, JSON.stringify(value), { EX: ttl }); // Correct usage with { EX: ttl }
 }
 
 async function pragnation(folderId, pageToken) {
