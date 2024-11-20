@@ -1,12 +1,15 @@
 const { google } = require("googleapis");
-const Redis = require("ioredis");
 const cron = require("node-cron");
 require("dotenv").config();
+const { Redis } = require('@upstash/redis');
 
-const redis = new Redis(process.env.REDIS_URL);
+const redis = new Redis({
+  url: 'https://top-hen-29840.upstash.io',  // The Redis URL provided by Upstash
+  token: process.env.REDIS_TOKEN,  // Your Upstash token (secure credential)
+})
 
-redis.on("connect", () => console.log("Connected to Upstash Redis"));
-redis.on("error", (err) => console.error("Redis error", err));
+// redis.on("connect", () => console.log("Connected to Upstash Redis"));
+// redis.on("error", (err) => console.error("Redis error", err));
 
 const drive = google.drive({
   version: "v3",
@@ -15,7 +18,17 @@ const drive = google.drive({
 
 async function getCachedData(key) {
   const data = await redis.get(key);
-  return data ? JSON.parse(data) : null;
+  // Check if the data exists and is a string (i.e., needs to be parsed)
+  if (data && typeof data === 'string') {
+    try {
+      return JSON.parse(data);
+    } catch (error) {
+      console.error("Error parsing cached data:", error);
+      return null;
+    }
+  } else {
+    return data; // If it's already an object or undefined, return it as is
+  }
 }
 
 async function setCachedData(key, value, ttl = 3600) {
