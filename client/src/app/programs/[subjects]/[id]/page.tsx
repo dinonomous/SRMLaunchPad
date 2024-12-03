@@ -8,9 +8,8 @@ import ReactQueryProvider from "@/components/QueryClientProvider";
 import VideoList from "@/components/subjects/VideoList";
 import VideoPlayer from "@/components/subjects/VideoPlayer";
 import DocumentViewer from "@/components/DocumentViewer";
-import Navbar from "@/components/nav/Navbar";
-import Wraper from "@/components/Wraper";
 import Cookies from "js-cookie";
+import WithSideNav from "@/components/shared/WithSideNav";
 
 // Define types for the expected structure of data
 interface Video {
@@ -26,6 +25,7 @@ interface PDF {
 interface ProgramData {
   videos: Video[];
   PDF?: PDF[];
+  Headding?: string;
 }
 
 const ExampleComponent: React.FC = () => {
@@ -36,11 +36,10 @@ const ExampleComponent: React.FC = () => {
 
   useEffect(() => {
     const uid = Cookies.get("uid");
-    console.log("UID:", uid); // Debug log to check the cookie value
     if (!uid) {
       router.replace("/login/user");
     }
-  }, []);  
+  }, [router]);
 
   const { data, error, isLoading } = useQuery<ProgramData>({
     queryKey: ["collection", subjects, id],
@@ -49,46 +48,49 @@ const ExampleComponent: React.FC = () => {
   });
 
   useEffect(() => {
-    if (data && data.videos.length > 0) {
+    if (data?.videos.length && !currentVideo) {
       setCurrentVideo(data.videos[0].url);
     }
-  }, [data]);
+    console.log(data)
+  }, [data, currentVideo]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error loading data</div>;
 
   // Function to handle video selection
-  const handleVideoSelect = (videoUrl: string, Key: number) => {
+  const handleVideoSelect = (videoUrl: string, key: number) => {
     setCurrentVideo(videoUrl);
-    setVideoKey(Key);
+    setVideoKey(key);
   };
 
   return (
-    <Wraper>
-      <Navbar />
-      <div className="flex m-auto gap-4 bg-neutral-700 p-4 rounded-3xl w-fit mb-8 max-w-[90%]">
-        <div className="w-[75vw] h-[39.375vw] rounded-2xl">
-          <VideoPlayer key={videoKey} videoUrl={currentVideo} />
-        </div>
-        <div className="w-[20%] h-[39.375vw]">
-          <VideoList
-            videos={data?.videos || []}
-            onVideoSelect={handleVideoSelect}
-            selected={videoKey}
-          />
+    <WithSideNav
+      sidebar={
+        <VideoList
+          videos={data?.videos || []}
+          onVideoSelect={handleVideoSelect}
+          selected={videoKey}
+        />
+      }
+    >
+      <div className="relative w-full h-full ">
+        <div className="w-full min-h-fit overflow-x-auto p-4">
+        <h2 className="font-bold text-3xl mb-2">{data?.Headding}</h2>
+          <div className="min-h-[60vh] h-fit grid grid-cols-1 gap-4 w-full m-auto rounded-3xl mb-8 border border-DarkSecondary-100">
+            <VideoPlayer key={videoKey} videoUrl={currentVideo} />
+          </div>
+          <div className="h-[90vh] m-auto rounded-3xl border-DarkSecondary-100 border">
+            {data?.PDF?.map((pdf) => (
+              <DocumentViewer
+                key={pdf.path} // Added unique key
+                documentId={pdf.path || "defaultDocumentId"}
+                height={null}
+              />
+            ))}
+          </div>
         </div>
       </div>
-      <div className="max-w-[90%] h-[90vh] m-auto p-4 rounded-3xl">
-        {data?.PDF?.map((pdfs) => {
-          return (
-            <DocumentViewer
-              documentId={pdfs.path || "defaultDocumentId"}
-              height={null}
-            />
-          );
-        })}
-      </div>
-    </Wraper>
+    </WithSideNav>
   );
 };
 

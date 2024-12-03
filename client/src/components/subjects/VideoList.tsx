@@ -1,11 +1,4 @@
 import React from "react";
-import Image from "next/image";
-import {
-  FiChevronDown,
-  FiChevronRight,
-  FiFile,
-  FiFolder,
-} from "react-icons/fi";
 
 interface VideoListProps {
   videos: { _id: string; title: string; url: string }[];
@@ -15,25 +8,19 @@ interface VideoListProps {
 
 const VideoList: React.FC<VideoListProps> = ({ videos, onVideoSelect, selected }) => {
   return (
-    <div className="bg-neutral-800 rounded-2xl p-4 h-full">
-      <div className="flex gap-2 h-10 justify-center items-center">
+      <ul className="space-y-4 text-xl text-white px-2">
         <h2 className="font-bold text-3xl mb-2">Sub Topics</h2>
-      </div>
-
-      <ul className="space-y-4 my-4 text-lg text-white overflow-y-scroll overflow-x-hidden scrollbar-thin scrollbar-thumb-neutral-950 max-h-[90%] scrollbar-thumb-rounded scrollbar-track-transparent">
         {videos.map((video,index) => (
-          <li key={video._id} className={`${selected==index ? "bg-DarkSecondary-100":""} p-1 rounded-lg`}>
+          <li key={video._id} className={`${selected==index ? "bg-DarkPrimary-300":""} p-1 rounded-2xl px-1 border border-DarkSecondary-100`}>
             <button
-              className="text-white hover:underline text-wrap text-left flex items-center relative"
+              className="text-white hover:underline text-wrap text-left flex items-center relative p-1"
               onClick={() => onVideoSelect(video.url,index)}
             >
-            <FiChevronRight />
               {video.title}
             </button>
           </li>
         ))}
       </ul>
-    </div>
   );
 };
 

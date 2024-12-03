@@ -3,7 +3,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { getBooksRoot } from "@/utils/api";
 import FolderNavigation from "@/components/drive/FolderList";
-import BreadcrumbsComponent from "@/components/shared/BreadcrumbsComponent";
 import FolderViewer from "@/components/drive/FolderView";
 import { useRouter } from "next/navigation";
 import ReactQueryProvider from "@/components/QueryClientProvider";
@@ -24,20 +23,7 @@ interface ApiResponse {
   nextPageToken: string | null;
 }
 
-const createSlug = (name: string): string =>
-  encodeURIComponent(name.replace(/\s+/g, "-"));
-
-const truncateText = (text: string, maxWords: number): string => {
-  const words = text.split(" ");
-  return words.length > maxWords
-    ? words.slice(0, maxWords).join(" ") + " ..."
-    : text;
-};
-
-const Page: React.FC<{ params: { slug?: string[] | undefined } }> = ({
-  params,
-}) => {
-  const { slug } = params || {};
+const Page: React.FC = () => {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [nextPageToken, setNextPageToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -85,26 +71,13 @@ const Page: React.FC<{ params: { slug?: string[] | undefined } }> = ({
     []
   );
 
-  const handleBreadcrumbClick = useCallback(
-    (folderSlug: string[]) => {
-      const newSlug = folderSlug.slice(1).map(createSlug).join("/");
-      router.replace(`/books/g/${newSlug}`);
-    },
-    [router]
-  );
-
   return (
     <ReactQueryProvider>
       <AppRouterCacheProvider>
         <Navbar />
         <main className="pt-32" style={{ minHeight: "calc(100vh - 16rem)" }}>
-          <BreadcrumbsComponent
-            slug={slug || []}
-            handleBreadcrumbClick={handleBreadcrumbClick}
-          />
           <div className="flex px-6 gap-4">
             <FolderNavigation
-              slug={slug || []}
               toggleFile={toggleFile}
               onChildFoldersUpdate={handleChildFoldersUpdate}
               nextPageToken={nextPageToken}

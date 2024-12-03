@@ -1,4 +1,5 @@
 "use client";
+
 import React from "react";
 import DocumentViewer from "@/components/DocumentViewer";
 import { FiChevronRight, FiFile, FiFolder } from "react-icons/fi";
@@ -38,13 +39,16 @@ const FolderViewer: React.FC<FolderViewerProps> = ({
             <DocumentViewer documentId={openFile} height={null} />
           ) : (
             <div className="bg-DarkPrimary-200 h-[82vh] py-4 px-2 w-full rounded-2xl overflow-y-scroll scrollbar-thin scrollbar-thumb-neutral-950 scrollbar-thumb-rounded scrollbar-track-transparent">
-              <div role="presentation" className="dark:text-white"></div>
               <ul>
                 {children.map((folder) => (
                   <li
                     className="p-2 justify-between overflow-hidden flex items-center space-x-3 cursor-pointer hover:bg-DarkSecondary-100 rounded-xl"
                     key={folder.id}
-                    onClick={() => {folder.type === "folder" ? null : toggleFile(folder.id, folder.name)}}
+                    onClick={() =>
+                      folder.type === "folder"
+                        ? null
+                        : toggleFile(folder.id, folder.name)
+                    }
                   >
                     <div className="flex gap-3">
                       {folder.type === "folder" ? (

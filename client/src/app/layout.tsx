@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className={roboto.className}>
+      <body className={`${roboto.className} scrollbar-thin scrollbar-thumb-neutral-950 scrollbar-thumb-rounded scrollbar-track-transparent`}>
         {children}
       </body>
     </html>

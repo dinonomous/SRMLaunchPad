@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState, memo } from "react";
 import { getBooksRoot } from "@/utils/api";
 import FolderItem from "@/components/FolderItem";
@@ -11,19 +13,18 @@ interface Folder {
 }
 
 interface FolderNavigationProps {
-  slug: string[];
   toggleFile: (folderId: string, name: string) => void;
   onChildFoldersUpdate: (folderId: string, childFolders: Folder[]) => void;
   nextPageToken: string | null;
 }
 
 const FolderNavigation: React.FC<FolderNavigationProps> = memo(
-  ({ slug, toggleFile, onChildFoldersUpdate, nextPageToken }) => {
+  ({ toggleFile, onChildFoldersUpdate, nextPageToken }) => {
     const [folders, setFolders] = useState<Folder[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [hasFetched, setHasFetched] = useState<boolean>(false);
-    console.log(nextPageToken);
+
     useEffect(() => {
       if (!hasFetched) {
         const fetchFolders = async () => {
@@ -50,42 +51,15 @@ const FolderNavigation: React.FC<FolderNavigationProps> = memo(
           {loading ? (
             <ul className="space-y-2">
               <div className="relative h-full">
-                <Skeleton
-                  sx={{ bgcolor: "gray" }}
-                  variant="rounded"
-                  height={36}
-                  className="mb-2"
-                />
-                <Skeleton
-                  sx={{ bgcolor: "gray" }}
-                  variant="rounded"
-                  height={36}
-                  className="mb-2"
-                />
-                <Skeleton
-                  sx={{ bgcolor: "gray" }}
-                  variant="rounded"
-                  height={36}
-                  className="mb-2"
-                />
-                <Skeleton
-                  sx={{ bgcolor: "gray" }}
-                  variant="rounded"
-                  height={36}
-                  className="mb-2"
-                />
-                <Skeleton
-                  sx={{ bgcolor: "gray" }}
-                  variant="rounded"
-                  height={36}
-                  className="mb-2"
-                />
-                <Skeleton
-                  sx={{ bgcolor: "gray" }}
-                  variant="rounded"
-                  height={36}
-                  className="mb-2"
-                />
+                {[...Array(6)].map((_, i) => (
+                  <Skeleton
+                    key={i}
+                    sx={{ bgcolor: "gray" }}
+                    variant="rounded"
+                    height={36}
+                    className="mb-2"
+                  />
+                ))}
               </div>
             </ul>
           ) : (
@@ -95,13 +69,11 @@ const FolderNavigation: React.FC<FolderNavigationProps> = memo(
                   <FolderItem
                     key={folder.id}
                     folder={folder}
-                    slug={slug.slice(1)}
                     toggleFile={toggleFile}
                     onChildFoldersUpdate={onChildFoldersUpdate}
-                    
                   />
                 ))}
-                {nextPageToken? <a href="">mLore</a> : <></> }
+                {nextPageToken && <a href="#">More</a>}
               </div>
             </ul>
           )}
